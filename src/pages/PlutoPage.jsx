@@ -27,7 +27,7 @@ import PlutoShot16 from '../assets/settings1.png';
 const screenshots = [
   PlutoShot1, PlutoShot2, PlutoShot3, PlutoShot4, PlutoShot5, PlutoShot6,
   PlutoShot7, PlutoShot8, PlutoShot9, PlutoShot10, PlutoShot11, PlutoShot12,
-  PlutoShot13, PlutoShot14, PlutoShot15
+  PlutoShot13, PlutoShot14, PlutoShot15, PlutoShot16
 ];
 
 const PlutoPage = () => {
@@ -67,8 +67,49 @@ const PlutoPage = () => {
         </p>
       </header>
 
+      {/* --- THIS IS THE RESTORED TEXT CONTENT --- */}
       <div className="max-w-4xl mx-auto prose prose-lg dark:prose-invert space-y-16 mb-24">
-        {/* Text content here */}
+        <div>
+          <h2 className="font-heading text-3xl mb-4">Why I Built This</h2>
+          <p>
+            I just wanted to track my income, expenses, and debts without giving an app access to my SMS or email. Most apps either demand a subscription, want to read all your messages, or still don't do what you need after you pay.
+          </p>
+          <p className="font-bold">So I said: "Fine. I'll build it myself."</p>
+        </div>
+
+        <div>
+          <h2 className="font-heading text-3xl mb-4">What It Does</h2>
+          <ul className="space-y-3">
+            <li className="flex items-start gap-3">
+              <Check className="text-accent-green-light dark:text-accent-green-dark mt-1 flex-shrink-0" />
+              <span>Track <span className="font-bold text-primary-light dark:text-primary-dark">Income, Expenses, Debts, & Investments</span></span>
+            </li>
+            <li className="flex items-start gap-3">
+              <Check className="text-accent-green-light dark:text-accent-green-dark mt-1 flex-shrink-0" />
+              <span>Set <span className="font-bold text-primary-light dark:text-primary-dark">Budgets & Goals</span> for savings or debt payoffs</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <Check className="text-accent-green-light dark:text-accent-green-dark mt-1 flex-shrink-0" />
+              <span>Works across devices with a single Google account</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <Check className="text-accent-green-light dark:text-accent-green-dark mt-1 flex-shrink-0" />
+              <span>Light and dark modes, for tracking finances at 2 AM</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h2 className="font-heading text-3xl mb-4">No Nonsense Privacy</h2>
+          <p>This app is privacy-first. That means: No SMS reading, no bank scraping, and no subscriptions. Just you and your data.</p>
+        </div>
+
+        <div>
+           <h2 className="font-heading text-3xl mb-4">My First App</h2>
+            <p>
+              This was my first-ever mobile application. It taught me an immense amount about full-stack development. If you spot bugs or have feature ideas, feel free to reach out!
+            </p>
+        </div>
       </div>
 
       <div className="mb-24">
