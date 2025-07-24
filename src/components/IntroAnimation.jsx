@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 
 const IntroAnimation = ({ onAnimationComplete }) => {
-  const name = "Mahanadhi PARISARA".split("");
+  const name = "Mahanadhi Parisara".split("");
   const controls = useAnimation();
   const [animationStarted, setAnimationStarted] = useState(false);
 

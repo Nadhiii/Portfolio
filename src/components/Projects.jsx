@@ -2,6 +2,7 @@
 import React from 'react';
 import { Rocket, GanttChartSquare, MonitorPlay } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { trackEvent } from '../utils/analytics';
 
 const Projects = () => {
   return (
@@ -45,7 +46,11 @@ const Projects = () => {
               <div><h4 className="font-bold text-xl mb-1">The Problem</h4><p>I needed a fast and reliable mobile-native solution to track finances that would work seamlessly whether I was online or offline.</p></div>
               <div><h4 className="font-bold text-xl mb-1">The Build</h4><p>I developed a full-stack application using Flutter for the cross-platform front-end and Firebase for the backend, designing the UX flow and engineering seamless offline data synchronization.</p></div>
             </div>
-            <Link to="/pluto" className="inline-block mt-6 bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark font-bold py-2 px-4 rounded-lg hover:bg-primary-light/20 dark:hover:bg-primary-dark/20 transition-colors">
+            <Link 
+              to="/pluto" 
+              onClick={() => trackEvent('project_click', 'Engagement', 'Pluto project details viewed')}
+              className="inline-block mt-6 bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark font-bold py-2 px-4 rounded-lg hover:bg-primary-light/20 dark:hover:bg-primary-dark/20 transition-colors"
+            >
               Learn More &rarr;
             </Link>
           </div>

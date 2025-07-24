@@ -1,10 +1,11 @@
 // src/pages/PlutoPage.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, ArrowLeft, Smartphone } from 'lucide-react';
 import Slider from 'react-slick';
 import FsLightbox from 'fslightbox-react';
+import { trackEvent, trackPageView } from '../utils/analytics';
 
 // --- Importing all your screenshots ---
 import PlutoShot1 from '../assets/intro.png';
@@ -36,7 +37,13 @@ const PlutoPage = () => {
     slide: 1,
   });
 
+  // Track page view when component mounts
+  useEffect(() => {
+    trackPageView('Pluto Project Details', 'pluto');
+  }, []);
+
   const openLightboxOnSlide = (slideIndex) => {
+    trackEvent('screenshot_view', 'Engagement', `Pluto screenshot ${slideIndex} viewed`);
     setLightbox({
       toggler: !lightbox.toggler,
       slide: slideIndex,
@@ -135,10 +142,20 @@ const PlutoPage = () => {
       </div>
 
       <div className="text-center">
-        <a href="https://drive.google.com/drive/folders/1xpOz7nBaKJ3IBFPERQ8IAU_lBi5PXdL9?usp=sharing" target="_blank" rel="noopener noreferrer" className="bg-primary-light text-white font-bold py-4 px-8 rounded-lg hover:bg-opacity-90 transition-all text-lg">
+        <a 
+          href="https://drive.google.com/drive/folders/1xpOz7nBaKJ3IBFPERQ8IAU_lBi5PXdL9?usp=sharing" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          onClick={() => trackEvent('download_click', 'Engagement', 'Pluto APK download clicked')}
+          className="bg-primary-light text-white font-bold py-4 px-8 rounded-lg hover:bg-opacity-90 transition-all text-lg"
+        >
           Download APK
         </a>
-        <Link to="/" className="flex items-center justify-center gap-2 mt-8 text-text-light/80 dark:text-text-dark/80 hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+        <Link 
+          to="/" 
+          onClick={() => trackEvent('back_to_home', 'Navigation', 'Back to home from Pluto page')}
+          className="flex items-center justify-center gap-2 mt-8 text-text-light/80 dark:text-text-dark/80 hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+        >
           <ArrowLeft size={16} />
           Back to Home
         </Link>

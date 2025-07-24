@@ -2,6 +2,7 @@
 import React, { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import { Mail, Linkedin } from 'lucide-react';
+import { trackEvent } from '../utils/analytics';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
@@ -16,18 +17,22 @@ const Contact = () => {
   const sendEmail = (e) => {
     e.preventDefault();
     setStatus('Sending...');
+    trackEvent('contact_form_submit', 'Engagement', 'Contact form submitted');
+    
     const serviceID = 'service_yr5fl2q';
     const templateID = 'template_a8h4rjw';
     const publicKey = 'iOjr3dwBPBnhBOiGn';
     emailjs.sendForm(serviceID, templateID, form.current, publicKey)
       .then((result) => {
         setStatus('Message Sent!');
+        trackEvent('contact_form_success', 'Engagement', 'Contact form sent successfully');
         setTimeout(() => {
           setStatus('Send Message');
           setFormData({ name: '', email: '', subject: '', message: '' });
         }, 3000);
       }, (error) => {
         setStatus('Failed. Try Again.');
+        trackEvent('contact_form_error', 'Error', 'Contact form failed to send');
       });
   };
 
@@ -45,11 +50,21 @@ const Contact = () => {
             <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left">
               <h3 className="text-2xl font-bold mb-4">Reach Out Directly</h3>
                <div className="flex justify-center items-center flex-wrap gap-4">
-                  <a href="mailto:mahanadhip@gmail.com" className="flex items-center gap-3 bg-primary-light text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition-all">
+                  <a 
+                    href="mailto:mahanadhip@gmail.com" 
+                    onClick={() => trackEvent('email_click', 'Contact', 'Email link clicked')}
+                    className="flex items-center gap-3 bg-primary-light text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition-all"
+                  >
                     <Mail size={20} />
                     Email Me
                   </a>
-                  <a href="https://www.linkedin.com/in/mahanadhi/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 font-bold py-3 px-6 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all">
+                  <a 
+                    href="https://www.linkedin.com/in/mahanadhi/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    onClick={() => trackEvent('linkedin_click', 'Social', 'LinkedIn profile visited')}
+                    className="flex items-center gap-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 font-bold py-3 px-6 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all"
+                  >
                     <Linkedin size={20} />
                     LinkedIn
                   </a>
