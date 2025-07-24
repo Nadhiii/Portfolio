@@ -9,7 +9,7 @@ const Footer = () => {
         
         {/* Centered Copyright Text */}
         <p className="text-sm text-text-light/70 dark:text-text-dark/70">
-          © 2025 Mahanadi Parisara. All rights reserved.
+          © 2025 Mahanadhi Parisara. All rights reserved.
         </p>
 
       </div>
