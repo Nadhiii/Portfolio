@@ -15,7 +15,11 @@ export const trackEvent = (eventName, eventCategory, eventLabel, value = null) =
     }
     
     window.dataLayer.push(eventData);
-    console.log(`Event tracked: ${eventName} | ${eventCategory} | ${eventLabel}`);
+    
+    // Only log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Event tracked: ${eventName} | ${eventCategory} | ${eventLabel}`);
+    }
   }
 };
 
@@ -27,7 +31,11 @@ export const trackPageView = (pageName, section = null) => {
       page_title: pageName,
       page_section: section,
     });
-    console.log(`Page view tracked: ${pageName}`);
+    
+    // Only log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Page view tracked: ${pageName}`);
+    }
   }
 };
 

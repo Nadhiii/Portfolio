@@ -1,11 +1,13 @@
 // src/pages/PlutoPage.jsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, ArrowLeft, Smartphone } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Slider from 'react-slick';
 import FsLightbox from 'fslightbox-react';
 import { trackEvent, trackPageView } from '../utils/analytics';
+import OptimizedImage from '../components/OptimizedImage';
 
 // --- Importing all your screenshots ---
 import PlutoShot1 from '../assets/intro.png';
@@ -37,8 +39,8 @@ const PlutoPage = () => {
     slide: 1,
   });
 
-  // Track page view when component mounts
-  useEffect(() => {
+  // Track page view
+  React.useEffect(() => {
     trackPageView('Pluto Project Details', 'pluto');
   }, []);
 
@@ -62,9 +64,57 @@ const PlutoPage = () => {
     ],
   };
 
+  // Animation variants matching HomePage for consistency
+  const pageVariants = {
+    initial: {
+      opacity: 0,
+      y: 20,
+      scale: 0.98
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        ease: [0.25, 0.25, 0, 1],
+        staggerChildren: 0.1
+      }
+    },
+    exit: {
+      opacity: 0,
+      y: -10,
+      scale: 1.02,
+      transition: {
+        duration: 0.3,
+        ease: [0.25, 0.25, 0, 1]
+      }
+    }
+  };
+
+  const childVariants = {
+    initial: {
+      opacity: 0,
+      y: 10
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+        ease: [0.25, 0.25, 0, 1]
+      }
+    }
+  };
+
   return (
-    <div className="max-w-7xl mx-auto py-12 md:py-24 px-8">
-      <header className="text-center mb-16">
+    <motion.div 
+      className="max-w-7xl mx-auto py-12 md:py-24 px-8"
+      initial="initial"
+      animate="animate"
+      variants={pageVariants}
+    >
+      <motion.header className="text-center mb-16" variants={childVariants}>
         <h1 className="font-heading text-5xl md:text-7xl">Pluto</h1>
         <p className="text-lg text-text-light/70 dark:text-text-dark/70 mt-2">
           (Previously known as Finance Manager)
@@ -72,19 +122,19 @@ const PlutoPage = () => {
         <p className="text-2xl font-bold mt-4">
           Because Your Wallet Deserves Better
         </p>
-      </header>
+      </motion.header>
 
       {/* --- THIS IS THE RESTORED TEXT CONTENT --- */}
-      <div className="max-w-4xl mx-auto prose prose-lg dark:prose-invert space-y-16 mb-24">
-        <div>
+      <motion.div className="max-w-4xl mx-auto prose prose-lg dark:prose-invert space-y-16 mb-24" variants={childVariants}>
+        <motion.div variants={childVariants}>
           <h2 className="font-heading text-3xl mb-4">Why I Built This</h2>
           <p>
             I just wanted to track my income, expenses, and debts without giving an app access to my SMS or email. Most apps either demand a subscription, want to read all your messages, or still don't do what you need after you pay.
           </p>
           <p className="font-bold">So I said: "Fine. I'll build it myself."</p>
-        </div>
+        </motion.div>
 
-        <div>
+        <motion.div variants={childVariants}>
           <h2 className="font-heading text-3xl mb-4">What It Does</h2>
           <ul className="space-y-3">
             <li className="flex items-start gap-3">
@@ -104,22 +154,22 @@ const PlutoPage = () => {
               <span>Light and dark modes, for tracking finances at 2 AM</span>
             </li>
           </ul>
-        </div>
+        </motion.div>
         
-        <div>
+        <motion.div variants={childVariants}>
           <h2 className="font-heading text-3xl mb-4">No Nonsense Privacy</h2>
           <p>This app is privacy-first. That means: No SMS reading, no bank scraping, and no subscriptions. Just you and your data.</p>
-        </div>
+        </motion.div>
 
-        <div>
+        <motion.div variants={childVariants}>
            <h2 className="font-heading text-3xl mb-4">My First App</h2>
             <p>
               This was my first-ever mobile application. It taught me an immense amount about full-stack development. If you spot bugs or have feature ideas, feel free to reach out!
             </p>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className="mb-24">
+      <motion.div className="mb-24" variants={childVariants}>
         <h2 className="font-heading text-3xl mb-6 flex items-center gap-3">
           <Smartphone size={30} className="text-primary-light dark:text-primary-dark" />
           Screenshots
@@ -129,28 +179,31 @@ const PlutoPage = () => {
             {screenshots.map((shot, index) => (
               <div key={index} className="px-2" onClick={() => openLightboxOnSlide(index + 1)}>
                 <div className="bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md aspect-[9/16] cursor-pointer">
-                  <img
+                  <OptimizedImage
                     src={shot}
                     alt={`Pluto Screenshot ${index + 1}`}
                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    loading="lazy"
                   />
                 </div>
               </div>
             ))}
           </Slider>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="text-center">
-        <a 
+      <motion.div className="text-center" variants={childVariants}>
+        <motion.a 
           href="https://drive.google.com/drive/folders/1xpOz7nBaKJ3IBFPERQ8IAU_lBi5PXdL9?usp=sharing" 
           target="_blank" 
           rel="noopener noreferrer" 
           onClick={() => trackEvent('download_click', 'Engagement', 'Pluto APK download clicked')}
           className="bg-primary-light text-white font-bold py-4 px-8 rounded-lg hover:bg-opacity-90 transition-all text-lg"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           Download APK
-        </a>
+        </motion.a>
         <Link 
           to="/" 
           onClick={() => trackEvent('back_to_home', 'Navigation', 'Back to home from Pluto page')}
@@ -159,14 +212,14 @@ const PlutoPage = () => {
           <ArrowLeft size={16} />
           Back to Home
         </Link>
-      </div>
+      </motion.div>
 
       <FsLightbox
         toggler={lightbox.toggler}
         sources={screenshots}
         slide={lightbox.slide}
       />
-    </div>
+    </motion.div>
   );
 };
 

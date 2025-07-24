@@ -84,15 +84,17 @@ const IntroAnimation = ({ onAnimationComplete }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-background-light dark:bg-background-dark z-50">
+    <div className="fixed inset-0 flex justify-center items-center bg-background-light dark:bg-background-dark z-50 px-4">
       <motion.div
-        className="font-heading text-4xl md:text-6xl lg:text-7xl text-center font-bold tracking-wider"
+        className="font-heading text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-center font-bold tracking-wider max-w-full"
         variants={containerVariants}
         initial="hidden"
         animate={controls}
         style={{ 
           textShadow: '2px 2px 4px rgba(0,0,0,0.1)',
-          willChange: 'transform, opacity' // Optimize for animations
+          willChange: 'transform, opacity', // Optimize for animations
+          lineHeight: '1.1', // Tighter line spacing
+          wordSpacing: '0.1em' // Slightly tighter word spacing
         }}
       >
         {name.map((letter, index) => (

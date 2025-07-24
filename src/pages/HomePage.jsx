@@ -1,6 +1,7 @@
 // src/pages/HomePage.jsx
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { trackPageView } from '../utils/analytics';
 import Hero from '../components/Hero';
 import About from '../components/About';
@@ -31,28 +32,114 @@ const HomePage = () => {
     }
   }, [location.pathname]);
 
+  // Animation variants for smooth transitions
+  const pageVariants = {
+    initial: {
+      opacity: 0,
+      y: 20,
+      scale: 0.98
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        ease: [0.25, 0.25, 0, 1], // Custom cubic-bezier for smooth feel
+        staggerChildren: 0.1
+      }
+    },
+    exit: {
+      opacity: 0,
+      y: -10,
+      scale: 1.02,
+      transition: {
+        duration: 0.3,
+        ease: [0.25, 0.25, 0, 1]
+      }
+    }
+  };
+
+  const childVariants = {
+    initial: {
+      opacity: 0,
+      y: 10
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+        ease: [0.25, 0.25, 0, 1]
+      }
+    }
+  };
+
   const renderCurrentSection = () => {
     switch (currentSection) {
       case 'projects':
-        return <Projects />;
+        return (
+          <motion.div
+            key="projects"
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="min-h-screen"
+          >
+            <Projects />
+          </motion.div>
+        );
       case 'skills':
-        return <Skills />;
+        return (
+          <motion.div
+            key="skills"
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="min-h-screen"
+          >
+            <Skills />
+          </motion.div>
+        );
       case 'contact':
-        return <Contact />;
+        return (
+          <motion.div
+            key="contact"
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="min-h-screen"
+          >
+            <Contact />
+          </motion.div>
+        );
       default:
         return (
-          <>
-            <Hero />
-            <About />
-          </>
+          <motion.div
+            key="home"
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <motion.div variants={childVariants}>
+              <Hero />
+            </motion.div>
+            <motion.div variants={childVariants}>
+              <About />
+            </motion.div>
+          </motion.div>
         );
     }
   };
 
   return (
-    <>
+    <AnimatePresence mode="wait">
       {renderCurrentSection()}
-    </>
+    </AnimatePresence>
   );
 };
 

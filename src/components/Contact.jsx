@@ -22,8 +22,22 @@ const Contact = () => {
     const serviceID = 'service_yr5fl2q';
     const templateID = 'template_a8h4rjw';
     const publicKey = 'iOjr3dwBPBnhBOiGn';
-    emailjs.sendForm(serviceID, templateID, form.current, publicKey)
+    
+    // Create form data object for EmailJS
+    const templateParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+      to_name: 'Mahanadi', // Your name
+    };
+    
+    emailjs.send(serviceID, templateID, templateParams, publicKey)
       .then((result) => {
+        // Only log in development
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Email sent successfully:', result);
+        }
         setStatus('Message Sent!');
         trackEvent('contact_form_success', 'Engagement', 'Contact form sent successfully');
         setTimeout(() => {
@@ -31,8 +45,15 @@ const Contact = () => {
           setFormData({ name: '', email: '', subject: '', message: '' });
         }, 3000);
       }, (error) => {
+        // Only log in development
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Email sending failed:', error);
+        }
         setStatus('Failed. Try Again.');
-        trackEvent('contact_form_error', 'Error', 'Contact form failed to send');
+        trackEvent('contact_form_error', 'Error', `Contact form failed: ${error.text || 'Unknown error'}`);
+        setTimeout(() => {
+          setStatus('Send Message');
+        }, 3000);
       });
   };
 

@@ -33,7 +33,7 @@ const Header = ({ theme, onThemeSwitch }) => {
               <AnimatePresence>
                 {!isScrolled ? (
                   <motion.div key="fullName" className="flex items-center gap-2">
-                    <motion.span layoutId="first-token">Mahanadi</motion.span>
+                    <motion.span layoutId="first-token">Mahanadhi</motion.span>
                     <motion.span layoutId="second-token">Parisara</motion.span>
                   </motion.div>
                 ) : (

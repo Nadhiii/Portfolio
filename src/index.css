@@ -6,6 +6,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base styles for smooth transitions */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Inter', sans-serif;
+}
+
+/* Custom smooth transitions for better UX */
+@layer utilities {
+  .smooth-transition {
+    transition: all 0.3s cubic-bezier(0.25, 0.25, 0, 1);
+  }
+  
+  .page-transition {
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  }
+  
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
