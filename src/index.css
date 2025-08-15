@@ -40,4 +40,24 @@ body {
       scroll-behavior: auto !important;
     }
   }
+  
+  /* Water flow transition styles */
+  .water-transition-container {
+    will-change: transform, opacity;
+  }
+  
+  /* Enhance water wave animations */
+  .water-wave {
+    filter: blur(0.5px);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  /* Theme transition smoothing */
+  * {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
 }

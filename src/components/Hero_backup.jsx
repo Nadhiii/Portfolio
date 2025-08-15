@@ -95,7 +95,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="relative max-w-4xl mx-auto pt-40 pb-24 lg:pt-48 lg:pb-32 px-4 md:px-8 text-center overflow-visible">
+    <section id="hero" className="relative max-w-4xl mx-auto pt-40 pb-24 lg:pt-48 lg:pb-32 text-center overflow-visible">
       {/* Background gradient effect */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary-light/5 via-transparent to-accent-green-light/5 dark:from-primary-dark/5 dark:to-accent-green-dark/5 rounded-full blur-3xl transform -translate-y-1/2 scale-150"></div>
       
@@ -106,7 +106,7 @@ const Hero = () => {
         className="relative z-10"
       >
         <motion.div variants={itemVariants} className="mb-8">
-          <span className="inline-block px-3 py-2 md:px-4 bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark font-bold rounded-full text-xs md:text-sm tracking-wider">
+          <span className="inline-block px-4 py-2 bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark font-bold rounded-full text-sm tracking-wider">
             ASPIRING PRODUCT MANAGER | BUILDER BY NATURE
           </span>
         </motion.div>
@@ -141,12 +141,9 @@ const Hero = () => {
 
         <motion.p 
           variants={itemVariants}
-          className="mt-8 text-lg md:text-xl text-text-light/80 dark:text-text-dark/80 max-w-2xl mx-auto leading-relaxed px-4"
+          className="mt-8 text-xl text-text-light/80 dark:text-text-dark/80 max-w-2xl mx-auto leading-relaxed"
         >
-          A hands-on professional transitioning into product management. I've built apps, automated workflows, and spent enough time talking to frustrated users to know what good products actually need.
-          <span className="block mt-2 text-base md:text-lg text-text-light/70 dark:text-text-dark/70 italic">
-            (Spoiler: it's usually simpler than you think.)
-          </span>
+          A hands-on professional transitioning into product management. I've built apps, automated workflows, and spent enough time talking to frustrated users to know what good products actually need. (Spoiler: it's usually simpler than you think.)
         </motion.p>
 
         {/* Scroll indicator */}

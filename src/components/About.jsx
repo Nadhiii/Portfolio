@@ -1,6 +1,7 @@
 // src/components/About.jsx
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Briefcase, Building2 } from 'lucide-react';
 
 // --- Data for the Narrative Journey Timeline ---
@@ -11,15 +12,15 @@ const journeySteps = [
   },
   {
     title: "The Shift: Digital Marketing & Analytics",
-    description: "I moved into the world of MarTech, managing large-scale conversion tracking and collaborating with developers to ensure accurate data flow for high-value clients using Google's full ad suite."
+    description: "I moved into the world of MarTech, managing large-scale Consent Mode (CoMo) Enhanced conversion tracking & troubleshooting, and collaborating with developers to ensure accurate data flow for high-value clients using Google's full ad suite."
   },
   {
     title: "The 'Aha!' Moment: Becoming a Builder",
-    description: "I saw a recurring manual task and architected an automation tool to solve it. This sparked a passion for building. I went on to develop Pluto, a full-stack finance app, and built this entire portfolio from scratch with React and Tailwind CSS to continue honing my skills."
+    description: "I saw a recurring manual task eating up everyone's time and thought, 'There has to be a better way.' So I built an automation tool to solve it. That first taste of creating something that actually worked got me hooked. I went on to develop Pluto, a full-stack finance app, and built this entire portfolio from scratch with React and Tailwind CSS because, well, why stop at one project?"
   },
   {
     title: "The Goal: Product Management",
-    description: "Now, I'm focused on channeling that builder's mindset into Product Management. I combine my customer-facing background, analytical skills, and hands-on building experience to create products that solve real problems."
+    description: "Now, I'm channeling that builder's mindset into Product Management. I've got the customer-facing experience, the analytical chops, and the hands-on building know-how to create products that actually solve real problems—not just look good in a deck."
   }
 ];
 
@@ -29,13 +30,13 @@ const workExperience = [
     role: "Senior Process Executive",
     company: "Cognizant Technology Solutions",
     date: "May 2023 - Current",
-    description: "Managed and implemented conversion tracking solutions for major clients using Google Ads, GA4, and GTM, collaborating with developers to ensure accurate data flow."
+    description: "Working on Google project as part of Measurement - Center of Excellence. Managed and implemented Consent Mode (CoMo) Enhanced conversion tracking & troubleshooting solutions for major clients using Google Ads, GA4, and GTM, collaborating with developers to ensure accurate data flow."
   },
   {
     role: "Implementation Consultant",
     company: "Regalix India Pvt Ltd.",
     date: "Jan 2023 - May 2023",
-    description: "Advised clients on conversion tracking, GA4, and GTM configuration to optimize campaign effectiveness and data accuracy."
+    description: "Advised clients on Consent Mode (CoMo) Enhanced conversion tracking & troubleshooting, GA4, and GTM configuration to optimize campaign effectiveness and data accuracy."
   },
   {
     role: "Associate - CEC Operations",
@@ -60,36 +61,90 @@ const About = () => {
         <h2 className="font-heading text-4xl">My Journey</h2>
         <p className="text-lg text-text-light/80 dark:text-text-dark/80 mt-2">From Support to Shipping Products</p>
       </div>
-      <div className="space-y-12 relative mb-24">
-        <div className="absolute left-6 top-2 h-full w-0.5 bg-gray-200 dark:bg-gray-700"></div>
+      <div className="space-y-16 relative mb-40">
         {journeySteps.map((step, index) => (
-          <div key={index} className="relative pl-16">
-            <div className="absolute left-0 top-1.5 flex items-center justify-center w-10 h-10 bg-primary-light dark:bg-primary-dark rounded-full">
-              <Briefcase className="w-5 h-5 text-white" />
-            </div>
-            <h3 className="font-bold text-2xl mb-2">{step.title}</h3>
-            <p className="text-text-light/80 dark:text-text-dark/80">{step.description}</p>
-          </div>
+          <motion.div 
+            key={index} 
+            className="relative"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.2 }}
+            viewport={{ once: true }}
+          >
+            {/* Timeline dot on alternating sides */}
+            <motion.div 
+              className={`absolute top-1 flex items-center justify-center w-12 h-12 bg-white dark:bg-gray-800 border-2 border-primary-light dark:border-primary-dark rounded-full shadow-lg z-10 ${
+                index % 2 === 0 ? 'left-0' : 'right-0'
+              }`}
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <Briefcase className="w-5 h-5 text-primary-light dark:text-primary-dark" />
+            </motion.div>
+            
+            {/* Content */}
+            <motion.div 
+              className={`bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow duration-300 ${
+                index % 2 === 0 ? 'mr-auto ml-16 mt-8' : 'ml-auto mr-16 mt-8'
+              } max-w-lg`}
+              whileHover={{ y: -2 }}
+              transition={{ duration: 0.2 }}
+            >
+              <h3 className="font-bold text-xl mb-4 text-primary-light dark:text-primary-dark">{step.title}</h3>
+              <p className="text-text-light/80 dark:text-text-dark/80 leading-relaxed">{step.description}</p>
+            </motion.div>
+          </motion.div>
         ))}
       </div>
 
-      {/* --- WORK EXPERIENCE SECTION --- */}
+            {/* --- WORK EXPERIENCE SECTION --- */}
       <div className="text-center mb-16">
         <h2 className="font-heading text-4xl">Work Experience</h2>
         <p className="text-lg text-text-light/80 dark:text-text-dark/80 mt-2">A timeline of my professional roles.</p>
       </div>
-      <div className="space-y-12 relative">
-        <div className="absolute left-6 top-2 h-full w-0.5 bg-gray-200 dark:bg-gray-700"></div>
+      <div className="space-y-16 relative">
         {workExperience.map((job, index) => (
-          <div key={index} className="relative pl-16">
-            <div className="absolute left-0 top-1.5 flex items-center justify-center w-10 h-10 bg-gray-300 dark:bg-gray-600 rounded-full">
-              <Building2 className="w-5 h-5 text-text-light dark:text-text-dark" />
+          <motion.div 
+            key={index} 
+            className="relative"
+            initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            viewport={{ once: true }}
+          >
+            {/* Timeline dot on alternating sides */}
+            <motion.div 
+              className={`absolute top-1 flex items-center justify-center w-10 h-10 bg-gray-100 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-full shadow-md z-10 ${
+                index % 2 === 0 ? 'left-0' : 'right-0'
+              }`}
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <Building2 className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+            </motion.div>
+            
+            {/* Date badge */}
+            <div className={`absolute top-0 ${
+              index % 2 === 0 ? 'right-2' : 'left-2'
+            } z-10`}>
+              <span className="inline-block px-3 py-1 bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark text-xs font-mono rounded-full border border-primary-light/20 dark:border-primary-dark/20">
+                {job.date}
+              </span>
             </div>
-            <p className="font-mono text-sm text-text-light/60 dark:text-text-dark/60">{job.date}</p>
-            <h3 className="font-bold text-2xl">{job.role}</h3>
-            <p className="text-lg font-semibold text-text-light/90 dark:text-text-dark/90">{job.company}</p>
-            <p className="text-text-light/80 dark:text-text-dark/80 mt-1">{job.description}</p>
-          </div>
+            
+            {/* Content Card */}
+            <motion.div 
+              className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 ${
+                index % 2 === 0 ? 'mr-auto ml-16 mt-8' : 'ml-auto mr-16 mt-8'
+              } max-w-lg`}
+              whileHover={{ y: -3, scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
+              <h3 className="font-bold text-xl mb-2 text-text-light dark:text-text-dark">{job.role}</h3>
+              <p className="text-lg font-medium text-primary-light dark:text-primary-dark mb-3">{job.company}</p>
+              <p className="text-text-light/80 dark:text-text-dark/80 leading-relaxed text-sm">{job.description}</p>
+            </motion.div>
+          </motion.div>
         ))}
       </div>
 

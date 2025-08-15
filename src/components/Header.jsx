@@ -57,8 +57,8 @@ const Header = ({ theme, onThemeSwitch }) => {
           </ul>
           
           <button 
-            onClick={() => {
-              onThemeSwitch();
+            onClick={(event) => {
+              onThemeSwitch(event);
               trackEvent('theme_toggle', 'Engagement', `Switched to ${theme === 'light' ? 'dark' : 'light'} mode`);
             }} 
             className="bg-gray-200 dark:bg-gray-700 p-2 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" 

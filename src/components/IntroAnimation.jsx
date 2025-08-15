@@ -1,4 +1,4 @@
-// src/components/IntroAnimation.jsx (Improved Version)
+// src/components/IntroAnimation.jsx (Slide Up Version)
 
 import React, { useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
@@ -23,15 +23,12 @@ const IntroAnimation = ({ onAnimationComplete }) => {
         await controls.start("visible");
         
         // 3. Hold the complete text for a moment
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, 600));
         
-        // 4. Zoom out and fade
+        // 4. Slide up and fade
         await controls.start("exit");
         
-        // 5. Small delay before calling completion
-        await new Promise(resolve => setTimeout(resolve, 200));
-        
-        // 6. Notify parent component
+        // 5. Call completion immediately as animation starts
         onAnimationComplete();
       } catch (error) {
         console.error('Animation sequence error:', error);
@@ -43,7 +40,7 @@ const IntroAnimation = ({ onAnimationComplete }) => {
     sequence();
   }, [controls, onAnimationComplete, animationStarted]);
 
-  // Container variants with better timing
+  // Container variants with slide up animation
   const containerVariants = {
     hidden: {
       opacity: 1, // Keep container visible
@@ -56,11 +53,11 @@ const IntroAnimation = ({ onAnimationComplete }) => {
       },
     },
     exit: {
-      scale: 12,
+      y: '-100vh', // Slide up completely off screen
       opacity: 0,
       transition: {
-        duration: 1.8,
-        ease: [0.25, 0.46, 0.45, 0.94], // Custom cubic-bezier for smoother zoom
+        duration: 0.8,
+        ease: [0.4, 0.0, 0.2, 1], // Custom easing for smooth slide up
       },
     },
   };
@@ -83,8 +80,30 @@ const IntroAnimation = ({ onAnimationComplete }) => {
     },
   };
 
+  // Background variants for smooth transition
+  const backgroundVariants = {
+    hidden: {
+      opacity: 1,
+    },
+    visible: {
+      opacity: 1,
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-background-light dark:bg-background-dark z-50 px-4">
+    <motion.div 
+      className="fixed inset-0 flex justify-center items-center bg-background-light dark:bg-background-dark z-50 px-4"
+      variants={backgroundVariants}
+      initial="hidden"
+      animate={controls}
+    >
       <motion.div
         className="font-heading text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-center font-bold tracking-wider max-w-full"
         variants={containerVariants}
@@ -110,7 +129,7 @@ const IntroAnimation = ({ onAnimationComplete }) => {
           </motion.span>
         ))}
       </motion.div>
-    </div>
+    </motion.div>
   );
 };
 
