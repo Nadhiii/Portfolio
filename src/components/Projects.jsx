@@ -66,8 +66,7 @@ const Projects = () => {
       ],
       techStack: ['React', 'Tailwind CSS', 'Framer Motion', 'Vite', 'React Router'],
       links: [
-        { type: 'demo', label: 'You\'re Here!', url: '/', icon: Eye },
-        { type: 'code', label: 'View Source', url: 'https://github.com/Nadhiii/Portfolio', icon: Github }
+        { type: 'demo', label: 'You\'re Here!', url: '/', icon: Eye }
       ],
       lessons: ['Modern React development', 'Component-based architecture', 'Performance optimization'],
       testimonial: '"Clean, professional design with smooth interactions" - You decide!'

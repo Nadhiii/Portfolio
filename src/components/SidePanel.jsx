@@ -27,7 +27,7 @@ const SidePanel = () => {
       id: 'resume',
       label: 'Download Resume',
       icon: Download,
-      href: 'https://docs.google.com/document/d/1SY0n8gL8hD3dVIOvuu23wc3vctT3ozAOoHaFzGcsSw0/edit?usp=sharing',
+      href: 'https://drive.google.com/file/d/1dBcASDXDvYTuDoaSr4-7XQS0-kH9QZ_T/view?usp=drive_link',
       color: 'text-purple-600 hover:text-purple-700',
       bgColor: 'hover:bg-purple-50 dark:hover:bg-purple-900/20'
     }

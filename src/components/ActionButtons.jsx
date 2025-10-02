@@ -9,7 +9,7 @@ const ActionButtons = () => {
       id: 'resume',
       label: 'Resume',
       icon: FileText,
-      href: 'https://docs.google.com/document/d/1SY0n8gL8hD3dVIOvuu23wc3vctT3ozAOoHaFzGcsSw0/edit?usp=sharing'
+      href: 'https://drive.google.com/file/d/1dBcASDXDvYTuDoaSr4-7XQS0-kH9QZ_T/view?usp=drive_link'
     },
     {
       id: 'linkedin',

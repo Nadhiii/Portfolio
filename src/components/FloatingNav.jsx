@@ -25,7 +25,7 @@ const FloatingNav = () => {
     switch (section) {
       case 'hero':
         return [
-          { id: 'resume', label: 'Download Resume', icon: Download, action: () => window.open('/resume.pdf', '_blank'), color: 'text-blue-500' },
+          { id: 'resume', label: 'Download Resume', icon: Download, action: () => window.open('https://drive.google.com/file/d/1dBcASDXDvYTuDoaSr4-7XQS0-kH9QZ_T/view?usp=drive_link', '_blank'), color: 'text-blue-500' },
           { id: 'projects-quick', label: 'View Projects', icon: Briefcase, action: () => navigate('/projects'), color: 'text-purple-500' },
           { id: 'contact-quick', label: 'Get in Touch', icon: MessageSquare, action: () => navigate('/contact'), color: 'text-green-500' }
         ];
@@ -56,7 +56,7 @@ const FloatingNav = () => {
       
       default:
         return [
-          { id: 'resume-default', label: 'Download Resume', icon: Download, action: () => window.open('/resume.pdf', '_blank'), color: 'text-blue-500' },
+          { id: 'resume-default', label: 'Download Resume', icon: Download, action: () => window.open('https://drive.google.com/file/d/1dBcASDXDvYTuDoaSr4-7XQS0-kH9QZ_T/view?usp=drive_link', '_blank'), color: 'text-blue-500' },
           { id: 'contact-default', label: 'Contact Me', icon: MessageSquare, action: () => navigate('/contact'), color: 'text-green-500' }
         ];
     }
