@@ -61,3 +61,55 @@ body {
     transition-duration: 150ms;
   }
 }
+
+/* Custom Slick Carousel Arrow Styles */
+.slick-prev,
+.slick-next {
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  font-size: 40px;
+  opacity: 0.75;
+}
+
+/* Light theme - make arrows dark and visible */
+.slick-prev:before,
+.slick-next:before {
+  color: #1e293b; /* dark slate color */
+}
+
+/* Dark theme - keep arrows light */
+.dark .slick-prev:before,
+.dark .slick-next:before {
+  color: #f1f5f9; /* light slate color */
+}
+
+/* Hover states */
+.slick-prev:hover:before,
+.slick-next:hover:before {
+  opacity: 1;
+}
+
+/* Position adjustments */
+.slick-prev {
+  left: -45px;
+}
+
+.slick-next {
+  right: -45px;
+}
+
+/* Responsive: bring arrows closer on smaller screens */
+@media (max-width: 768px) {
+  .slick-prev {
+    left: -25px;
+  }
+  
+  .slick-next {
+    right: -25px;
+  }
+}

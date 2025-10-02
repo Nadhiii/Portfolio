@@ -10,6 +10,28 @@ const Projects = () => {
 
   const projects = [
     {
+      id: 'automation',
+      title: 'Team-Wide Data Sync Automation',
+      icon: GanttChartSquare,
+      description: 'What started as "how can I be lazy?" became a tool used by 120+ people across 10+ teams.',
+  problem: 'Team leaders spent over 30 minutes daily on a tedious and error-prone manual data-copying task.',
+  build: 'I architected the core logic and implemented a Google Apps Script that automated the entire workflow, running daily without intervention. (Set it and forget it—the best kind of solution.)',
+  outcome: 'Adopted by 10+ teams totaling 120+ team members, saving 30-45 mins/day project-wide.',
+      metrics: [
+        { icon: Users, label: 'Teams Using', value: '10+', color: 'text-blue-600' },
+        { icon: TrendingUp, label: 'Members Impacted', value: '120+', color: 'text-green-600' },
+        { icon: Clock, label: 'Time Saved', value: '30-45min/day', color: 'text-purple-600' },
+        { icon: Award, label: 'Adoption Rate', value: '100%', color: 'text-orange-600' }
+      ],
+      techStack: ['Google Apps Script', 'JavaScript', 'Google Sheets API', 'Automation'],
+      links: [
+        { type: 'demo', label: 'Live in Production', url: '#', icon: ExternalLink, disabled: true },
+        { type: 'code', label: 'Technical Details', url: '#', icon: Code, disabled: true }
+      ],
+      lessons: ['Teaching myself to code', 'Turning problems into opportunities', 'Building things that scale'],
+      testimonial: '"Turns out laziness + curiosity can lead to something pretty useful." - Mahanadhi Parisara (that\'s me)'
+    },
+    {
       id: 'pluto',
       title: 'Pluto - Personal Finance Tracker',
       icon: Rocket,
@@ -24,33 +46,10 @@ const Projects = () => {
       ],
       techStack: ['Flutter', 'Firebase', 'Dart', 'Cloud Firestore'],
       links: [
-        { type: 'demo', label: 'Case Study', url: '/pluto', icon: Eye },
-        { type: 'code', label: 'View Details', url: '/pluto', icon: ChevronRight }
+        { type: 'demo', label: 'Learn More', url: '/pluto', icon: ChevronRight }
       ],
       lessons: ['Offline-first architecture design', 'Cross-platform mobile development', 'Real-time data synchronization'],
       testimonial: '"Solved my personal finance tracking needs perfectly" - Personal Use'
-    },
-    {
-      id: 'automation',
-      title: 'Team-Wide Data Sync Tool',
-      icon: GanttChartSquare,
-      description: 'A Google Apps Script automation to distribute daily data, eliminating manual work.',
-      problem: 'Team leaders spent over 30 minutes daily on a tedious and error-prone manual data-copying task. (Yes, copy-paste was literally part of the daily workflow—we had to fix that.)',
-      build: 'I architected the core logic and implemented a Google Apps Script that automated the entire workflow, running daily without intervention. (Set it and forget it—the best kind of solution.)',
-      outcome: 'Adopted by 10+ teams totaling 120+ team members, saving 30-45 mins/day project-wide.',
-      metrics: [
-        { icon: Users, label: 'Teams Using', value: '10+', color: 'text-blue-600' },
-        { icon: TrendingUp, label: 'Members Impacted', value: '120+', color: 'text-green-600' },
-        { icon: Clock, label: 'Time Saved', value: '30-45min/day', color: 'text-purple-600' },
-        { icon: Award, label: 'Adoption Rate', value: '100%', color: 'text-orange-600' }
-      ],
-      techStack: ['Google Apps Script', 'JavaScript', 'Google Sheets API', 'Automation'],
-      links: [
-        { type: 'demo', label: 'Live in Production', url: '#', icon: ExternalLink, disabled: true },
-        { type: 'code', label: 'Technical Details', url: '#', icon: Code, disabled: true }
-      ],
-      lessons: ['Enterprise-scale automation', 'Cross-team collaboration', 'Production deployment processes'],
-      testimonial: '"This tool transformed our daily workflow completely" - Team Lead (and now they have 30+ extra minutes for coffee)'
     },
     {
       id: 'portfolio',
@@ -80,11 +79,12 @@ const Projects = () => {
       <motion.div 
         className="text-center mb-16"
         initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        viewport={{ once: true, amount: 0.3 }}
       >
-        <h2 className="font-heading text-4xl mb-4">Things I've Built</h2>
+        <h2 className="font-heading text-4xl mb-4">
+          <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">Things I've Built</span>
+        </h2>
         <p className="text-lg text-text-light/80 dark:text-text-dark/80 max-w-2xl mx-auto">
           I learn by doing. Here are some things I've built to solve real problems and drive measurable impact.
         </p>
@@ -100,9 +100,8 @@ const Projects = () => {
               key={project.id}
               className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${isReversed ? 'lg:grid-flow-col-dense' : ''}`}
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: Math.min(index * 0.1, 0.3) }}
-              viewport={{ once: true, amount: 0.2 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: Math.min(index * 0.2, 0.6) }}
             >
               {/* Project Visual */}
               <div className={`w-full ${isReversed ? 'lg:col-start-2' : ''}`}>
@@ -145,9 +144,8 @@ const Projects = () => {
                         key={idx}
                         className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
                         initial={{ scale: 0.9, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.1 + idx * 0.05 }}
-                        viewport={{ once: true, amount: 0.3 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 0.4 + (index * 0.2) + idx * 0.05 }}
                       >
                         <metric.icon size={20} className={`mx-auto mb-2 ${metric.color}`} />
                         <div className="text-2xl font-bold">{metric.value}</div>
@@ -174,9 +172,8 @@ const Projects = () => {
               <div className={isReversed ? 'lg:col-start-1' : ''}>
                 <motion.div
                   initial={{ opacity: 0, x: isReversed ? 15 : -15 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  viewport={{ once: true, amount: 0.3 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 + (index * 0.2) }}
                 >
                   <h3 className="flex items-center gap-3 text-3xl font-bold mb-4">
                     <IconComponent size={32} className="text-primary-light dark:text-primary-dark" />
@@ -241,6 +238,40 @@ const Projects = () => {
                       <p className="italic text-gray-600 dark:text-gray-400">"{project.testimonial.split(' - ')[0]}"</p>
                       <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">- {project.testimonial.split(' - ')[1]}</p>
                     </motion.div>
+
+                    {/* Project Links */}
+                    {project.links && project.links.length > 0 && (
+                      <div className="flex flex-wrap gap-3 mt-6">
+                        {project.links.map((link, idx) => {
+                          const LinkIcon = link.icon;
+                          const isDisabled = link.disabled;
+                          
+                          if (isDisabled) {
+                            return (
+                              <button
+                                key={idx}
+                                disabled
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 rounded-lg cursor-not-allowed text-sm font-medium"
+                              >
+                                <LinkIcon size={16} />
+                                {link.label}
+                              </button>
+                            );
+                          }
+                          
+                          return (
+                            <Link
+                              key={idx}
+                              to={link.url}
+                              className="inline-flex items-center gap-2 px-4 py-2 bg-primary-light dark:bg-primary-dark text-white rounded-lg hover:opacity-90 transition-opacity text-sm font-medium"
+                            >
+                              <LinkIcon size={16} />
+                              {link.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
 
 
@@ -255,9 +286,8 @@ const Projects = () => {
       <motion.div
         className="text-center mt-20 bg-gradient-to-r from-primary-light/10 to-accent-green-light/10 dark:from-primary-dark/10 dark:to-accent-green-dark/10 rounded-2xl p-8"
         initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true, amount: 0.4 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.8 }}
       >
         <h3 className="text-2xl font-bold mb-4">Want to see more?</h3>
         <p className="text-gray-600 dark:text-gray-400 mb-6">

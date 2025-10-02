@@ -9,6 +9,7 @@ import './index.css';
 
 // Lazy load components to reduce initial bundle size
 const HomePage = lazy(() => import('./pages/HomePage.jsx'));
+const ExperiencePage = lazy(() => import('./pages/ExperiencePage.jsx'));
 const PlutoPage = lazy(() => import('./pages/PlutoPage.jsx'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
 
@@ -54,6 +55,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<PageLoading />}>
             <HomePage />
+          </Suspense>
+        )
+      },
+      { 
+        path: '/experience', 
+        element: (
+          <Suspense fallback={<PageLoading />}>
+            <ExperiencePage />
           </Suspense>
         )
       },

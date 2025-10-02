@@ -144,6 +144,15 @@ const MobileNav = () => {
                 </motion.li>
                 <motion.li variants={itemVariants}>
                   <NavLink 
+                    to="/experience" 
+                    onClick={() => handleNavClick('Experience')} 
+                    className="block py-2 hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                  >
+                    Experience
+                  </NavLink>
+                </motion.li>
+                <motion.li variants={itemVariants}>
+                  <NavLink 
                     to="/contact" 
                     onClick={() => handleNavClick('Contact')} 
                     className="block py-2 hover:text-primary-light dark:hover:text-primary-dark transition-colors"

@@ -11,6 +11,7 @@ import IntroAnimation from './components/IntroAnimation';
 import Footer from './components/Footer';
 import ActionButtons from './components/ActionButtons';
 import ThemeTransition from './components/ThemeTransition';
+import ScrollToTop from './components/ScrollToTop';
 import { useThemeTransition } from './hooks/useThemeTransition';
 
 // Utility to check if we're on the server (for SSR compatibility)
@@ -168,6 +169,7 @@ function App() {
             animate={showMainContent ? "visible" : "hidden"}
             className="min-h-screen"
           >
+            <ScrollToTop />
             <motion.div variants={contentItemVariants}>
               <Header theme={theme} onThemeSwitch={handleThemeSwitch} />
             </motion.div>

@@ -95,7 +95,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 md:px-8 pt-32 pb-16 md:pt-36 md:pb-20 overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 md:px-8 overflow-hidden">
       {/* Enhanced background gradient effect */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary-light/5 via-transparent to-accent-green-light/5 dark:from-primary-dark/5 dark:to-accent-green-dark/5 rounded-full blur-3xl"></div>
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-accent-purple-light/10 to-primary-light/10 dark:from-accent-purple-dark/10 dark:to-primary-dark/10 rounded-full blur-3xl animate-pulse"></div>
@@ -104,7 +104,7 @@ const Hero = () => {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="relative z-10 max-w-5xl mx-auto text-center w-full"
+        className="relative z-10 max-w-5xl mx-auto text-center py-20"
       >
         {/* Role Badge */}
         <motion.div variants={itemVariants} className="mb-10">
@@ -116,14 +116,14 @@ const Hero = () => {
         {/* Main Heading with Animation */}
         <motion.div 
           variants={itemVariants}
-          className="font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-6 leading-tight overflow-visible"
+          className="font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-6 leading-tight"
         >
           <div className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent">
             I Transform
           </div>
           
           {/* Animated Word Switcher - Larger space */}
-          <div className="h-32 lg:h-40 flex items-center justify-center my-6 py-4">
+          <div className="h-24 lg:h-32 flex items-center justify-center my-4 overflow-visible">
             <AnimatePresence mode="wait">
               <motion.span
                 key={currentWordIndex}
@@ -149,10 +149,10 @@ const Hero = () => {
           className="mt-10 space-y-3 max-w-3xl mx-auto"
         >
           <p className="text-xl md:text-2xl text-text-light/90 dark:text-text-dark/90 font-medium leading-relaxed">
-            Subject Matter Expert at Cognizant, working on Google's advertising measurement tools.
+            I implement and troubleshoot conversion tracking across Google's measurement stack—Google Ads, GA4, GTM, SA360, CM360.
           </p>
           <p className="text-base md:text-lg text-text-light/70 dark:text-text-dark/70 max-w-2xl mx-auto">
-            I implement and troubleshoot conversion tracking solutions—making sure advertisers can accurately measure what's working.
+            Consent Mode, Enhanced Conversions, Offline Tracking—if your data's broken, I fix it and get your campaigns back on track.
           </p>
         </motion.div>
 

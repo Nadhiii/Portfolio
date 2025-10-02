@@ -85,7 +85,7 @@ const HomePage = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="min-h-screen"
+            className="min-h-screen pt-20"
           >
             <Projects />
           </motion.div>
@@ -98,7 +98,7 @@ const HomePage = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="min-h-screen"
+            className="min-h-screen pt-20"
           >
             <Skills />
           </motion.div>
@@ -111,7 +111,7 @@ const HomePage = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="min-h-screen"
+            className="min-h-screen pt-20"
           >
             <Contact />
           </motion.div>
@@ -124,6 +124,7 @@ const HomePage = () => {
             initial="initial"
             animate="animate"
             exit="exit"
+            className="min-h-screen"
           >
             <motion.div variants={childVariants}>
               <Hero />
