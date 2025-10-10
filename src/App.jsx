@@ -149,13 +149,21 @@ function App() {
     : 'opacity-100 transform translate-x-0';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-purple-50 dark:bg-gradient-to-br dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/20 text-text-light dark:text-text-dark font-body transition-all duration-500">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-green-50 dark:bg-gradient-to-br dark:from-gray-900 dark:via-blue-950 dark:to-gray-900 text-text-light dark:text-text-dark font-body transition-all duration-500">
       
-      {/* Subtle animated background elements */}
+      {/* Enhanced animated background orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -left-40 w-80 h-80 bg-gradient-to-r from-blue-200/60 to-purple-200/60 dark:from-blue-900/20 dark:to-purple-900/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 -right-40 w-96 h-96 bg-gradient-to-r from-green-200/60 to-blue-200/60 dark:from-green-900/20 dark:to-blue-900/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-3/4 left-1/4 w-64 h-64 bg-gradient-to-r from-purple-200/50 to-pink-200/50 dark:from-purple-900/15 dark:to-pink-900/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+        {/* Top left - Blue/Purple orb */}
+        <div className="absolute top-1/4 -left-40 w-96 h-96 bg-gradient-to-r from-blue-300/40 via-purple-300/40 to-blue-400/30 dark:from-blue-600/30 dark:via-purple-600/25 dark:to-blue-700/20 rounded-full blur-3xl animate-pulse"></div>
+        
+        {/* Bottom right - Green/Blue orb */}
+        <div className="absolute bottom-1/4 -right-40 w-[32rem] h-[32rem] bg-gradient-to-r from-green-300/40 via-blue-300/35 to-green-400/30 dark:from-green-600/25 dark:via-blue-600/20 dark:to-green-700/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        
+        {/* Center left - Purple/Pink accent */}
+        <div className="absolute top-3/4 left-1/4 w-80 h-80 bg-gradient-to-r from-purple-300/35 via-pink-300/30 to-purple-400/25 dark:from-purple-600/20 dark:via-pink-600/15 dark:to-purple-700/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+        
+        {/* Top right - Accent orb */}
+        <div className="absolute top-1/3 -right-20 w-72 h-72 bg-gradient-to-r from-cyan-300/30 to-blue-300/25 dark:from-cyan-600/15 dark:to-blue-600/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '6s' }}></div>
       </div>
       
       <AnimatePresence mode="wait">

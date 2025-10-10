@@ -82,7 +82,8 @@ const Projects = () => {
         transition={{ duration: 0.5 }}
       >
         <h2 className="font-heading text-4xl mb-4">
-          <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">Things I've Built</span>
+          <span className="text-text-light dark:text-text-dark">Things </span>
+          <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">I've Built</span>
         </h2>
         <p className="text-lg text-text-light/80 dark:text-text-dark/80 max-w-2xl mx-auto">
           I learn by doing. Here are some things I've built to solve real problems and drive measurable impact.

@@ -14,6 +14,16 @@ const Hero = () => {
   
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+  const [hasSpread, setHasSpread] = useState(false);
+
+  // Trigger the spreading effect after component mounts
+  useEffect(() => {
+    const spreadTimer = setTimeout(() => {
+      setHasSpread(true);
+    }, 800); // Start spreading after 800ms
+
+    return () => clearTimeout(spreadTimer);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -118,28 +128,68 @@ const Hero = () => {
           variants={itemVariants}
           className="font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-6 leading-tight overflow-visible"
         >
-          <div className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent">
-            I Transform
-          </div>
-          
-          {/* Animated Word Switcher - Larger space */}
-          <div className="h-32 lg:h-40 flex items-center justify-center my-6 py-4">
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={currentWordIndex}
-                variants={wordVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                className="bg-gradient-to-r from-primary-light via-accent-green-light to-primary-light dark:from-primary-dark dark:via-accent-green-dark dark:to-primary-dark bg-clip-text text-transparent font-bold inline-block"
-              >
-                {switchingWords[currentWordIndex]}
-              </motion.span>
-            </AnimatePresence>
-          </div>
-          
-          <div className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent">
-            Into Impactful Solutions
+          {/* Vertical Spreading Animation Container */}
+          <div className="relative">
+            {/* "I Transform" - slides UP from center */}
+            <motion.div 
+              initial={{ y: 80, opacity: 0.3 }}
+              animate={{ 
+                y: hasSpread ? 0 : 80,
+                opacity: hasSpread ? 1 : 0.3,
+              }}
+              transition={{ 
+                duration: 0.8,
+                ease: [0.34, 1.56, 0.64, 1]
+              }}
+              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent"
+            >
+              I Transform
+            </motion.div>
+            
+            {/* Animated Word Switcher - stays in center, emerges/expands */}
+            <motion.div 
+              initial={{ scaleY: 0.3, opacity: 0 }}
+              animate={{ 
+                scaleY: hasSpread ? 1 : 0.3,
+                opacity: hasSpread ? 1 : 0,
+              }}
+              transition={{ 
+                duration: 0.8,
+                delay: 0.1,
+                ease: [0.34, 1.56, 0.64, 1]
+              }}
+              className="h-32 lg:h-40 flex items-center justify-center my-6 py-4"
+            >
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={currentWordIndex}
+                  variants={wordVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="bg-gradient-to-r from-primary-light via-accent-green-light to-primary-light dark:from-primary-dark dark:via-accent-green-dark dark:to-primary-dark bg-clip-text text-transparent font-bold inline-block"
+                >
+                  {switchingWords[currentWordIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </motion.div>
+            
+            {/* "Into Impactful Solutions" - slides DOWN from center */}
+            <motion.div 
+              initial={{ y: -80, opacity: 0.3 }}
+              animate={{ 
+                y: hasSpread ? 0 : -80,
+                opacity: hasSpread ? 1 : 0.3,
+              }}
+              transition={{ 
+                duration: 0.8,
+                delay: 0.15,
+                ease: [0.34, 1.56, 0.64, 1]
+              }}
+              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent"
+            >
+              Into Impactful Solutions
+            </motion.div>
           </div>
         </motion.div>
 

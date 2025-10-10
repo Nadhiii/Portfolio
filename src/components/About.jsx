@@ -31,7 +31,8 @@ const About = () => {
       {/* --- NARRATIVE JOURNEY SECTION --- */}
       <div className="text-center mb-16">
         <h2 className="font-heading text-4xl">
-          <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">My Journey</span>
+          <span className="text-text-light dark:text-text-dark">My </span>
+          <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">Journey</span>
         </h2>
         <p className="text-lg text-text-light/80 dark:text-text-dark/80 mt-2">From Support to Shipping Products</p>
       </div>

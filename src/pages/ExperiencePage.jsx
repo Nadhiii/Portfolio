@@ -66,7 +66,8 @@ const ExperiencePage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">Work Experience</span>
+            <span className="text-text-light dark:text-text-dark">Work </span>
+            <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">Experience</span>
           </motion.h1>
           <motion.p 
             className="text-lg text-text-light/80 dark:text-text-dark/80"

@@ -1,7 +1,52 @@
 // src/components/ActionButtons.jsx
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Linkedin, Mail, FileText } from 'lucide-react';
+
+const ActionButton = ({ button, index }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  return (
+    <motion.a
+      href={button.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.1 }}
+      whileHover={{ 
+        scale: 1.05, 
+        y: -2,
+        transition: { duration: 0.2 }
+      }}
+      whileTap={{ scale: 0.98 }}
+      className={`flex items-center gap-3 backdrop-blur-lg border rounded-full shadow-lg transition-colors duration-300 py-3 px-3 overflow-hidden ${
+        isHovered
+          ? 'bg-gray-600 dark:bg-gray-700 text-white shadow-xl' 
+          : 'bg-white/40 dark:bg-gray-900/40 border-gray-200/30 dark:border-gray-700/30 text-text-light/70 dark:text-text-dark/70'
+      }`}
+    >
+      <button.icon size={20} className="flex-shrink-0" />
+      
+      {/* Expanding label on hover */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.span
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: 'auto', opacity: 1 }}
+            exit={{ width: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="whitespace-nowrap overflow-hidden font-medium"
+          >
+            {button.label}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </motion.a>
+  );
+};
 
 const ActionButtons = () => {
   const buttons = [
@@ -27,27 +72,9 @@ const ActionButtons = () => {
 
   return (
     <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 items-end">
         {buttons.map((button, index) => (
-          <motion.a
-            key={button.id}
-            href={button.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 }}
-            whileHover={{ 
-              scale: 1.05, 
-              x: -5,
-              transition: { duration: 0.2 }
-            }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center justify-center w-14 h-14 bg-white/40 dark:bg-gray-900/40 backdrop-blur-lg border border-gray-200/30 dark:border-gray-700/30 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-text-light/70 dark:text-text-dark/70 hover:text-primary-light dark:hover:text-primary-dark hover:bg-white/60 dark:hover:bg-gray-800/60"
-            title={button.label}
-          >
-            <button.icon size={20} />
-          </motion.a>
+          <ActionButton key={button.id} button={button} index={index} />
         ))}
       </div>
     </div>

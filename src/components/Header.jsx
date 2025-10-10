@@ -23,8 +23,23 @@ const Header = ({ theme, onThemeSwitch }) => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-30 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200/50 dark:border-gray-700/50">
-      <div className="max-w-7xl mx-auto py-4 px-8 flex justify-between items-center">
+    <div className="fixed top-4 left-0 right-0 z-30 flex justify-center px-4">
+      <motion.header 
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
+        className="w-full max-w-6xl"
+      >
+      <div className={`
+        relative px-6 py-3 rounded-full 
+        bg-white/40 dark:bg-gray-900/40 
+        backdrop-blur-xl 
+        border border-gray-200/20 dark:border-gray-700/20
+        shadow-lg shadow-gray-200/20 dark:shadow-black/20
+        transition-all duration-300
+        ${isScrolled ? 'shadow-xl' : 'shadow-lg'}
+      `}>
+        <div className="flex justify-between items-center">
         
         {/* === THE ANIMATED NAME/INITIALS (NOW A LINK) === */}
         <Link to="/" aria-label="Back to homepage" onClick={() => trackEvent('logo_click', 'Navigation', 'Header logo clicked')}>
@@ -48,13 +63,83 @@ const Header = ({ theme, onThemeSwitch }) => {
         </Link>
 
         {/* Right Side: Navigation */}
-        <nav className="flex items-center gap-4 md:gap-6">
-          <ul className="hidden md:flex items-center gap-6 font-body">
-            <li><NavLink to="/projects" onClick={() => trackEvent('nav_click', 'Navigation', 'Projects section visited')} style={({isActive}) => isActive ? activeLinkStyle : undefined} className="hover:text-primary-light dark:hover:text-primary-dark transition-colors">Projects</NavLink></li>
-            <li><NavLink to="/skills" onClick={() => trackEvent('nav_click', 'Navigation', 'Skills section visited')} style={({isActive}) => isActive ? activeLinkStyle : undefined} className="hover:text-primary-light dark:hover:text-primary-dark transition-colors">Skills</NavLink></li>
-            <li><NavLink to="/experience" onClick={() => trackEvent('nav_click', 'Navigation', 'Experience page visited')} style={({isActive}) => isActive ? activeLinkStyle : undefined} className="hover:text-primary-light dark:hover:text-primary-dark transition-colors">Experience</NavLink></li>
-            <li><NavLink to="/contact" onClick={() => trackEvent('nav_click', 'Navigation', 'Contact section visited')} style={({isActive}) => isActive ? activeLinkStyle : undefined} className="hover:text-primary-light dark:hover:text-primary-dark transition-colors">Contact</NavLink></li>
-            <li><NavLink to="/pluto" onClick={() => trackEvent('nav_click', 'Navigation', 'Pluto page visited')} style={({isActive}) => isActive ? activeLinkStyle : undefined} className="hover:text-primary-light dark:hover:text-primary-dark transition-colors">Pluto</NavLink></li>
+        <nav className="flex items-center gap-2 md:gap-3">
+          <ul className="hidden md:flex items-center gap-2 font-body">
+            <li>
+              <NavLink 
+                to="/projects" 
+                onClick={() => trackEvent('nav_click', 'Navigation', 'Projects section visited')}
+                className={({isActive}) => `
+                  px-4 py-2 rounded-full transition-all duration-300
+                  ${isActive 
+                    ? 'bg-gray-600 dark:bg-gray-700 text-white' 
+                    : 'hover:bg-gray-600 dark:hover:bg-gray-700 hover:text-white'
+                  }
+                `}
+              >
+                Projects
+              </NavLink>
+            </li>
+            <li>
+              <NavLink 
+                to="/skills" 
+                onClick={() => trackEvent('nav_click', 'Navigation', 'Skills section visited')}
+                className={({isActive}) => `
+                  px-4 py-2 rounded-full transition-all duration-300
+                  ${isActive 
+                    ? 'bg-gray-600 dark:bg-gray-700 text-white' 
+                    : 'hover:bg-gray-600 dark:hover:bg-gray-700 hover:text-white'
+                  }
+                `}
+              >
+                Skills
+              </NavLink>
+            </li>
+            <li>
+              <NavLink 
+                to="/experience" 
+                onClick={() => trackEvent('nav_click', 'Navigation', 'Experience page visited')}
+                className={({isActive}) => `
+                  px-4 py-2 rounded-full transition-all duration-300
+                  ${isActive 
+                    ? 'bg-gray-600 dark:bg-gray-700 text-white' 
+                    : 'hover:bg-gray-600 dark:hover:bg-gray-700 hover:text-white'
+                  }
+                `}
+              >
+                Experience
+              </NavLink>
+            </li>
+            <li>
+              <NavLink 
+                to="/contact" 
+                onClick={() => trackEvent('nav_click', 'Navigation', 'Contact section visited')}
+                className={({isActive}) => `
+                  px-4 py-2 rounded-full transition-all duration-300
+                  ${isActive 
+                    ? 'bg-gray-600 dark:bg-gray-700 text-white' 
+                    : 'hover:bg-gray-600 dark:hover:bg-gray-700 hover:text-white'
+                  }
+                `}
+              >
+                Contact
+              </NavLink>
+            </li>
+            <li>
+              <NavLink 
+                to="/pluto" 
+                onClick={() => trackEvent('nav_click', 'Navigation', 'Pluto page visited')}
+                className={({isActive}) => `
+                  px-4 py-2 rounded-full transition-all duration-300
+                  ${isActive 
+                    ? 'bg-gray-600 dark:bg-gray-700 text-white' 
+                    : 'hover:bg-gray-600 dark:hover:bg-gray-700 hover:text-white'
+                  }
+                `}
+              >
+                Pluto
+              </NavLink>
+            </li>
           </ul>
           
           <button 
@@ -62,7 +147,7 @@ const Header = ({ theme, onThemeSwitch }) => {
               onThemeSwitch(event);
               trackEvent('theme_toggle', 'Engagement', `Switched to ${theme === 'light' ? 'dark' : 'light'} mode`);
             }} 
-            className="bg-gray-200 dark:bg-gray-700 p-2 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" 
+            className="bg-white/40 dark:bg-gray-800/40 p-2 rounded-full hover:bg-gray-600 dark:hover:bg-gray-700 hover:text-white transition-all duration-300" 
             aria-label="Toggle theme"
           >
             {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
@@ -70,8 +155,10 @@ const Header = ({ theme, onThemeSwitch }) => {
 
           <MobileNav />
         </nav>
+        </div>
       </div>
-    </header>
+    </motion.header>
+    </div>
   );
 };
 
