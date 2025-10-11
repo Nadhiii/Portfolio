@@ -25,7 +25,7 @@ const ActionButton = ({ button, index }) => {
       className={`flex items-center gap-3 backdrop-blur-lg border rounded-full shadow-lg transition-colors duration-300 py-3 px-3 overflow-hidden ${
         isHovered
           ? 'bg-gray-600 dark:bg-gray-700 text-white shadow-xl' 
-          : 'bg-white/40 dark:bg-gray-900/40 border-gray-200/30 dark:border-gray-700/30 text-text-light/70 dark:text-text-dark/70'
+          : 'bg-white/40 dark:bg-gray-900/40 border-gray-200/30 dark:border-gray-700/30 text-text-light dark:text-text-dark'
       }`}
     >
       <button.icon size={20} className="flex-shrink-0" />
@@ -71,7 +71,7 @@ const ActionButtons = () => {
   ];
 
   return (
-    <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50">
+    <div className="hidden lg:block fixed right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-50">
       <div className="flex flex-col gap-4 items-end">
         {buttons.map((button, index) => (
           <ActionButton key={button.id} button={button} index={index} />

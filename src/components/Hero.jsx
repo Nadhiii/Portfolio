@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, Mail, ArrowRight } from 'lucide-react';
+import { containerVariants, itemVariants } from '../config/animations';
 
 const Hero = () => {
   const switchingWords = [
@@ -46,34 +47,6 @@ const Hero = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 20,
-      scale: 0.95
-    },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.25, 0, 1]
-      }
-    }
-  };
-
   const wordVariants = {
     hidden: { 
       opacity: 0, 
@@ -105,7 +78,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 md:px-8 pt-32 pb-16 md:pt-36 md:pb-20 overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 md:px-8 pt-24 pb-16 md:pt-24 lg:pt-24 md:pb-20 overflow-visible">
       {/* Enhanced background gradient effect */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary-light/5 via-transparent to-accent-green-light/5 dark:from-primary-dark/5 dark:to-accent-green-dark/5 rounded-full blur-3xl"></div>
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-accent-purple-light/10 to-primary-light/10 dark:from-accent-purple-dark/10 dark:to-primary-dark/10 rounded-full blur-3xl animate-pulse"></div>
@@ -117,7 +90,7 @@ const Hero = () => {
         className="relative z-10 max-w-5xl mx-auto text-center w-full"
       >
         {/* Role Badge */}
-        <motion.div variants={itemVariants} className="mb-10">
+        <motion.div variants={itemVariants} className="mb-8">
           <span className="inline-block px-4 py-2 md:px-6 md:py-3 bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark font-bold rounded-full text-xs md:text-sm tracking-wider border border-primary-light/20 dark:border-primary-dark/20 shadow-lg">
             SME @ COGNIZANT
           </span>
@@ -126,10 +99,10 @@ const Hero = () => {
         {/* Main Heading with Animation */}
         <motion.div 
           variants={itemVariants}
-          className="font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-6 leading-tight overflow-visible"
+          className="font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-4 overflow-visible py-4 md:py-6"
         >
           {/* Vertical Spreading Animation Container */}
-          <div className="relative">
+          <div className="relative overflow-visible min-h-[200px] md:min-h-[260px] lg:min-h-[300px] flex flex-col justify-center">
             {/* "I Transform" - slides UP from center */}
             <motion.div 
               initial={{ y: 80, opacity: 0.3 }}
@@ -141,7 +114,7 @@ const Hero = () => {
                 duration: 0.8,
                 ease: [0.34, 1.56, 0.64, 1]
               }}
-              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent"
+              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent pb-4 md:pb-6 leading-tight"
             >
               I Transform
             </motion.div>
@@ -158,7 +131,7 @@ const Hero = () => {
                 delay: 0.1,
                 ease: [0.34, 1.56, 0.64, 1]
               }}
-              className="h-32 lg:h-40 flex items-center justify-center my-6 py-4"
+              className="h-40 lg:h-48 flex items-center justify-center my-1 py-4 overflow-visible"
             >
               <AnimatePresence mode="wait">
                 <motion.span
@@ -167,7 +140,7 @@ const Hero = () => {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
-                  className="bg-gradient-to-r from-primary-light via-accent-green-light to-primary-light dark:from-primary-dark dark:via-accent-green-dark dark:to-primary-dark bg-clip-text text-transparent font-bold inline-block"
+                  className="bg-gradient-to-r from-primary-light via-accent-green-light to-primary-light dark:from-primary-dark dark:via-accent-green-dark dark:to-primary-dark bg-clip-text text-transparent font-bold inline-block leading-relaxed"
                 >
                   {switchingWords[currentWordIndex]}
                 </motion.span>
@@ -186,7 +159,7 @@ const Hero = () => {
                 delay: 0.15,
                 ease: [0.34, 1.56, 0.64, 1]
               }}
-              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent"
+              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent pt-4 md:pt-6 leading-tight"
             >
               Into Impactful Solutions
             </motion.div>
@@ -196,12 +169,12 @@ const Hero = () => {
         {/* Clear Summary - What I Actually Do */}
         <motion.div 
           variants={itemVariants}
-          className="mt-10 space-y-3 max-w-3xl mx-auto"
+          className="mt-2 space-y-3 max-w-3xl mx-auto"
         >
-          <p className="text-xl md:text-2xl text-text-light/90 dark:text-text-dark/90 font-medium leading-relaxed">
+          <p className="text-xl md:text-2xl text-text-light dark:text-text-dark font-medium leading-relaxed">
             Subject Matter Expert at Cognizant, working on Google's advertising measurement tools.
           </p>
-          <p className="text-base md:text-lg text-text-light/70 dark:text-text-dark/70 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-text-light dark:text-text-dark max-w-2xl mx-auto">
             I implement and troubleshoot conversion tracking solutions—making sure advertisers can accurately measure what's working.
           </p>
         </motion.div>
@@ -209,12 +182,12 @@ const Hero = () => {
         {/* Scroll indicator */}
         <motion.div
           variants={itemVariants}
-          className="mt-20 flex flex-col items-center"
+          className="mt-2 flex flex-col items-center"
           initial={{ opacity: 1 }}
           animate={{ opacity: showScrollIndicator ? 1 : 0 }}
           transition={{ duration: 0.3 }}
         >
-          <span className="text-sm text-text-light/50 dark:text-text-dark/50 mb-2">Scroll to explore</span>
+          <span className="text-sm text-text-light dark:text-text-dark mb-2">Scroll to explore</span>
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}

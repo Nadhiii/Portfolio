@@ -3,11 +3,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, ArrowLeft, Smartphone } from 'lucide-react';
-import { motion } from 'framer-motion';
 import Slider from 'react-slick';
 import FsLightbox from 'fslightbox-react';
 import { trackEvent, trackPageView } from '../utils/analytics';
-import { pageVariants, containerVariants, itemVariants } from '../config/animations';
 import OptimizedImage from '../components/OptimizedImage';
 
 // --- Importing all your screenshots ---
@@ -66,16 +64,12 @@ const PlutoPage = () => {
   };
 
   return (
-    <motion.div 
-      className="max-w-7xl mx-auto py-12 md:py-24 px-8"
-      initial="initial"
-      animate="animate"
-      variants={pageVariants}
-    >
-      <motion.header className="text-center mb-20" variants={childVariants}>
+    <div className="min-h-screen">
+      <div className="max-w-7xl mx-auto py-12 md:py-24 px-8">
+      <header className="text-center mb-20">
         <div className="max-w-4xl mx-auto">
           <h1 className="font-heading text-5xl md:text-7xl mb-4">Pluto</h1>
-          <p className="text-lg text-text-light dark:text-text-dark mb-6">
+          <p className="text-lg text-text-light/60 dark:text-text-dark/60 mb-6">
             Previously known as Finance Manager
           </p>
           <p className="text-2xl md:text-3xl font-light leading-relaxed">
@@ -89,19 +83,19 @@ const PlutoPage = () => {
           <div className="flex flex-wrap justify-center gap-8 mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
             <div className="text-center">
               <div className="text-2xl font-bold text-primary-light dark:text-primary-dark">16</div>
-              <div className="text-sm text-text-light dark:text-text-dark">Screenshots</div>
+              <div className="text-sm text-text-light/60 dark:text-text-dark/60">Screenshots</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-primary-light dark:text-primary-dark">0₹</div>
-              <div className="text-sm text-text-light dark:text-text-dark">Cost</div>
+              <div className="text-sm text-text-light/60 dark:text-text-dark/60">Cost</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-primary-light dark:text-primary-dark">100%</div>
-              <div className="text-sm text-text-light dark:text-text-dark">Privacy</div>
+              <div className="text-sm text-text-light/60 dark:text-text-dark/60">Privacy</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-primary-light dark:text-primary-dark">1st</div>
-              <div className="text-sm text-text-light dark:text-text-dark">App Built</div>
+              <div className="text-sm text-text-light/60 dark:text-text-dark/60">App Built</div>
             </div>
           </div>
           
@@ -129,97 +123,72 @@ const PlutoPage = () => {
       <motion.div className="max-w-4xl mx-auto space-y-20 mb-24" variants={childVariants}>
         
         {/* Problem & Solution with Clash Animation */}
-        <motion.div variants={childVariants} className="grid md:grid-cols-2 gap-12 items-start">
+        <motion.div variants={childVariants} className="grid md:grid-cols-2 gap-12 items-start relative">
           <motion.div
-            initial={{ x: -300, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ 
-              duration: 0.8, 
-              ease: [0.25, 0.25, 0, 1],
-              delay: 0.2
-            }}
+            variants={slideInLeftVariants}
+            initial="hidden"
+            animate="visible"
           >
-            <h2 className="font-heading text-3xl mb-6 text-text-light dark:text-text-dark">The Problem</h2>
-            <p className="text-lg leading-relaxed text-text-light dark:text-text-dark">
+            <h2 className="font-heading text-3xl mb-6 text-gray-600 dark:text-gray-400">The Problem</h2>
+            <p className="text-lg leading-relaxed text-text-light/80 dark:text-text-dark/80">
               I wanted to track my finances without giving apps access to my SMS, email, or bank accounts. 
               Most apps demand subscriptions, invade privacy, or still don't deliver what you need.
             </p>
-            <p className="text-lg leading-relaxed text-text-light dark:text-text-dark mt-4">
+            <p className="text-lg leading-relaxed text-text-light/80 dark:text-text-dark/80 mt-4">
               So, I thought:
             </p>
             <motion.p 
               className="text-lg font-medium mt-2 text-primary-light dark:text-primary-dark"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 1.6, duration: 0.5, ease: "backOut" }}
+              variants={scaleInVariants}
+              initial="hidden"
+              animate="visible"
             >
               "Fine. I'll build it myself."
             </motion.p>
           </motion.div>
           <motion.div
-            initial={{ x: 300, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ 
-              duration: 0.8, 
-              ease: [0.25, 0.25, 0, 1],
-              delay: 0.2
-            }}
+            variants={slideInRightVariants}
+            initial="hidden"
+            animate="visible"
           >
-            <h2 className="font-heading text-3xl mb-6 text-text-light dark:text-text-dark">The Solution</h2>
-            <p className="text-lg leading-relaxed text-text-light dark:text-text-dark">
+            <h2 className="font-heading text-3xl mb-6 text-gray-600 dark:text-gray-400">The Solution</h2>
+            <p className="text-lg leading-relaxed text-text-light/80 dark:text-text-dark/80">
               A privacy-first finance app that works entirely offline. No permissions needed, 
               no subscriptions required, no data harvesting. Just clean, simple money management.
             </p>
-          </motion.div>
-          
-          {/* Clash Effect - Invisible collision point */}
-          <motion.div 
-            className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-            initial={{ scale: 0 }}
-            animate={{ 
-              scale: [0, 1.5, 0],
-              rotate: [0, 180, 360]
-            }}
-            transition={{ 
-              delay: 1.0,
-              duration: 0.6,
-              ease: "easeInOut"
-            }}
-          >
-            <div className="w-8 h-8 bg-primary-light/20 dark:bg-primary-dark/20 rounded-full blur-sm"></div>
           </motion.div>
         </motion.div>
 
         {/* Core Features */}
         <motion.div variants={childVariants}>
-          <h2 className="font-heading text-3xl mb-8 text-center text-text-light dark:text-text-dark">What It Actually Does</h2>
+          <h2 className="font-heading text-3xl mb-8 text-center text-gray-600 dark:text-gray-400">What It Actually Does</h2>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <div className="p-6 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
               <Check className="text-accent-green-light dark:text-accent-green-dark mb-3" size={24} />
               <h3 className="font-semibold mb-2">Complete Financial Tracking</h3>
-              <p className="text-sm text-text-light dark:text-text-dark">Income, expenses, debts, and investments in one place</p>
+              <p className="text-sm text-text-light/70 dark:text-text-dark/70">Income, expenses, debts, and investments in one place</p>
             </div>
-            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <div className="p-6 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
               <Check className="text-accent-green-light dark:text-accent-green-dark mb-3" size={24} />
               <h3 className="font-semibold mb-2">Smart Budgets & Goals</h3>
-              <p className="text-sm text-text-light dark:text-text-dark">Set savings targets and debt payoff plans</p>
+              <p className="text-sm text-text-light/70 dark:text-text-dark/70">Set savings targets and debt payoff plans</p>
             </div>
-            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <div className="p-6 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
               <Check className="text-accent-green-light dark:text-accent-green-dark mb-3" size={24} />
               <h3 className="font-semibold mb-2">Cross-Device Sync</h3>
-              <p className="text-sm text-text-light dark:text-text-dark">Works seamlessly across all your devices</p>
+              <p className="text-sm text-text-light/70 dark:text-text-dark/70">Works seamlessly across all your devices</p>
             </div>
-            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <div className="p-6 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
               <Check className="text-accent-green-light dark:text-accent-green-dark mb-3" size={24} />
               <h3 className="font-semibold mb-2">2 AM Friendly</h3>
-              <p className="text-sm text-text-light dark:text-text-dark">Light and dark modes for late-night budgeting</p>
+              <p className="text-sm text-text-light/70 dark:text-text-dark/70">Light and dark modes for late-night budgeting</p>
             </div>
           </div>
         </motion.div>
         
         {/* Privacy & Learning */}
         <motion.div variants={childVariants} className="grid md:grid-cols-2 gap-12 items-start">
-          <div className="p-8 bg-blue-50 dark:bg-blue-900 rounded-xl border-l-4 border-blue-500">
+          <div className="p-8 bg-blue-50 dark:bg-blue-900/20 rounded-xl border-l-4 border-blue-500">
             <h3 className="font-semibold text-lg mb-4 text-blue-700 dark:text-blue-300">Privacy Promise</h3>
             <p className="text-blue-600 dark:text-blue-400">
               No SMS reading. No bank scraping. No subscriptions. No data collection. 
@@ -237,8 +206,8 @@ const PlutoPage = () => {
 
         {/* Tech Approach */}
         <motion.div variants={childVariants} className="text-center">
-          <h2 className="font-heading text-3xl mb-6 text-text-light dark:text-text-dark">Built With Purpose</h2>
-          <p className="text-lg leading-relaxed text-text-light dark:text-text-dark max-w-2xl mx-auto">
+          <h2 className="font-heading text-3xl mb-6 text-gray-600 dark:text-gray-400">Built With Purpose</h2>
+          <p className="text-lg leading-relaxed text-text-light/80 dark:text-text-dark/80 max-w-2xl mx-auto">
             Rather than learning theory, I built something I actually needed. 
             This hands-on approach taught me more about mobile development, 
             databases, and user experience than any tutorial could.
@@ -247,11 +216,11 @@ const PlutoPage = () => {
       </motion.div>
 
       <motion.div className="mb-24" variants={childVariants}>
-        <h2 className="font-heading text-3xl mb-8 text-center text-text-light dark:text-text-dark flex items-center justify-center gap-3">
+        <h2 className="font-heading text-3xl mb-8 text-center text-gray-600 dark:text-gray-400 flex items-center justify-center gap-3">
           <Smartphone size={30} className="text-primary-light dark:text-primary-dark" />
           App Walkthrough
         </h2>
-        <p className="text-center text-text-light dark:text-text-dark mb-8">
+        <p className="text-center text-text-light/60 dark:text-text-dark/60 mb-8">
           Click any screenshot to view full-size
         </p>
         <div className="px-4">
@@ -272,9 +241,9 @@ const PlutoPage = () => {
         </div>
       </motion.div>
 
-      <motion.div className="text-center bg-gray-50 dark:bg-gray-800 rounded-2xl p-12" variants={childVariants}>
+      <motion.div className="text-center bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-12" variants={childVariants}>
         <h3 className="font-heading text-2xl mb-4">Ready to Try It?</h3>
-        <p className="text-text-light dark:text-text-dark mb-8 max-w-md mx-auto">
+        <p className="text-text-light/70 dark:text-text-dark/70 mb-8 max-w-md mx-auto">
           Download the APK and start managing your finances without compromising your privacy.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -292,7 +261,7 @@ const PlutoPage = () => {
           <Link 
             to="/" 
             onClick={() => trackEvent('back_to_home', 'Navigation', 'Back to home from Pluto page')}
-            className="flex items-center gap-2 text-text-light dark:text-text-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors font-medium"
+            className="flex items-center gap-2 text-text-light/60 dark:text-text-dark/60 hover:text-primary-light dark:hover:text-primary-dark transition-colors font-medium"
           >
             <ArrowLeft size={16} />
             Back to Portfolio
@@ -305,6 +274,7 @@ const PlutoPage = () => {
         sources={screenshots}
         slide={lightbox.slide}
       />
+      </div>
     </motion.div>
   );
 };

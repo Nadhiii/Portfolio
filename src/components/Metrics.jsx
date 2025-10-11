@@ -154,7 +154,7 @@ const Metrics = () => {
               Numbers
             </span>
           </h2>
-          <p className="text-xl text-text-light/80 dark:text-text-dark/80 max-w-2xl mx-auto">
+          <p className="text-xl text-text-light dark:text-text-dark max-w-2xl mx-auto">
             Real results from projects that solve actual problems and create measurable value.
           </p>
         </motion.div>
@@ -191,7 +191,7 @@ const Metrics = () => {
                   <h3 className="text-lg font-bold text-text-light dark:text-text-dark mb-2">
                     {metric.label}
                   </h3>
-                  <p className="text-sm text-text-light/60 dark:text-text-dark/60">
+                  <p className="text-sm text-text-light dark:text-text-dark">
                     {metric.description}
                   </p>
                 </div>
@@ -211,7 +211,7 @@ const Metrics = () => {
             <h3 className="text-xl font-bold mb-4 text-text-light dark:text-text-dark">
               Building Solutions That Scale
             </h3>
-            <p className="text-text-light/70 dark:text-text-dark/70 leading-relaxed">
+            <p className="text-text-light dark:text-text-dark leading-relaxed">
               These metrics represent real impact from identifying pain points and shipping solutions. 
               From saving 30 minutes daily per team lead with automation to achieving 95% accuracy in 
               Consent Mode (CoMo) Enhanced conversion tracking & troubleshooting implementations, I focus on building products that deliver measurable value.

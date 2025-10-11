@@ -26,7 +26,7 @@ const journeySteps = [
 
 const About = () => {
   return (
-    <section id="about" className="max-w-4xl mx-auto py-20 lg:py-32 px-8">
+    <section id="about" className="max-w-4xl mx-auto pt-24 pb-20 lg:pt-32 lg:pb-24 px-8">
       
       {/* --- NARRATIVE JOURNEY SECTION --- */}
       <div className="text-center mb-16">
@@ -34,7 +34,6 @@ const About = () => {
           <span className="text-text-light dark:text-text-dark">My </span>
           <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">Journey</span>
         </h2>
-        <p className="text-lg text-text-light/80 dark:text-text-dark/80 mt-2">From Support to Shipping Products</p>
       </div>
       <div className="space-y-16 relative mb-40">
         {journeySteps.map((step, index) => (
@@ -66,7 +65,7 @@ const About = () => {
               transition={{ duration: 0.2 }}
             >
               <h3 className="font-bold text-xl mb-4 text-primary-light dark:text-primary-dark">{step.title}</h3>
-              <p className="text-text-light/80 dark:text-text-dark/80 leading-relaxed">{step.description}</p>
+              <p className="text-text-light dark:text-text-dark leading-relaxed">{step.description}</p>
             </motion.div>
           </motion.div>
         ))}

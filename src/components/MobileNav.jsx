@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { trackEvent } from '../utils/analytics';
+import { EASING } from '../config/animations';
 
 const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,14 +28,14 @@ const MobileNav = () => {
       opacity: 0,
       transition: {
         duration: 0.2,
-        ease: "easeInOut"
+        ease: EASING
       }
     },
     open: {
       opacity: 1,
       transition: {
         duration: 0.3,
-        ease: "easeInOut"
+        ease: EASING
       }
     }
   };
@@ -46,7 +47,7 @@ const MobileNav = () => {
       x: 20,
       transition: {
         duration: 0.2,
-        ease: "easeInOut"
+        ease: EASING
       }
     },
     open: {
@@ -55,7 +56,7 @@ const MobileNav = () => {
       x: 0,
       transition: {
         duration: 0.3,
-        ease: "easeOut",
+        ease: EASING,
         staggerChildren: 0.05,
         delayChildren: 0.1
       }
@@ -72,7 +73,7 @@ const MobileNav = () => {
       x: 0,
       transition: {
         duration: 0.3,
-        ease: "easeOut"
+        ease: EASING
       }
     }
   };

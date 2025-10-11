@@ -145,7 +145,7 @@ const FloatingNav = () => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 100 }}
           transition={{ duration: 0.3 }}
-          className="fixed right-8 top-1/2 -translate-y-1/2 z-50"
+          className="fixed right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-50"
         >
           {/* Main Navigation Container */}
           <div className="flex flex-col items-center gap-4">
@@ -176,7 +176,7 @@ const FloatingNav = () => {
                   className={`relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 group ${
                     activeSection === item.id
                       ? 'bg-primary-light text-white shadow-lg'
-                      : 'text-text-light/60 dark:text-text-dark/60 hover:text-primary-light dark:hover:text-primary-dark hover:bg-white/20 dark:hover:bg-gray-800/20'
+                      : 'text-text-light dark:text-text-dark hover:text-primary-light dark:hover:text-primary-dark hover:bg-white/20 dark:hover:bg-gray-800/20'
                   }`}
                   title={item.label}
                 >
@@ -216,7 +216,7 @@ const FloatingNav = () => {
                 onClick={scrollToTop}
                 whileHover={{ scale: 1.1, x: -5 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center justify-center w-12 h-12 rounded-full text-text-light/60 dark:text-text-dark/60 hover:text-primary-light dark:hover:text-primary-dark hover:bg-white/20 dark:hover:bg-gray-800/20 transition-all duration-300 group"
+                className="flex items-center justify-center w-12 h-12 rounded-full text-text-light dark:text-text-dark hover:text-primary-light dark:hover:text-primary-dark hover:bg-white/20 dark:hover:bg-gray-800/20 transition-all duration-300 group"
                 title="Back to top"
               >
                 <ArrowUp size={18} />

@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto text-center">
         
         {/* Centered Copyright Text */}
-        <p className="text-sm text-text-light/70 dark:text-text-dark/70">
+        <p className="text-sm text-text-light dark:text-text-dark">
           © 2025 Mahanadhi Parisara. All rights reserved.
         </p>
 

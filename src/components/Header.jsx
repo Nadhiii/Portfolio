@@ -34,10 +34,12 @@ const Header = ({ theme, onThemeSwitch }) => {
         relative px-6 py-3 rounded-full 
         bg-white/40 dark:bg-gray-900/40 
         backdrop-blur-xl 
-        border border-gray-200/20 dark:border-gray-700/20
-        shadow-lg shadow-gray-200/20 dark:shadow-black/20
+        border border-gray-300/30 dark:border-gray-600/30
         transition-all duration-300
-        ${isScrolled ? 'shadow-xl' : 'shadow-lg'}
+        ${isScrolled 
+          ? 'shadow-2xl shadow-gray-400/30 dark:shadow-black/50' 
+          : 'shadow-xl shadow-gray-300/40 dark:shadow-black/40'
+        }
       `}>
         <div className="flex justify-between items-center">
         

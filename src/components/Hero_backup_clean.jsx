@@ -148,10 +148,10 @@ const Hero = () => {
           variants={itemVariants}
           className="mt-10 space-y-3 max-w-3xl mx-auto"
         >
-          <p className="text-xl md:text-2xl text-text-light/90 dark:text-text-dark/90 font-medium leading-relaxed">
+          <p className="text-xl md:text-2xl text-text-light dark:text-text-dark font-medium leading-relaxed">
             I implement and troubleshoot conversion tracking across Google's measurement stack—Google Ads, GA4, GTM, SA360, CM360.
           </p>
-          <p className="text-base md:text-lg text-text-light/70 dark:text-text-dark/70 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-text-light dark:text-text-dark max-w-2xl mx-auto">
             Consent Mode, Enhanced Conversions, Offline Tracking—if your data's broken, I fix it and get your campaigns back on track.
           </p>
         </motion.div>
@@ -164,7 +164,7 @@ const Hero = () => {
           animate={{ opacity: showScrollIndicator ? 1 : 0 }}
           transition={{ duration: 0.3 }}
         >
-          <span className="text-sm text-text-light/50 dark:text-text-dark/50 mb-2">Scroll to explore</span>
+          <span className="text-sm text-text-light dark:text-text-dark mb-2">Scroll to explore</span>
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}

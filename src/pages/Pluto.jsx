@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import Slider from 'react-slick';
 import FsLightbox from 'fslightbox-react';
 import { trackEvent, trackPageView } from '../utils/analytics';
-import { pageVariants, containerVariants, itemVariants } from '../config/animations';
+import { pageVariants, childVariants } from '../config/animations';
 import OptimizedImage from '../components/OptimizedImage';
 
 // --- Importing all your screenshots ---
@@ -67,14 +67,16 @@ const PlutoPage = () => {
 
   return (
     <motion.div 
-      className="max-w-7xl mx-auto py-12 md:py-24 px-8"
+      className="min-h-screen pt-44 pb-20 lg:pt-52 lg:pb-24"
+      variants={pageVariants}
       initial="initial"
       animate="animate"
-      variants={pageVariants}
+      exit="exit"
     >
+      <div className="max-w-7xl mx-auto px-8">
       <motion.header className="text-center mb-20" variants={childVariants}>
         <div className="max-w-4xl mx-auto">
-          <h1 className="font-heading text-5xl md:text-7xl mb-4">Pluto</h1>
+          <h1 className="font-heading text-4xl lg:text-5xl mb-4">Pluto</h1>
           <p className="text-lg text-text-light dark:text-text-dark mb-6">
             Previously known as Finance Manager
           </p>
@@ -107,20 +109,18 @@ const PlutoPage = () => {
           
           {/* Quick Download Button */}
           <div className="mt-8">
-            <motion.a 
+            <a 
               href="https://drive.google.com/drive/folders/1xpOz7nBaKJ3IBFPERQ8IAU_lBi5PXdL9?usp=sharing" 
               target="_blank" 
               rel="noopener noreferrer" 
               onClick={() => trackEvent('download_click_top', 'Engagement', 'Pluto APK download clicked - top button')}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark text-sm font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-all border border-gray-300 dark:border-gray-600"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark text-sm font-medium rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-600 hover:text-white dark:hover:bg-gray-700 hover:scale-105 hover:shadow-lg transition-all duration-300"
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>
               Download APK
-            </motion.a>
+            </a>
           </div>
         </div>
       </motion.header>
@@ -129,15 +129,11 @@ const PlutoPage = () => {
       <motion.div className="max-w-4xl mx-auto space-y-20 mb-24" variants={childVariants}>
         
         {/* Problem & Solution with Clash Animation */}
-        <motion.div variants={childVariants} className="grid md:grid-cols-2 gap-12 items-start">
-          <motion.div
-            initial={{ x: -300, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ 
-              duration: 0.8, 
-              ease: [0.25, 0.25, 0, 1],
-              delay: 0.2
-            }}
+        <div className="grid md:grid-cols-2 gap-12 items-start relative">
+          <div
+           
+           
+           
           >
             <h2 className="font-heading text-3xl mb-6 text-text-light dark:text-text-dark">The Problem</h2>
             <p className="text-lg leading-relaxed text-text-light dark:text-text-dark">
@@ -147,51 +143,30 @@ const PlutoPage = () => {
             <p className="text-lg leading-relaxed text-text-light dark:text-text-dark mt-4">
               So, I thought:
             </p>
-            <motion.p 
+            <p 
               className="text-lg font-medium mt-2 text-primary-light dark:text-primary-dark"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 1.6, duration: 0.5, ease: "backOut" }}
+             
+             
+             
             >
               "Fine. I'll build it myself."
-            </motion.p>
-          </motion.div>
-          <motion.div
-            initial={{ x: 300, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ 
-              duration: 0.8, 
-              ease: [0.25, 0.25, 0, 1],
-              delay: 0.2
-            }}
+            </p>
+          </div>
+          <div
+           
+           
+           
           >
             <h2 className="font-heading text-3xl mb-6 text-text-light dark:text-text-dark">The Solution</h2>
             <p className="text-lg leading-relaxed text-text-light dark:text-text-dark">
               A privacy-first finance app that works entirely offline. No permissions needed, 
               no subscriptions required, no data harvesting. Just clean, simple money management.
             </p>
-          </motion.div>
-          
-          {/* Clash Effect - Invisible collision point */}
-          <motion.div 
-            className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-            initial={{ scale: 0 }}
-            animate={{ 
-              scale: [0, 1.5, 0],
-              rotate: [0, 180, 360]
-            }}
-            transition={{ 
-              delay: 1.0,
-              duration: 0.6,
-              ease: "easeInOut"
-            }}
-          >
-            <div className="w-8 h-8 bg-primary-light/20 dark:bg-primary-dark/20 rounded-full blur-sm"></div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
         {/* Core Features */}
-        <motion.div variants={childVariants}>
+        <div>
           <h2 className="font-heading text-3xl mb-8 text-center text-text-light dark:text-text-dark">What It Actually Does</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
@@ -215,10 +190,10 @@ const PlutoPage = () => {
               <p className="text-sm text-text-light dark:text-text-dark">Light and dark modes for late-night budgeting</p>
             </div>
           </div>
-        </motion.div>
+        </div>
         
         {/* Privacy & Learning */}
-        <motion.div variants={childVariants} className="grid md:grid-cols-2 gap-12 items-start">
+        <div className="grid md:grid-cols-2 gap-12 items-start">
           <div className="p-8 bg-blue-50 dark:bg-blue-900 rounded-xl border-l-4 border-blue-500">
             <h3 className="font-semibold text-lg mb-4 text-blue-700 dark:text-blue-300">Privacy Promise</h3>
             <p className="text-blue-600 dark:text-blue-400">
@@ -233,17 +208,17 @@ const PlutoPage = () => {
               Every bug was a lesson, every feature a breakthrough.
             </p>
           </div>
-        </motion.div>
+        </div>
 
         {/* Tech Approach */}
-        <motion.div variants={childVariants} className="text-center">
+        <div className="text-center">
           <h2 className="font-heading text-3xl mb-6 text-text-light dark:text-text-dark">Built With Purpose</h2>
           <p className="text-lg leading-relaxed text-text-light dark:text-text-dark max-w-2xl mx-auto">
             Rather than learning theory, I built something I actually needed. 
             This hands-on approach taught me more about mobile development, 
             databases, and user experience than any tutorial could.
           </p>
-        </motion.div>
+        </div>
       </motion.div>
 
       <motion.div className="mb-24" variants={childVariants}>
@@ -258,11 +233,11 @@ const PlutoPage = () => {
           <Slider {...sliderSettings}>
             {screenshots.map((shot, index) => (
               <div key={index} className="px-2" onClick={() => openLightboxOnSlide(index + 1)}>
-                <div className="bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden shadow-md aspect-[9/16] cursor-pointer group">
+                <div className="bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden shadow-md aspect-[9/16] cursor-pointer">
                   <OptimizedImage
                     src={shot}
                     alt={`Pluto Screenshot ${index + 1}`}
-                    className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
+                    className="w-full h-full object-cover"
                     loading="lazy"
                   />
                 </div>
@@ -278,21 +253,19 @@ const PlutoPage = () => {
           Download the APK and start managing your finances without compromising your privacy.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <motion.a 
+          <a 
             href="https://drive.google.com/drive/folders/1xpOz7nBaKJ3IBFPERQ8IAU_lBi5PXdL9?usp=sharing" 
             target="_blank" 
             rel="noopener noreferrer" 
             onClick={() => trackEvent('download_click', 'Engagement', 'Pluto APK download clicked')}
-            className="bg-primary-light text-white font-medium py-4 px-8 rounded-xl hover:bg-primary-light/90 transition-all text-lg shadow-lg hover:shadow-xl"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            className="bg-primary-light text-white font-medium py-4 px-8 rounded-xl text-lg shadow-lg hover:bg-primary-light/80 dark:hover:bg-primary-dark/80 hover:scale-105 hover:shadow-xl transition-all duration-300"
           >
             Download APK
-          </motion.a>
+          </a>
           <Link 
             to="/" 
             onClick={() => trackEvent('back_to_home', 'Navigation', 'Back to home from Pluto page')}
-            className="flex items-center gap-2 text-text-light dark:text-text-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors font-medium"
+            className="flex items-center gap-2 text-text-light dark:text-text-dark font-medium hover:text-gray-600 dark:hover:text-gray-400 hover:scale-105 transition-all duration-300"
           >
             <ArrowLeft size={16} />
             Back to Portfolio
@@ -305,6 +278,7 @@ const PlutoPage = () => {
         sources={screenshots}
         slide={lightbox.slide}
       />
+      </div>
     </motion.div>
   );
 };

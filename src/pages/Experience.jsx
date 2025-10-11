@@ -1,10 +1,18 @@
 // src/pages/ExperiencePage.jsx
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Building2, ArrowLeft } from 'lucide-react';
+import { Building2, ArrowLeft }          <p className="text-text-light dark:text-text-dark text-lg mb-8">
+            Interested in working together?
+          </p>
+          <Link 
+            to="/contact"
+            className="inline-block px-6 py-3 bg-primary-light dark:bg-primary-dark text-white rounded-lg hover:scale-105 hover:shadow-lg transition-all duration-300"
+          >
+            Get in Touch
+          </Link>cide-react';
 import { Link } from 'react-router-dom';
 import { trackPageView } from '../utils/analytics';
-import { pageVariants, sectionVariants, itemVariants } from '../config/animations';
+import { pageVariants, childVariants } from '../config/animations';
 
 // --- Data for the Work Experience Timeline (excluding current SME card to avoid duplication) ---
 const workExperience = [
@@ -49,7 +57,7 @@ const ExperiencePage = () => {
     >
       <section className="max-w-4xl mx-auto px-8">
         {/* Page Header */}
-        <motion.div className="text-center mb-16" variants={itemVariants}>
+        <motion.div className="text-center mb-16" variants={childVariants}>
           <h1 className="font-heading text-4xl lg:text-5xl mb-4">
             <span className="text-text-light dark:text-text-dark">Work </span>
             <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">Experience</span>
@@ -60,10 +68,7 @@ const ExperiencePage = () => {
         </motion.div>
 
         {/* Current Role Card */}
-        <motion.div 
-          className="relative mb-20"
-          variants={itemVariants}
-        >
+        <motion.div className="relative mb-20" variants={childVariants}>
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
               <div>
@@ -98,30 +103,28 @@ const ExperiencePage = () => {
               </div>
             </div>
 
-            <p className="mt-6 text-sm text-text-light dark:text-text-dark italic">
-              New title, same responsibilities for now—scaling impact through mentoring and smoother processes. I’m excited to deepen the craft and learn what comes next.
+                        <p className="mt-6 text-sm text-text-light dark:text-text-dark italic">
+              New title, same responsibilities for now—scaling impact through mentoring and smoother processes. I'm excited to deepen the craft and learn what comes next.
             </p>
           </div>
         </motion.div>
 
         {/* Timeline */}
-        <motion.div className="space-y-16 relative" variants={itemVariants}>
+        <motion.div className="space-y-16 relative" variants={childVariants}>
           {workExperience.map((job, index) => (
             <motion.div 
               key={index} 
               className="relative"
-              variants={itemVariants}
+              variants={childVariants}
             >
               {/* Timeline dot on alternating sides */}
-              <motion.div 
+              <div 
                 className={`absolute top-1 flex items-center justify-center w-10 h-10 bg-gray-100 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-full shadow-md z-10 ${
                   index % 2 === 0 ? 'left-0' : 'right-0'
                 }`}
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 300 }}
               >
                 <Building2 className="w-4 h-4 text-text-light dark:text-text-dark" />
-              </motion.div>
+              </div>
               
               {/* Date badge */}
               <div className={`absolute top-0 ${
@@ -133,32 +136,27 @@ const ExperiencePage = () => {
               </div>
               
               {/* Content Card */}
-              <motion.div 
-                className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 ${
+              <div 
+                className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 ${
                   index % 2 === 0 ? 'mr-auto ml-16 mt-8' : 'ml-auto mr-16 mt-8'
                 } max-w-lg`}
-                whileHover={{ y: -3, scale: 1.02 }}
-                transition={{ duration: 0.2 }}
               >
                 <h3 className="font-bold text-xl mb-2 text-text-light dark:text-text-dark">{job.role}</h3>
                 <p className="text-lg font-medium text-primary-light dark:text-primary-dark mb-3">{job.company}</p>
                 <p className="text-text-light dark:text-text-dark leading-relaxed text-sm">{job.description}</p>
-              </motion.div>
+              </div>
             </motion.div>
           ))}
         </motion.div>
 
         {/* Call to Action */}
-        <motion.div 
-          className="mt-20 text-center"
-          variants={itemVariants}
-        >
+        <motion.div className="mt-20 text-center" variants={childVariants}>
           <p className="text-lg text-text-light dark:text-text-dark mb-6">
             Interested in working together?
           </p>
           <Link 
             to="/contact"
-            className="inline-block px-6 py-3 bg-primary-light dark:bg-primary-dark text-white rounded-lg hover:bg-primary-light/80 dark:hover:bg-primary-dark/80 hover:scale-105 hover:shadow-lg transition-all duration-300"
+            className="inline-block px-6 py-3 bg-primary-light dark:bg-primary-dark text-white rounded-lg"
           >
             Get in Touch
           </Link>

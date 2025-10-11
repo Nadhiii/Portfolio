@@ -50,7 +50,7 @@ class ErrorBoundary extends React.Component {
                 className="mx-auto text-red-500 mb-4" 
               />
               <h1 className="text-2xl font-bold mb-2">Oops! Something went wrong</h1>
-              <p className="text-text-light/80 dark:text-text-dark/80">
+              <p className="text-text-light dark:text-text-dark">
                 Don't worry, it's not you - it's us. Let's get you back on track.
               </p>
             </div>

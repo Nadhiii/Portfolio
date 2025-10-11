@@ -34,8 +34,8 @@ const analyticsTools = [
   { name: 'Google Tag Manager', level: 'Advanced', description: 'Event tracking and measurement' },
   { name: 'Google Ads Conversion Tracking', level: 'Advanced', description: 'Campaign attribution and optimization' },
   { name: 'Data Studio', level: 'Intermediate', description: 'Dashboard creation and reporting' },
-  { name: 'SA360', level: 'Learning Soon', description: 'Search Ads 360 platform exploration' },
-  { name: 'CM360', level: 'Learning Soon', description: 'Campaign Manager 360 upcoming training' }
+  { name: 'SA360', level: 'Beginner', description: 'Search Ads 360' },
+  { name: 'CM360', level: 'Beginner', description: 'Campaign Manager 360' }
 ];
 
 const SkillCard = ({ skill, index, isVisible }) => (
@@ -43,7 +43,7 @@ const SkillCard = ({ skill, index, isVisible }) => (
     initial={{ opacity: 0, y: 20 }}
     animate={isVisible ? { opacity: 1, y: 0 } : {}}
     transition={{ delay: index * 0.1, duration: 0.6 }}
-    className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-300"
+    className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-300"
   >
     <div className="flex justify-between items-start mb-2">
       <span className="font-medium text-gray-800 dark:text-gray-200">{skill.name}</span>
@@ -60,7 +60,7 @@ const SkillCard = ({ skill, index, isVisible }) => (
       </span>
     </div>
     {skill.description && (
-      <p className="text-sm text-gray-600 dark:text-gray-400">{skill.description}</p>
+      <p className="text-sm text-text-light dark:text-text-dark">{skill.description}</p>
     )}
   </motion.div>
 );
@@ -71,7 +71,7 @@ const SkillPill = ({ skill, index, isVisible }) => (
     animate={isVisible ? { opacity: 1, scale: 1 } : {}}
     transition={{ delay: index * 0.05, duration: 0.4 }}
     whileHover={{ scale: 1.05, y: -2 }}
-    className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium px-4 py-2 rounded-full border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-300 cursor-default"
+    className="bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark text-sm font-medium px-4 py-2 rounded-full border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-300 cursor-default"
   >
     {skill}
   </motion.span>
@@ -144,7 +144,7 @@ const Skills = () => {
   };
 
   return (
-    <section id="skills" className="max-w-6xl mx-auto py-20 lg:py-32 px-8">
+    <section id="skills" className="max-w-6xl mx-auto pt-24 pb-20 lg:pt-32 lg:pb-24 px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={isVisible ? { opacity: 1, y: 0 } : {}}
@@ -155,7 +155,7 @@ const Skills = () => {
           Skills & 
           <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent"> Approach</span>
         </h2>
-        <p className="text-lg text-text-light/80 dark:text-text-dark/80 max-w-3xl mx-auto">
+        <p className="text-lg text-text-light dark:text-text-dark max-w-3xl mx-auto">
           I'm a learner who builds with passion. What started as a way to pass time has grown into something I truly love. I embrace AI tools, learn whatever's needed, and never step back from a challenge. My projects prove that leveraging modern tools effectively matters more than claiming expertise in every technology.
         </p>
       </motion.div>
@@ -205,9 +205,33 @@ const Skills = () => {
           {renderSkillsContent()}
           
           {activeTab === 'mindset' && (
-            <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-l-4 border-blue-500">
+            <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg border-l-4 border-blue-500">
               <p className="text-sm text-blue-700 dark:text-blue-300">
                 <strong>Phil's-Osophy:</strong> Just build it. Use what you know, learn what you don't, leverage AI, hire help—whatever it takes. It doesn't have to make sense until it actually does. The how matters less than the doing, and if you're enjoying the process, you're already winning.
+              </p>
+            </div>
+          )}
+          
+          {activeTab === 'technical' && (
+            <div className="mt-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border-l-4 border-purple-500">
+              <p className="text-sm text-purple-700 dark:text-purple-300">
+                <strong>Code-Osophy:</strong> If it compiles and the users are happy, it's good code. Perfect code that never ships is just expensive art. Ship it, learn from it, improve it—rinse and repeat.
+              </p>
+            </div>
+          )}
+          
+          {activeTab === 'ai' && (
+            <div className="mt-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border-l-4 border-green-500">
+              <p className="text-sm text-green-700 dark:text-green-300">
+                <strong>AI-Osophy:</strong> Why memorize syntax when you can memorize how to ask better questions? AI is my superpower—it turns "I don't know how" into "let me try that" in seconds.
+              </p>
+            </div>
+          )}
+          
+          {activeTab === 'analytics' && (
+            <div className="mt-6 p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg border-l-4 border-orange-500">
+              <p className="text-sm text-orange-700 dark:text-orange-300">
+                <strong>Data-Osophy:</strong> Numbers don't lie, but they love to mislead. The real skill isn't finding data—it's asking the right questions and making sure the tracking actually works first.
               </p>
             </div>
           )}
@@ -221,11 +245,11 @@ const Skills = () => {
         transition={{ delay: 0.4, duration: 0.6 }}
         className="mt-16 text-center"
       >
-        <h3 className="text-xl font-bold mb-6 text-text-light/80 dark:text-text-dark/80">
+        <h3 className="text-xl font-bold mb-6 text-text-light dark:text-text-dark">
           Also Familiar With
         </h3>
         <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-          {['Notion', 'Slack', 'Jira', 'Trello', 'A/B Testing', 'User Research'].map((skill, index) => (
+          {['Notion', 'A/B Testing', 'User Research'].map((skill, index) => (
             <SkillPill key={skill} skill={skill} index={index} isVisible={isVisible} />
           ))}
         </div>

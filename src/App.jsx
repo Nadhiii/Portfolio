@@ -149,21 +149,24 @@ function App() {
     : 'opacity-100 transform translate-x-0';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-green-50 dark:bg-gradient-to-br dark:from-gray-900 dark:via-blue-950 dark:to-gray-900 text-text-light dark:text-text-dark font-body transition-all duration-500">
+    <div className="min-h-screen bg-gradient-to-br from-sky-100 via-indigo-100 to-emerald-100 dark:bg-gradient-to-br dark:from-gray-900 dark:via-blue-950 dark:to-gray-900 text-text-light dark:text-text-dark font-body transition-all duration-500">
       
       {/* Enhanced animated background orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {/* Top left - Blue/Purple orb */}
-        <div className="absolute top-1/4 -left-40 w-96 h-96 bg-gradient-to-r from-blue-300/40 via-purple-300/40 to-blue-400/30 dark:from-blue-600/30 dark:via-purple-600/25 dark:to-blue-700/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/4 -left-40 w-96 h-96 bg-gradient-to-r from-blue-400/50 via-indigo-400/45 to-purple-400/40 dark:from-blue-600/30 dark:via-purple-600/25 dark:to-blue-700/20 rounded-full blur-3xl animate-pulse"></div>
         
         {/* Bottom right - Green/Blue orb */}
-        <div className="absolute bottom-1/4 -right-40 w-[32rem] h-[32rem] bg-gradient-to-r from-green-300/40 via-blue-300/35 to-green-400/30 dark:from-green-600/25 dark:via-blue-600/20 dark:to-green-700/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-1/4 -right-40 w-[32rem] h-[32rem] bg-gradient-to-r from-emerald-400/50 via-cyan-400/45 to-teal-400/40 dark:from-green-600/25 dark:via-blue-600/20 dark:to-green-700/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
         
         {/* Center left - Purple/Pink accent */}
-        <div className="absolute top-3/4 left-1/4 w-80 h-80 bg-gradient-to-r from-purple-300/35 via-pink-300/30 to-purple-400/25 dark:from-purple-600/20 dark:via-pink-600/15 dark:to-purple-700/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute top-3/4 left-1/4 w-80 h-80 bg-gradient-to-r from-violet-400/45 via-fuchsia-400/40 to-pink-400/35 dark:from-purple-600/20 dark:via-pink-600/15 dark:to-purple-700/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
         
         {/* Top right - Accent orb */}
-        <div className="absolute top-1/3 -right-20 w-72 h-72 bg-gradient-to-r from-cyan-300/30 to-blue-300/25 dark:from-cyan-600/15 dark:to-blue-600/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '6s' }}></div>
+        <div className="absolute top-1/3 -right-20 w-72 h-72 bg-gradient-to-r from-cyan-400/40 via-sky-400/35 to-blue-400/35 dark:from-cyan-600/15 dark:to-blue-600/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '6s' }}></div>
+        
+        {/* Middle center - Warm accent for light mode */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-rose-300/25 via-amber-300/20 to-yellow-300/20 dark:from-transparent dark:to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
       </div>
       
       <AnimatePresence mode="wait">
@@ -182,12 +185,11 @@ function App() {
               <Header theme={theme} onThemeSwitch={handleThemeSwitch} />
             </motion.div>
             <main className="min-h-screen">
-              <motion.div 
-                variants={contentItemVariants}
-                className={`min-h-full transition-all duration-500 ease-out ${transitionClasses}`}
-              >
-                <Outlet />
-              </motion.div>
+              <AnimatePresence mode="wait">
+                <div key={location.pathname} className="min-h-full">
+                  <Outlet />
+                </div>
+              </AnimatePresence>
             </main>
             <motion.div variants={contentItemVariants}>
               <CalendarButton onClick={() => setIsModalOpen(true)} />

@@ -141,7 +141,7 @@ const Hero = () => {
 
         <motion.p 
           variants={itemVariants}
-          className="mt-8 text-xl text-text-light/80 dark:text-text-dark/80 max-w-2xl mx-auto leading-relaxed"
+          className="mt-8 text-xl text-text-light dark:text-text-dark max-w-2xl mx-auto leading-relaxed"
         >
           A hands-on professional transitioning into product management. I've built apps, automated workflows, and spent enough time talking to frustrated users to know what good products actually need. (Spoiler: it's usually simpler than you think.)
         </motion.p>
@@ -154,7 +154,7 @@ const Hero = () => {
           animate={{ opacity: showScrollIndicator ? 1 : 0 }}
           transition={{ duration: 0.3 }}
         >
-          <span className="text-sm text-text-light/50 dark:text-text-dark/50 mb-2">Scroll to explore</span>
+          <span className="text-sm text-text-light dark:text-text-dark mb-2">Scroll to explore</span>
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}

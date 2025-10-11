@@ -5,7 +5,7 @@ import emailjs from '@emailjs/browser';
 import { Mail, Linkedin, Phone, Send, User, MessageSquare, Calendar, CheckCircle, AlertCircle } from 'lucide-react';
 import { trackEvent } from '../utils/analytics';
 import { containerVariants, itemVariants } from '../config/animations';
-import CalendarModal from './CalendarModal';
+import CalendarModal from '../components/CalendarModal';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
@@ -217,7 +217,7 @@ const Contact = () => {
                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={showCallTooltip ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute top-full left-0 right-0 mt-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700 shadow-lg z-10"
+                    className="absolute top-full left-0 right-0 mt-2 p-3 bg-blue-50 dark:bg-blue-900 rounded-lg border border-blue-200 dark:border-blue-700 shadow-lg z-10"
                     style={{ pointerEvents: 'none' }}
                   >
                     <div className="absolute top-0 left-6 transform -translate-y-2 w-0 h-0 border-l-8 border-r-8 border-b-8 border-transparent border-b-blue-50 dark:border-b-blue-900/20"></div>
@@ -321,7 +321,7 @@ const Contact = () => {
                         ? 'bg-red-500 text-white'
                         : status === 'sending'
                         ? 'bg-primary-light/80 text-white cursor-not-allowed'
-                        : 'bg-primary-light hover:bg-primary-light/90 text-white shadow-lg hover:shadow-xl'
+                        : 'bg-primary-light hover:bg-primary-light/80 dark:hover:bg-primary-dark/80 text-white shadow-lg hover:shadow-xl'
                     }`}
                   >
                     {getButtonContent()}
@@ -334,7 +334,7 @@ const Contact = () => {
                     <motion.a
                       href="mailto:mahanadhip@gmail.com"
                       whileHover={{ scale: 1.1 }}
-                      className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+                      className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-blue-600 hover:bg-gray-600 hover:text-white dark:hover:bg-gray-700 dark:text-blue-400 transition-all duration-300"
                     >
                       <Mail size={20} />
                     </motion.a>
@@ -343,14 +343,14 @@ const Contact = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.1 }}
-                      className="text-blue-700 hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-200"
+                      className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-blue-700 hover:bg-gray-600 hover:text-white dark:hover:bg-gray-700 dark:text-blue-300 transition-all duration-300"
                     >
                       <Linkedin size={20} />
                     </motion.a>
                     <motion.button
                       onClick={() => setIsCalendarOpen(true)}
                       whileHover={{ scale: 1.1 }}
-                      className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300"
+                      className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-green-600 hover:bg-gray-600 hover:text-white dark:hover:bg-gray-700 dark:text-green-400 transition-all duration-300"
                     >
                       <Calendar size={20} />
                     </motion.button>

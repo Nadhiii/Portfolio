@@ -1,5 +1,5 @@
 // src/main.jsx
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -7,18 +7,12 @@ import App from './App.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 import './index.css';
 
-// Lazy load components to reduce initial bundle size
-const HomePage = lazy(() => import('./pages/HomePage.jsx'));
-const ExperiencePage = lazy(() => import('./pages/ExperiencePage.jsx'));
-const PlutoPage = lazy(() => import('./pages/PlutoPage.jsx'));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
-
-// Loading fallback component
-const PageLoading = () => (
-  <div className="min-h-screen bg-background-light dark:bg-background-dark flex items-center justify-center">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-light dark:border-primary-dark"></div>
-  </div>
-);
+// Import pages
+import HomePage from './pages/Home.jsx';
+import ExperiencePage from './pages/ExperiencePage.jsx';
+import PlutoPage from './pages/Pluto.jsx';
+import PlutoPageTest from './pages/PlutoPageTest.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -28,59 +22,35 @@ const router = createBrowserRouter([
     children: [
       { 
         path: '/', 
-        element: (
-          <Suspense fallback={<PageLoading />}>
-            <HomePage />
-          </Suspense>
-        )
+        element: <HomePage />
       },
       { 
         path: '/projects', 
-        element: (
-          <Suspense fallback={<PageLoading />}>
-            <HomePage />
-          </Suspense>
-        )
+        element: <HomePage />
       },
       { 
         path: '/skills', 
-        element: (
-          <Suspense fallback={<PageLoading />}>
-            <HomePage />
-          </Suspense>
-        )
+        element: <HomePage />
       },
       { 
         path: '/contact', 
-        element: (
-          <Suspense fallback={<PageLoading />}>
-            <HomePage />
-          </Suspense>
-        )
+        element: <HomePage />
       },
       { 
         path: '/experience', 
-        element: (
-          <Suspense fallback={<PageLoading />}>
-            <ExperiencePage />
-          </Suspense>
-        )
+        element: <ExperiencePage />
       },
       { 
         path: '/pluto', 
-        element: (
-          <Suspense fallback={<PageLoading />}>
-            <PlutoPage />
-          </Suspense>
-        )
+        element: <PlutoPage />
+      },
+      { 
+        path: '/pluto-test', 
+        element: <PlutoPageTest />
       },
       { 
         path: '*', 
-        element: (
-          <Suspense fallback={<PageLoading />}>
-            <NotFoundPage />
-          </Suspense>
-        )
+        element: <NotFoundPage />
       }, 
     ],
   },

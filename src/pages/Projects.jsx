@@ -29,7 +29,7 @@ const Projects = () => {
         { type: 'code', label: 'Technical Details', url: '#', icon: Code, disabled: true }
       ],
       lessons: ['Teaching myself to code', 'Turning problems into opportunities', 'Building things that scale'],
-      testimonial: '"Turns out laziness + curiosity can lead to something pretty useful." - Mahanadhi Parisara (that\'s me)'
+      testimonial: 'Turns out laziness + curiosity can lead to something pretty useful. - Mahanadhi Parisara (that\'s me)'
     },
     {
       id: 'pluto',
@@ -49,7 +49,7 @@ const Projects = () => {
         { type: 'demo', label: 'Learn More', url: '/pluto', icon: ChevronRight }
       ],
       lessons: ['Offline-first architecture design', 'Cross-platform mobile development', 'Real-time data synchronization'],
-      testimonial: '"Solved my personal finance tracking needs perfectly" - Personal Use'
+      testimonial: 'Solved my personal finance tracking needs perfectly - Personal Use'
     },
     {
       id: 'portfolio',
@@ -69,23 +69,23 @@ const Projects = () => {
         { type: 'demo', label: 'You\'re Here!', url: '/', icon: Eye }
       ],
       lessons: ['Modern React development', 'Component-based architecture', 'Performance optimization'],
-      testimonial: '"Clean, professional design with smooth interactions" - You decide!'
+      testimonial: 'Clean, professional design with smooth interactions - You decide!'
     }
   ];
 
   return (
-    <section id="projects" className="max-w-7xl mx-auto py-20 lg:py-32 px-8">
+    <section id="projects" className="max-w-7xl mx-auto pt-24 pb-20 lg:pt-32 lg:pb-24 px-8">
       <motion.div 
         className="text-center mb-16"
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className="font-heading text-4xl mb-4">
+        <h2 className="font-heading text-4xl lg:text-5xl mb-4">
           <span className="text-text-light dark:text-text-dark">Things </span>
           <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">I've Built</span>
         </h2>
-        <p className="text-lg text-text-light/80 dark:text-text-dark/80 max-w-2xl mx-auto">
+        <p className="text-lg text-text-light dark:text-text-dark max-w-2xl mx-auto">
           I learn by doing. Here are some things I've built to solve real problems and drive measurable impact.
         </p>
       </motion.div>
@@ -149,7 +149,7 @@ const Projects = () => {
                       >
                         <metric.icon size={20} className={`mx-auto mb-2 ${metric.color}`} />
                         <div className="text-2xl font-bold">{metric.value}</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">{metric.label}</div>
+                        <div className="text-sm text-text-light dark:text-text-dark">{metric.label}</div>
                       </motion.div>
                     ))}
                   </div>
@@ -180,49 +180,49 @@ const Projects = () => {
                     {project.title}
                   </h3>
                   
-                  <p className="text-lg text-text-light/80 dark:text-text-dark/80 mb-6">
+                  <p className="text-lg text-text-light dark:text-text-dark mb-6">
                     {project.description}
                   </p>
 
                   <div className="space-y-6">
                     {/* Problem */}
                     <motion.div
-                      className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
+                      className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <h4 className="font-bold text-lg mb-2 text-gray-700 dark:text-gray-300">The Problem</h4>
-                      <p className="text-gray-600 dark:text-gray-400">{project.problem}</p>
+                      <h4 className="font-bold text-lg mb-2 text-text-light dark:text-text-dark">The Problem</h4>
+                      <p className="text-text-light dark:text-text-dark">{project.problem}</p>
                     </motion.div>
 
                     {/* Build */}
                     <motion.div
-                      className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
+                      className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <h4 className="font-bold text-lg mb-2 text-gray-700 dark:text-gray-300">The Build</h4>
-                      <p className="text-gray-600 dark:text-gray-400">{project.build}</p>
+                      <h4 className="font-bold text-lg mb-2 text-text-light dark:text-text-dark">The Build</h4>
+                      <p className="text-text-light dark:text-text-dark">{project.build}</p>
                     </motion.div>
 
                     {/* Outcome */}
                     <motion.div
-                      className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg border-l-4 border-primary-light dark:border-primary-dark"
+                      className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border-l-4 border-primary-light dark:border-primary-dark"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >
                       <h4 className="font-bold text-lg mb-2 text-primary-light dark:text-primary-dark">The Outcome</h4>
-                      <p className="text-gray-600 dark:text-gray-400">{project.outcome}</p>
+                      <p className="text-text-light dark:text-text-dark">{project.outcome}</p>
                     </motion.div>
 
                     {/* What I Learned */}
                     <motion.div
-                      className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
+                      className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <h4 className="font-bold text-lg mb-2 text-gray-700 dark:text-gray-300">What I Learned</h4>
-                      <ul className="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-1">
+                      <h4 className="font-bold text-lg mb-2 text-text-light dark:text-text-dark">What I Learned</h4>
+                      <ul className="list-disc list-inside text-text-light dark:text-text-dark space-y-1">
                         {project.lessons.map((lesson, idx) => (
                           <li key={idx}>{lesson}</li>
                         ))}
@@ -231,11 +231,11 @@ const Projects = () => {
 
                     {/* Testimonial */}
                     <motion.div
-                      className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg border border-gray-200 dark:border-gray-700"
+                      className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <p className="italic text-gray-600 dark:text-gray-400">"{project.testimonial.split(' - ')[0]}"</p>
+                      <p className="italic text-text-light dark:text-text-dark">"{project.testimonial.split(' - ')[0]}"</p>
                       <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">- {project.testimonial.split(' - ')[1]}</p>
                     </motion.div>
 
@@ -263,7 +263,7 @@ const Projects = () => {
                             <Link
                               key={idx}
                               to={link.url}
-                              className="inline-flex items-center gap-2 px-4 py-2 bg-primary-light dark:bg-primary-dark text-white rounded-lg hover:opacity-90 transition-opacity text-sm font-medium"
+                              className="inline-flex items-center gap-2 px-4 py-2 bg-primary-light dark:bg-primary-dark text-white rounded-lg hover:bg-primary-light/80 dark:hover:bg-primary-dark/80 hover:scale-105 hover:shadow-lg transition-all duration-300 text-sm font-medium"
                             >
                               <LinkIcon size={16} />
                               {link.label}
@@ -290,7 +290,7 @@ const Projects = () => {
         transition={{ duration: 0.5, delay: 0.8 }}
       >
         <h3 className="text-2xl font-bold mb-4">Want to see more?</h3>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
+        <p className="text-text-light dark:text-text-dark mb-6">
           I'm always working on something, thinking about the next challenge, and eager to learn whatever comes my way. 
           These projects represent my approach to identifying problems and building solutions.
         </p>
@@ -298,7 +298,7 @@ const Projects = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <motion.a
             href="mailto:mahanadhip@gmail.com"
-            className="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-lg font-bold hover:bg-primary-light hover:text-white dark:hover:bg-primary-dark dark:hover:text-white transition-all duration-300"
+            className="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark px-8 py-4 rounded-lg font-bold hover:bg-primary-light hover:text-white dark:hover:bg-primary-dark dark:hover:text-white transition-all duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -310,7 +310,7 @@ const Projects = () => {
           
           <motion.a
             href="mailto:mahanadhip@gmail.com"
-            className="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-lg font-bold hover:bg-accent-green-light hover:text-white dark:hover:bg-accent-green-dark dark:hover:text-white transition-all duration-300"
+            className="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark px-8 py-4 rounded-lg font-bold hover:bg-accent-green-light hover:text-white dark:hover:bg-accent-green-dark dark:hover:text-white transition-all duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

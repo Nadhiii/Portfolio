@@ -4,42 +4,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Home } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { pageVariants, childVariants } from '../config/animations';
 
 const NotFoundPage = () => {
-  // Animation variants matching other pages for consistency
-  const pageVariants = {
-    initial: {
-      opacity: 0,
-      y: 20,
-      scale: 0.98
-    },
-    animate: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: [0.25, 0.25, 0, 1],
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const childVariants = {
-    initial: {
-      opacity: 0,
-      y: 10
-    },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.4,
-        ease: [0.25, 0.25, 0, 1]
-      }
-    }
-  };
-
   return (
     <motion.div 
       className="min-h-screen bg-background-light dark:bg-background-dark flex items-center justify-center px-8"
@@ -61,7 +28,7 @@ const NotFoundPage = () => {
         </motion.div>
         
         <motion.div variants={childVariants}>
-          <p className="text-text-light/70 dark:text-text-dark/70 mb-8">
+          <p className="text-text-light dark:text-text-dark mb-8">
             The page you're looking for doesn't exist or has been moved.
           </p>
         </motion.div>
@@ -69,7 +36,7 @@ const NotFoundPage = () => {
         <motion.div className="flex flex-col sm:flex-row gap-4 justify-center" variants={childVariants}>
           <Link 
             to="/"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary-light dark:bg-primary-dark text-white rounded-lg hover:bg-opacity-90 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary-light dark:bg-primary-dark text-white rounded-lg hover:bg-primary-light/80 dark:hover:bg-primary-dark/80 hover:scale-105 hover:shadow-lg transition-all duration-300"
           >
             <Home size={18} />
             Go Home
@@ -77,7 +44,7 @@ const NotFoundPage = () => {
           
           <button 
             onClick={() => window.history.back()}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-primary-light dark:border-primary-dark text-primary-light dark:text-primary-dark rounded-lg hover:bg-primary-light hover:text-white dark:hover:bg-primary-dark dark:hover:text-white transition-all"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-primary-light dark:border-primary-dark text-primary-light dark:text-primary-dark rounded-lg hover:bg-gray-600 hover:text-white dark:hover:bg-gray-700 hover:border-gray-600 dark:hover:border-gray-700 hover:scale-105 hover:shadow-lg transition-all duration-300"
           >
             <ArrowLeft size={18} />
             Go Back

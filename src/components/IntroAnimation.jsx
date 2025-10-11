@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
+import { EASING } from '../config/animations';
 
 const IntroAnimation = ({ onAnimationComplete }) => {
-  const name = "Mahanadhi Parisara".split("");
+  const firstName = "Mahanadhi".split("");
+  const lastName = "Parisara".split("");
   const controls = useAnimation();
   const [animationStarted, setAnimationStarted] = useState(false);
 
@@ -57,7 +59,7 @@ const IntroAnimation = ({ onAnimationComplete }) => {
       opacity: 0,
       transition: {
         duration: 0.8,
-        ease: [0.4, 0.0, 0.2, 1], // Custom easing for smooth slide up
+        ease: EASING,
       },
     },
   };
@@ -75,7 +77,7 @@ const IntroAnimation = ({ onAnimationComplete }) => {
       scale: 1,
       transition: {
         duration: 0.4,
-        ease: "easeOut",
+        ease: EASING,
       }
     },
   };
@@ -105,29 +107,46 @@ const IntroAnimation = ({ onAnimationComplete }) => {
       animate={controls}
     >
       <motion.div
-        className="font-heading text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-center font-bold tracking-wider max-w-full"
+        className="font-heading text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-center font-bold tracking-wider max-w-full flex flex-col items-center gap-2"
         variants={containerVariants}
         initial="hidden"
         animate={controls}
         style={{ 
           textShadow: '2px 2px 4px rgba(0,0,0,0.1)',
-          willChange: 'transform, opacity', // Optimize for animations
-          lineHeight: '1.1', // Tighter line spacing
-          wordSpacing: '0.1em' // Slightly tighter word spacing
+          willChange: 'transform, opacity'
         }}
       >
-        {name.map((letter, index) => (
-          <motion.span
-            key={`${letter}-${index}`} // More unique keys
-            variants={letterVariants}
-            style={{ 
-              display: 'inline-block',
-              willChange: 'transform, opacity' // Optimize for animations
-            }}
-          >
-            {letter === " " ? "\u00A0" : letter}
-          </motion.span>
-        ))}
+        {/* First Name - Mahanadhi */}
+        <div className="flex">
+          {firstName.map((letter, index) => (
+            <motion.span
+              key={`first-${letter}-${index}`}
+              variants={letterVariants}
+              style={{ 
+                display: 'inline-block',
+                willChange: 'transform, opacity'
+              }}
+            >
+              {letter}
+            </motion.span>
+          ))}
+        </div>
+        
+        {/* Last Name - Parisara */}
+        <div className="flex">
+          {lastName.map((letter, index) => (
+            <motion.span
+              key={`last-${letter}-${index}`}
+              variants={letterVariants}
+              style={{ 
+                display: 'inline-block',
+                willChange: 'transform, opacity'
+              }}
+            >
+              {letter}
+            </motion.span>
+          ))}
+        </div>
       </motion.div>
     </motion.div>
   );
