@@ -60,6 +60,12 @@ function App() {
     setShowMainContent(true);
   };
 
+  // Scroll to top on initial load (page refresh)
+  useEffect(() => {
+    if (!isBrowser) return;
+    window.scrollTo(0, 0);
+  }, []);
+
   // Theme management
   useLayoutEffect(() => {
     if (!isBrowser) return;

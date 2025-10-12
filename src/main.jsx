@@ -11,7 +11,6 @@ import './index.css';
 import HomePage from './pages/Home.jsx';
 import ExperiencePage from './pages/ExperiencePage.jsx';
 import PlutoPage from './pages/Pluto.jsx';
-import PlutoPageTest from './pages/PlutoPageTest.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 
 const router = createBrowserRouter([
@@ -43,10 +42,6 @@ const router = createBrowserRouter([
       { 
         path: '/pluto', 
         element: <PlutoPage />
-      },
-      { 
-        path: '/pluto-test', 
-        element: <PlutoPageTest />
       },
       { 
         path: '*', 
