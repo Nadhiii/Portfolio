@@ -46,7 +46,7 @@ const Projects = () => {
         { type: 'demo', label: 'Learn More', url: '/pluto', icon: ChevronRight }
       ],
       lessons: ['Offline-first architecture design', 'Cross-platform mobile development', 'Real-time data synchronization'],
-      testimonial: 'Solved my personal finance tracking needs perfectly - Personal Use'
+      testimonial: 'Solved my personal finance tracking needs perfectly - Also me!'
     },
     {
       id: 'portfolio',
