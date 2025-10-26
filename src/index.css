@@ -9,10 +9,13 @@
 /* Base styles for smooth transitions */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 /* Custom smooth transitions for better UX */

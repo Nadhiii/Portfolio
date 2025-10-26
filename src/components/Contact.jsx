@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
 import { Mail, Linkedin, Phone, Send, User, MessageSquare, Calendar, CheckCircle, AlertCircle } from 'lucide-react';
-import { trackEvent } from '../utils/analytics';
+import { trackEvent, trackFormSubmissionWithEnhancedConversion } from '../utils/analytics';
 import { containerVariants, itemVariants } from '../config/animations';
 import CalendarModal from './CalendarModal';
 
@@ -59,7 +59,18 @@ const Contact = () => {
           console.log('Email sent successfully:', result);
         }
         setStatus('success');
+        
+        // Track regular event
         trackEvent('contact_form_success', 'Engagement', 'Contact form sent successfully');
+        
+        // Push Enhanced Conversion Data to dataLayer
+        trackFormSubmissionWithEnhancedConversion({
+          email: formData.email,
+          name: formData.name,
+          firstName: formData.name.split(' ')[0],
+          lastName: formData.name.split(' ').slice(1).join(' ')
+        }, 'contact_form_submission');
+        
         setTimeout(() => {
           setStatus('idle');
           setFormData({ name: '', email: '', subject: '', message: '' });

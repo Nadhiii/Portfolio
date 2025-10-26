@@ -142,7 +142,7 @@ const Projects = () => {
                     {project.metrics.map((metric, idx) => (
                       <motion.div
                         key={idx}
-                        className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                        className="text-center p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600"
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ delay: 0.4 + (index * 0.2) + idx * 0.05 }}
@@ -187,7 +187,7 @@ const Projects = () => {
                   <div className="space-y-6">
                     {/* Problem */}
                     <motion.div
-                      className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
+                      className="bg-white dark:bg-gray-700 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >
@@ -197,7 +197,7 @@ const Projects = () => {
 
                     {/* Build */}
                     <motion.div
-                      className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
+                      className="bg-white dark:bg-gray-700 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >
@@ -207,7 +207,7 @@ const Projects = () => {
 
                     {/* Outcome */}
                     <motion.div
-                      className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border-l-4 border-primary-light dark:border-primary-dark"
+                      className="bg-white dark:bg-gray-700 p-4 rounded-lg border-l-4 border-primary-light dark:border-primary-dark"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >
@@ -217,7 +217,7 @@ const Projects = () => {
 
                     {/* What I Learned */}
                     <motion.div
-                      className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
+                      className="bg-white dark:bg-gray-700 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >
@@ -231,7 +231,7 @@ const Projects = () => {
 
                     {/* Testimonial */}
                     <motion.div
-                      className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700"
+                      className="bg-white dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-700"
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >

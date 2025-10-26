@@ -78,19 +78,19 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 md:px-8 pt-24 pb-16 md:pt-24 lg:pt-24 md:pb-20 overflow-visible">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 md:px-8 pt-20 pb-12 md:pt-24 lg:pt-24 md:pb-20 overflow-hidden">
       {/* Enhanced background gradient effect */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary-light/5 via-transparent to-accent-green-light/5 dark:from-primary-dark/5 dark:to-accent-green-dark/5 rounded-full blur-3xl"></div>
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-accent-purple-light/10 to-primary-light/10 dark:from-accent-purple-dark/10 dark:to-primary-dark/10 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute top-1/4 left-1/4 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-r from-accent-purple-light/10 to-primary-light/10 dark:from-accent-purple-dark/10 dark:to-primary-dark/10 rounded-full blur-3xl animate-pulse"></div>
       
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="relative z-10 max-w-5xl mx-auto text-center w-full"
+        className="relative z-10 max-w-5xl mx-auto text-center w-full px-2"
       >
         {/* Role Badge */}
-        <motion.div variants={itemVariants} className="mb-8">
+        <motion.div variants={itemVariants} className="mb-6 md:mb-8">
           <span className="inline-block px-4 py-2 md:px-6 md:py-3 bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark font-bold rounded-full text-xs md:text-sm tracking-wider border border-primary-light/20 dark:border-primary-dark/20 shadow-lg">
             SME @ COGNIZANT
           </span>
@@ -99,10 +99,10 @@ const Hero = () => {
         {/* Main Heading with Animation */}
         <motion.div 
           variants={itemVariants}
-          className="font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-4 overflow-visible py-4 md:py-6"
+          className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-4 overflow-hidden py-4 md:py-6"
         >
           {/* Vertical Spreading Animation Container */}
-          <div className="relative overflow-visible min-h-[200px] md:min-h-[260px] lg:min-h-[300px] flex flex-col justify-center">
+          <div className="relative overflow-hidden min-h-[180px] sm:min-h-[200px] md:min-h-[260px] lg:min-h-[300px] flex flex-col justify-center">
             {/* "I Transform" - slides UP from center */}
             <motion.div 
               initial={{ y: 80, opacity: 0.3 }}
@@ -114,7 +114,7 @@ const Hero = () => {
                 duration: 0.8,
                 ease: [0.34, 1.56, 0.64, 1]
               }}
-              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent pb-4 md:pb-6 leading-tight"
+              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent pb-3 md:pb-4 lg:pb-6 leading-tight"
             >
               I Transform
             </motion.div>
@@ -131,7 +131,7 @@ const Hero = () => {
                 delay: 0.1,
                 ease: [0.34, 1.56, 0.64, 1]
               }}
-              className="h-40 lg:h-48 flex items-center justify-center my-1 py-4 overflow-visible"
+              className="h-32 sm:h-36 md:h-40 lg:h-48 flex items-center justify-center my-1 py-3 md:py-4 overflow-hidden"
             >
               <AnimatePresence mode="wait">
                 <motion.span
@@ -140,7 +140,7 @@ const Hero = () => {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
-                  className="bg-gradient-to-r from-primary-light via-accent-green-light to-primary-light dark:from-primary-dark dark:via-accent-green-dark dark:to-primary-dark bg-clip-text text-transparent font-bold inline-block leading-relaxed"
+                  className="bg-gradient-to-r from-primary-light via-accent-green-light to-primary-light dark:from-primary-dark dark:via-accent-green-dark dark:to-primary-dark bg-clip-text text-transparent font-bold inline-block leading-relaxed px-2"
                 >
                   {switchingWords[currentWordIndex]}
                 </motion.span>
@@ -159,7 +159,7 @@ const Hero = () => {
                 delay: 0.15,
                 ease: [0.34, 1.56, 0.64, 1]
               }}
-              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent pt-4 md:pt-6 leading-tight"
+              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent pt-3 md:pt-4 lg:pt-6 leading-tight"
             >
               Into Impactful Solutions
             </motion.div>
@@ -169,12 +169,12 @@ const Hero = () => {
         {/* Clear Summary - What I Actually Do */}
         <motion.div 
           variants={itemVariants}
-          className="mt-2 space-y-3 max-w-3xl mx-auto"
+          className="mt-2 space-y-3 max-w-3xl mx-auto px-2"
         >
-          <p className="text-xl md:text-2xl text-text-light dark:text-text-dark font-medium leading-relaxed">
+          <p className="text-lg sm:text-xl md:text-2xl text-text-light dark:text-text-dark font-medium leading-relaxed">
             Subject Matter Expert at Cognizant, working on Google's advertising measurement tools.
           </p>
-          <p className="text-base md:text-lg text-text-light dark:text-text-dark max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-text-light dark:text-text-dark max-w-2xl mx-auto">
             I implement and troubleshoot conversion tracking solutions—making sure advertisers can accurately measure what's working.
           </p>
         </motion.div>

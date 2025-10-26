@@ -97,24 +97,24 @@ const journeySteps = [
 ];
 
 const About = () => {
-  // Rotation angles for tilted card effect
+  // Rotation angles for tilted card effect (only for larger screens)
   const rotations = [-2, 1.5, -1.5, 2]; // Top row rotations
   const hoverRotations = [-4, 3, -3, 4]; // Enhanced on hover
   const rotationsBottom = [2, -1, 1.5, -2]; // Bottom row rotations
   const hoverRotationsBottom = [4, -2, 3, -4]; // Enhanced on hover
 
   return (
-    <section id="about" className="w-full pt-24 pb-20 lg:pt-32 lg:pb-24 px-8">
+    <section id="about" className="w-full pt-16 pb-12 lg:pt-32 lg:pb-24 px-4 md:px-8">
       
       {/* Section Header */}
-      <div className="text-center mb-16 max-w-5xl mx-auto">
+      <div className="text-center mb-12 lg:mb-16 max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h2 className="font-heading text-4xl lg:text-5xl mb-4">
+          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl mb-4">
             <span className="text-text-light dark:text-text-dark">My </span>
             <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">Journey</span>
           </h2>
@@ -123,9 +123,9 @@ const About = () => {
 
       {/* Journey Cards Container with SVG Path */}
       <div className="max-w-7xl mx-auto relative">
-        {/* SVG Journey Line */}
+        {/* SVG Journey Line - Hidden on mobile */}
         <svg 
-          className="absolute inset-0 w-full h-full pointer-events-none"
+          className="absolute inset-0 w-full h-full pointer-events-none hidden lg:block"
           style={{ zIndex: 0 }}
           viewBox="0 0 1000 1000"
           preserveAspectRatio="xMidYMid meet"
@@ -162,7 +162,7 @@ const About = () => {
         </svg>
 
         {/* Top Row - Cards 1-4 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-24 relative" style={{ zIndex: 1 }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-12 mb-12 lg:mb-24 relative" style={{ zIndex: 1 }}>
           {journeySteps.slice(0, 4).map((step, index) => {
             const Icon = step.icon;
             return (
@@ -180,38 +180,38 @@ const About = () => {
                 viewport={{ once: true }}
               >
                 <motion.div
-                  className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg p-5 pb-16 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 relative"
-                  style={{ rotate: rotations[index] }}
+                  className="bg-white dark:bg-gray-800 p-4 md:p-5 pb-12 md:pb-16 rounded-xl md:rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 relative"
+                  style={{ rotate: window.innerWidth >= 1024 ? rotations[index] : 0 }}
                   whileHover={{ 
-                    scale: 1.05, 
-                    rotate: hoverRotations[index],
+                    scale: window.innerWidth >= 1024 ? 1.05 : 1.02, 
+                    rotate: window.innerWidth >= 1024 ? hoverRotations[index] : 0,
                     zIndex: 20,
                     boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   {/* Header with gradient and icon */}
-                  <div className={`bg-gradient-to-br ${step.color} p-8 mb-4 rounded-xl relative overflow-hidden`}>
+                  <div className={`bg-gradient-to-br ${step.color} p-6 md:p-8 mb-3 md:mb-4 rounded-lg md:rounded-xl relative overflow-hidden`}>
                     {/* Icon in glassmorphic circle */}
-                    <div className="w-16 h-16 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center mb-4 mx-auto shadow-lg border border-white/40">
-                      <Icon className="w-7 h-7 text-white" strokeWidth={2} />
+                    <div className="w-14 h-14 md:w-16 md:h-16 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center mb-3 md:mb-4 mx-auto shadow-lg border border-white/40">
+                      <Icon className="w-6 h-6 md:w-7 md:h-7 text-white" strokeWidth={2} />
                     </div>
                     
                     {/* Title and subtitle */}
                     <div className="w-full flex flex-col items-center justify-center">
-                        <h3 className="font-heading text-xl text-white text-center mb-2 drop-shadow-lg">{step.title}</h3>
-                        <p className="text-sm text-white/90 text-center font-body font-medium">{step.subtitle}</p>
+                        <h3 className="font-heading text-lg md:text-xl text-white text-center mb-1 md:mb-2 drop-shadow-lg">{step.title}</h3>
+                        <p className="text-xs md:text-sm text-white/90 text-center font-body font-medium">{step.subtitle}</p>
                     </div>
                   </div>
 
                   {/* Story and quote */}
-                  <div className="space-y-4 px-3">
-                      <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed font-body">{step.story}</p>
-                      <p className="text-sm italic text-gray-600 dark:text-gray-400 border-t border-gray-300 dark:border-gray-600 pt-3 font-body">"{step.quote}"</p>
+                  <div className="space-y-3 md:space-y-4 px-2 md:px-3">
+                      <p className="text-xs md:text-sm text-gray-700 dark:text-gray-300 leading-relaxed font-body">{step.story}</p>
+                      <p className="text-xs md:text-sm italic text-gray-600 dark:text-gray-400 border-t border-gray-300 dark:border-gray-600 pt-2 md:pt-3 font-body">"{step.quote}"</p>
                   </div>
 
                   {/* Chapter badge */}
-                    <div className="absolute top-4 right-4 px-3 py-1 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-full flex items-center justify-center text-xs font-bold text-gray-800 dark:text-gray-200 shadow-lg border border-gray-300/50 dark:border-gray-700/50 font-body">
+                    <div className="absolute top-3 right-3 md:top-4 md:right-4 px-2 md:px-3 py-1 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-full flex items-center justify-center text-xs font-bold text-gray-800 dark:text-gray-200 shadow-lg border border-gray-300/50 dark:border-gray-700/50 font-body">
                     {index + 1}
                   </div>
                 </motion.div>
@@ -221,7 +221,7 @@ const About = () => {
         </div>
 
         {/* Bottom Row - Cards 5-8 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative" style={{ zIndex: 1 }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-12 relative" style={{ zIndex: 1 }}>
           {journeySteps.slice(4, 8).map((step, index) => {
             const Icon = step.icon;
             const actualIndex = index + 4;
@@ -240,38 +240,38 @@ const About = () => {
                 viewport={{ once: true }}
               >
                 <motion.div
-                  className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg p-5 pb-16 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 relative"
-                  style={{ rotate: rotationsBottom[index] }}
+                  className="bg-white dark:bg-gray-800 p-4 md:p-5 pb-12 md:pb-16 rounded-xl md:rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 relative"
+                  style={{ rotate: window.innerWidth >= 1024 ? rotationsBottom[index] : 0 }}
                   whileHover={{ 
-                    scale: 1.05, 
-                    rotate: hoverRotationsBottom[index],
+                    scale: window.innerWidth >= 1024 ? 1.05 : 1.02, 
+                    rotate: window.innerWidth >= 1024 ? hoverRotationsBottom[index] : 0,
                     zIndex: 20,
                     boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   {/* Header with gradient and icon */}
-                  <div className={`bg-gradient-to-br ${step.color} p-10 mb-4 rounded-xl relative overflow-hidden`}>
+                  <div className={`bg-gradient-to-br ${step.color} p-6 md:p-8 mb-3 md:mb-4 rounded-lg md:rounded-xl relative overflow-hidden`}>
                     {/* Icon in glassmorphic circle */}
-                    <div className="w-16 h-16 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center mb-4 mx-auto shadow-lg border border-white/40">
-                      <Icon className="w-7 h-7 text-white" strokeWidth={2} />
+                    <div className="w-14 h-14 md:w-16 md:h-16 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center mb-3 md:mb-4 mx-auto shadow-lg border border-white/40">
+                      <Icon className="w-6 h-6 md:w-7 md:h-7 text-white" strokeWidth={2} />
                     </div>
                     
                     {/* Title and subtitle */}
                     <div className="w-full flex flex-col items-center justify-center">
-                        <h3 className="font-heading text-xl text-white text-center mb-2 drop-shadow-lg">{step.title}</h3>
-                        <p className="text-sm text-white/90 text-center font-body font-medium">{step.subtitle}</p>
+                        <h3 className="font-heading text-lg md:text-xl text-white text-center mb-1 md:mb-2 drop-shadow-lg">{step.title}</h3>
+                        <p className="text-xs md:text-sm text-white/90 text-center font-body font-medium">{step.subtitle}</p>
                     </div>
                   </div>
 
                   {/* Story and quote */}
-                  <div className="space-y-3 px-2">
-                      <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed font-body">{step.story}</p>
-                      <p className="text-sm italic text-gray-600 dark:text-gray-400 border-t border-gray-300 dark:border-gray-600 pt-3 font-body">"{step.quote}"</p>
+                  <div className="space-y-3 md:space-y-4 px-2 md:px-3">
+                      <p className="text-xs md:text-sm text-gray-700 dark:text-gray-300 leading-relaxed font-body">{step.story}</p>
+                      <p className="text-xs md:text-sm italic text-gray-600 dark:text-gray-400 border-t border-gray-300 dark:border-gray-600 pt-2 md:pt-3 font-body">"{step.quote}"</p>
                   </div>
 
                   {/* Chapter badge */}
-                    <div className="absolute top-4 right-4 px-3 py-1 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-full flex items-center justify-center text-xs font-bold text-gray-800 dark:text-gray-200 shadow-lg border border-gray-300/50 dark:border-gray-700/50 font-body">
+                    <div className="absolute top-3 right-3 md:top-4 md:right-4 px-2 md:px-3 py-1 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-full flex items-center justify-center text-xs font-bold text-gray-800 dark:text-gray-200 shadow-lg border border-gray-300/50 dark:border-gray-700/50 font-body">
                     {actualIndex + 1}
                   </div>
                 </motion.div>
