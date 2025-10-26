@@ -24,10 +24,7 @@ const Projects = () => {
         { icon: Award, label: 'Adoption Rate', value: '100%', color: 'text-orange-600' }
       ],
       techStack: ['Google Apps Script', 'JavaScript', 'Google Sheets API', 'Automation'],
-      links: [
-        { type: 'demo', label: 'Live in Production', url: '#', icon: ExternalLink, disabled: true },
-        { type: 'code', label: 'Technical Details', url: '#', icon: Code, disabled: true }
-      ],
+    
       lessons: ['Teaching myself to code', 'Turning problems into opportunities', 'Building things that scale'],
       testimonial: 'Turns out laziness + curiosity can lead to something pretty useful. - Mahanadhi Parisara (that\'s me)'
     },
@@ -49,7 +46,7 @@ const Projects = () => {
         { type: 'demo', label: 'Learn More', url: '/pluto', icon: ChevronRight }
       ],
       lessons: ['Offline-first architecture design', 'Cross-platform mobile development', 'Real-time data synchronization'],
-      testimonial: 'Solved my personal finance tracking needs perfectly - Personal Use'
+      testimonial: 'Solved my personal finance tracking needs perfectly - Also me!'
     },
     {
       id: 'portfolio',
