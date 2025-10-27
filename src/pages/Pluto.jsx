@@ -113,7 +113,7 @@ const PlutoPage = () => {
               href="https://drive.google.com/drive/folders/1xpOz7nBaKJ3IBFPERQ8IAU_lBi5PXdL9?usp=sharing" 
               target="_blank" 
               rel="noopener noreferrer" 
-              onClick={() => trackEvent('download_click_top', 'Engagement', 'Pluto APK download clicked - top button')}
+              onClick={() => trackEvent('apk_download', 'Engagement', 'Pluto APK download clicked - top button')}
               className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark text-sm font-medium rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-600 hover:text-white dark:hover:bg-gray-700 hover:scale-105 hover:shadow-lg transition-all duration-300"
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -257,7 +257,7 @@ const PlutoPage = () => {
             href="https://drive.google.com/drive/folders/1xpOz7nBaKJ3IBFPERQ8IAU_lBi5PXdL9?usp=sharing" 
             target="_blank" 
             rel="noopener noreferrer" 
-            onClick={() => trackEvent('download_click', 'Engagement', 'Pluto APK download clicked')}
+            onClick={() => trackEvent('apk_download', 'Engagement', 'Pluto APK download clicked')}
             className="bg-primary-light text-white font-medium py-4 px-8 rounded-xl text-lg shadow-lg hover:bg-primary-light/80 dark:hover:bg-primary-dark/80 hover:scale-105 hover:shadow-xl transition-all duration-300"
           >
             Download APK
