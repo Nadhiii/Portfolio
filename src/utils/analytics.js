@@ -109,17 +109,43 @@ export const pushEnhancedConversionData = (userData) => {
 // Track form submission with enhanced conversion data
 export const trackFormSubmissionWithEnhancedConversion = (formData) => {
   if (window.dataLayer) {
-    // Push the enhanced conversion data with all user info in one event
-    pushEnhancedConversionData({
-      email: formData.email,
-      phone: formData.phone,
-      firstName: formData.firstName || formData.name?.split(' ')[0],
-      lastName: formData.lastName || formData.name?.split(' ').slice(1).join(' ')
-    });
+    // Log what we're receiving
+    if (process.env.NODE_ENV === 'development') {
+      console.log('📝 Form data received:', formData);
+    }
+
+    // Format phone to E.164 if provided
+    const formattedPhone = formData.phone ? formatPhoneToE164(formData.phone) : '';
+    
+    // Prepare the data object
+    const userData = {
+      email: formData.email || '',
+      phone: formData.phone || '',
+      firstName: formData.firstName || formData.name?.split(' ')[0] || '',
+      lastName: formData.lastName || formData.name?.split(' ').slice(1).join(' ') || ''
+    };
+
+    if (process.env.NODE_ENV === 'development') {
+      console.log('👤 User data prepared:', userData);
+    }
+
+    // Push directly - don't call another function
+    const enhancedConversionData = {
+      event: 'form_success',
+      event_category: 'engagement',
+      event_label: 'contact_form',
+      email: userData.email,
+      phone_number: formattedPhone,
+      first_name: userData.firstName,
+      last_name: userData.lastName
+    };
+
+    window.dataLayer.push(enhancedConversionData);
 
     // Log in development
     if (process.env.NODE_ENV === 'development') {
       console.log('✅ Form submission tracked with enhanced conversion data');
+      console.log('📊 DataLayer push:', enhancedConversionData);
     }
   }
 };
