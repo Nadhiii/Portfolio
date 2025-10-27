@@ -67,8 +67,8 @@ const formatPhoneToE164 = (phone, defaultCountryCode = '91') => {
   // Remove all non-digit characters
   let digits = phone.replace(/\D/g, '');
   
-  // If no country code, add default (India = 91)
-  if (!digits.startsWith(defaultCountryCode) && digits.length === 10) {
+  // If it's a 10-digit number (no country code), add default country code (India = 91)
+  if (digits.length === 10) {
     digits = defaultCountryCode + digits;
   }
   
