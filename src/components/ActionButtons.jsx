@@ -2,15 +2,28 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Linkedin, Mail, FileText } from 'lucide-react';
+import { trackEvent } from '../utils/analytics';
 
 const ActionButton = ({ button, index }) => {
   const [isHovered, setIsHovered] = useState(false);
+  
+  const handleClick = () => {
+    // Track the click event
+    if (button.id === 'email') {
+      trackEvent('email_click', 'Engagement', 'Email clicked from floating button');
+    } else if (button.id === 'linkedin') {
+      trackEvent('linkedin_click', 'Engagement', 'LinkedIn clicked from floating button');
+    } else if (button.id === 'resume') {
+      trackEvent('resume_click', 'Engagement', 'Resume clicked from floating button');
+    }
+  };
   
   return (
     <motion.a
       href={button.href}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       initial={{ opacity: 0, x: 20 }}

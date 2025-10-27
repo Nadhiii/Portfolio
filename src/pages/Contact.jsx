@@ -362,6 +362,7 @@ const Contact = () => {
                   <div className="flex justify-center space-x-4">
                     <motion.a
                       href="mailto:mahanadhip@gmail.com"
+                      onClick={() => trackEvent('email_click', 'Engagement', 'Email clicked from contact form')}
                       whileHover={{ scale: 1.1 }}
                       className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-blue-600 hover:bg-gray-600 hover:text-white dark:hover:bg-gray-700 dark:text-blue-400 transition-all duration-300"
                     >
@@ -371,13 +372,17 @@ const Contact = () => {
                       href="https://www.linkedin.com/in/mahanadhi/"
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => trackEvent('linkedin_click', 'Engagement', 'LinkedIn clicked from contact form')}
                       whileHover={{ scale: 1.1 }}
                       className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-blue-700 hover:bg-gray-600 hover:text-white dark:hover:bg-gray-700 dark:text-blue-300 transition-all duration-300"
                     >
                       <Linkedin size={20} />
                     </motion.a>
                     <motion.button
-                      onClick={() => setIsCalendarOpen(true)}
+                      onClick={() => {
+                        setIsCalendarOpen(true);
+                        trackEvent('calendar_click', 'Engagement', 'Calendar clicked from contact form');
+                      }}
                       whileHover={{ scale: 1.1 }}
                       className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-green-600 hover:bg-gray-600 hover:text-white dark:hover:bg-gray-700 dark:text-green-400 transition-all duration-300"
                     >
