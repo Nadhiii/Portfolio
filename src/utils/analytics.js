@@ -84,35 +84,25 @@ export const pushEnhancedConversionData = (userData) => {
     
     // Simple synchronous push - GTM will handle hashing via built-in variable or custom JavaScript
     const enhancedConversionData = {
-      event: 'form_submit', // Single clear event name for GTM
+      event: 'form_success', // Single clear event name for GTM
       event_category: 'engagement',
       event_label: 'contact_form',
-      // User data for enhanced conversions
-      user_data: {
-        email: userData.email || '',
-        phone_number: formattedPhone, // E.164 format: +[country code][number]
-        address: {
-          first_name: userData.firstName || '',
-          last_name: userData.lastName || ''
-        }
-      }
+      // User data for enhanced conversions - place at root level for easier GTM access
+      email: userData.email || '',
+      phone_number: formattedPhone, // E.164 format: +[country code][number]
+      first_name: userData.firstName || '',
+      last_name: userData.lastName || ''
     };
 
     window.dataLayer.push(enhancedConversionData);
 
     // Log in development
     if (process.env.NODE_ENV === 'development') {
-      console.log('✅ Enhanced Conversion Data Pushed to dataLayer:', {
-        event: 'form_submit',
-        email: userData.email || 'N/A',
-        phone: formattedPhone || 'N/A',
-        first_name: userData.firstName || 'N/A',
-        last_name: userData.lastName || 'N/A'
-      });
-      console.log('📊 Full dataLayer object:', enhancedConversionData);
+      console.log('✅ Form Submit Event Pushed to dataLayer');
+      console.log('📊 Event Data:', enhancedConversionData);
     }
   } else {
-    console.warn('⚠️ dataLayer not found - is GTM installed?');
+    console.error('❌ dataLayer not found - is GTM installed?');
   }
 };
 
