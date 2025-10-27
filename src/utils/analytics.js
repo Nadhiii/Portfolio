@@ -60,72 +60,66 @@ export const trackScrollDepth = (percentage) => {
   }
 };
 
+// Format phone number to E.164 format (+[country code][number])
+const formatPhoneToE164 = (phone, defaultCountryCode = '91') => {
+  if (!phone) return '';
+  
+  // Remove all non-digit characters
+  let digits = phone.replace(/\D/g, '');
+  
+  // If no country code, add default (India = 91)
+  if (!digits.startsWith(defaultCountryCode) && digits.length === 10) {
+    digits = defaultCountryCode + digits;
+  }
+  
+  // Add + prefix for E.164 format
+  return '+' + digits;
+};
+
 // Push user data for Enhanced Conversions (GDPR compliant - hash on server side in GTM)
 export const pushEnhancedConversionData = (userData) => {
   if (window.dataLayer) {
-    // SHA-256 hashing function for client-side (basic implementation)
-    // Note: For production, consider server-side hashing via GTM Server-Side or your backend
-    const hashString = async (str) => {
-      if (!str) return '';
-      const normalized = str.toLowerCase().trim();
-      const encoder = new TextEncoder();
-      const data = encoder.encode(normalized);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      return hashHex;
-    };
-
-    // Push user data to dataLayer for Enhanced Conversions
-    const pushData = async () => {
-      const enhancedConversionData = {
-        event: 'enhanced_conversion_data',
-        user_data: {
-          // Raw data for GTM to hash (recommended approach)
-          email: userData.email || '',
-          phone_number: userData.phone || '',
-          
-          // Address data (if available)
-          address: {
-            first_name: userData.firstName || '',
-            last_name: userData.lastName || '',
-            street: userData.street || '',
-            city: userData.city || '',
-            region: userData.region || '',
-            postal_code: userData.postalCode || '',
-            country: userData.country || ''
-          }
+    // Format phone to E.164 if provided
+    const formattedPhone = userData.phone ? formatPhoneToE164(userData.phone) : '';
+    
+    // Simple synchronous push - GTM will handle hashing via built-in variable or custom JavaScript
+    const enhancedConversionData = {
+      event: 'form_submit', // Single clear event name for GTM
+      event_category: 'engagement',
+      event_label: 'contact_form',
+      // User data for enhanced conversions
+      user_data: {
+        email: userData.email || '',
+        phone_number: formattedPhone, // E.164 format: +[country code][number]
+        address: {
+          first_name: userData.firstName || '',
+          last_name: userData.lastName || ''
         }
-      };
-
-      // Also push hashed versions (optional, but recommended for privacy)
-      if (userData.email) {
-        enhancedConversionData.user_data.sha256_email_address = await hashString(userData.email);
-      }
-      if (userData.phone) {
-        enhancedConversionData.user_data.sha256_phone_number = await hashString(userData.phone.replace(/\D/g, ''));
-      }
-
-      window.dataLayer.push(enhancedConversionData);
-
-      // Log in development
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Enhanced Conversion Data Pushed:', {
-          email: userData.email ? '***' + userData.email.slice(-10) : 'N/A',
-          phone: userData.phone ? '***' + userData.phone.slice(-4) : 'N/A',
-          dataLayer: enhancedConversionData
-        });
       }
     };
 
-    pushData();
+    window.dataLayer.push(enhancedConversionData);
+
+    // Log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log('✅ Enhanced Conversion Data Pushed to dataLayer:', {
+        event: 'form_submit',
+        email: userData.email || 'N/A',
+        phone: formattedPhone || 'N/A',
+        first_name: userData.firstName || 'N/A',
+        last_name: userData.lastName || 'N/A'
+      });
+      console.log('📊 Full dataLayer object:', enhancedConversionData);
+    }
+  } else {
+    console.warn('⚠️ dataLayer not found - is GTM installed?');
   }
 };
 
 // Track form submission with enhanced conversion data
-export const trackFormSubmissionWithEnhancedConversion = (formData, conversionLabel = 'contact_form_submission') => {
+export const trackFormSubmissionWithEnhancedConversion = (formData) => {
   if (window.dataLayer) {
-    // First push the enhanced conversion data
+    // Push the enhanced conversion data with all user info in one event
     pushEnhancedConversionData({
       email: formData.email,
       phone: formData.phone,
@@ -133,17 +127,9 @@ export const trackFormSubmissionWithEnhancedConversion = (formData, conversionLa
       lastName: formData.lastName || formData.name?.split(' ').slice(1).join(' ')
     });
 
-    // Then push the conversion event
-    window.dataLayer.push({
-      event: 'conversion',
-      conversion_label: conversionLabel,
-      conversion_value: 1,
-      conversion_currency: 'USD'
-    });
-
     // Log in development
     if (process.env.NODE_ENV === 'development') {
-      console.log(`Enhanced Conversion tracked: ${conversionLabel}`);
+      console.log('✅ Form submission tracked with enhanced conversion data');
     }
   }
 };

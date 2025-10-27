@@ -3,12 +3,12 @@ import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
 import { Mail, Linkedin, Phone, Send, User, MessageSquare, Calendar, CheckCircle, AlertCircle } from 'lucide-react';
-import { trackEvent } from '../utils/analytics';
+import { trackEvent, trackFormSubmissionWithEnhancedConversion } from '../utils/analytics';
 import { containerVariants, itemVariants } from '../config/animations';
 import CalendarModal from '../components/CalendarModal';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [status, setStatus] = useState('idle'); // idle, sending, success, error
   const [isVisible, setIsVisible] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -39,7 +39,7 @@ const Contact = () => {
   const sendEmail = (e) => {
     e.preventDefault();
     setStatus('sending');
-    trackEvent('contact_form_submit', 'Engagement', 'Contact form submitted');
+    // Removed: trackEvent('contact_form_submit', 'Engagement', 'Contact form submitted');
     
     const serviceID = 'service_yr5fl2q';
     const templateID = 'template_a8h4rjw';
@@ -48,6 +48,7 @@ const Contact = () => {
     const templateParams = {
       from_name: formData.name,
       from_email: formData.email,
+      phone: formData.phone,
       subject: formData.subject,
       message: formData.message,
       to_name: 'Mahanadi',
@@ -59,10 +60,19 @@ const Contact = () => {
           console.log('Email sent successfully:', result);
         }
         setStatus('success');
-        trackEvent('contact_form_success', 'Engagement', 'Contact form sent successfully');
+        
+        // Push Enhanced Conversion Data to dataLayer (single event)
+        trackFormSubmissionWithEnhancedConversion({
+          email: formData.email,
+          phone: formData.phone,
+          name: formData.name,
+          firstName: formData.name.split(' ')[0],
+          lastName: formData.name.split(' ').slice(1).join(' ')
+        });
+        
         setTimeout(() => {
           setStatus('idle');
-          setFormData({ name: '', email: '', subject: '', message: '' });
+          setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
         }, 3000);
       }, (error) => {
         if (process.env.NODE_ENV === 'development') {
@@ -277,20 +287,39 @@ const Contact = () => {
                     </div>
                   </div>
 
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-medium mb-2 text-text-light dark:text-text-dark">
-                      Subject *
-                    </label>
-                    <input
-                      type="text"
-                      name="subject"
-                      id="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                      className="w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent transition-all duration-300"
-                      placeholder="Let's discuss a project..."
-                    />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-medium mb-2 text-text-light dark:text-text-dark">
+                        Phone Number (Optional)
+                      </label>
+                      <div className="relative">
+                        <Phone size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input
+                          type="tel"
+                          name="phone"
+                          id="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          className="w-full pl-10 pr-3 py-3 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent transition-all duration-300"
+                          placeholder="+91 98765 43210"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="subject" className="block text-sm font-medium mb-2 text-text-light dark:text-text-dark">
+                        Subject *
+                      </label>
+                      <input
+                        type="text"
+                        name="subject"
+                        id="subject"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent transition-all duration-300"
+                        placeholder="Let's discuss a project..."
+                      />
+                    </div>
                   </div>
 
                   <div>

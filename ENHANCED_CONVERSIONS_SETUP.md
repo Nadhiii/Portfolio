@@ -5,37 +5,26 @@ This guide will help you set up Enhanced Conversions in Google Tag Manager (GTM)
 
 ## What's Been Implemented
 
-### 1. DataLayer Push on Form Submission
+### DataLayer Push on Form Submission
 When a user successfully submits the contact form, the following data is pushed to `window.dataLayer`:
 
 ```javascript
 {
-  event: 'enhanced_conversion_data',
+  event: 'form_submit',
+  event_category: 'engagement',
+  event_label: 'contact_form',
   user_data: {
-    email: 'user@example.com',                    // Raw email
-    sha256_email_address: 'hashed_email',         // SHA-256 hashed email
-    phone_number: '+919876543210',                // Raw phone (if available)
-    sha256_phone_number: 'hashed_phone',          // SHA-256 hashed phone
+    email: 'user@example.com',
+    phone_number: '',
     address: {
       first_name: 'John',
-      last_name: 'Doe',
-      street: '',                                 // Not captured in current form
-      city: '',                                   // Not captured in current form
-      region: '',                                 // Not captured in current form
-      postal_code: '',                            // Not captured in current form
-      country: ''                                 // Not captured in current form
+      last_name: 'Doe'
     }
   }
 }
-
-// Followed by conversion event
-{
-  event: 'conversion',
-  conversion_label: 'contact_form_submission',
-  conversion_value: 1,
-  conversion_currency: 'USD'
-}
 ```
+
+**Note:** Only ONE event fires now (`form_submit`), which makes tracking cleaner and easier to set up in GTM.
 
 ## GTM Setup Instructions
 
@@ -49,81 +38,79 @@ When a user successfully submits the contact form, the following data is pushed 
 - **Data Layer Variable Name:** `user_data.email`
 - **Name:** `DL - User Email`
 
-#### Variable 2: DL - User Email (Hashed)
-- **Type:** Data Layer Variable
-- **Data Layer Variable Name:** `user_data.sha256_email_address`
-- **Name:** `DL - User Email Hashed`
-
-#### Variable 3: DL - User Phone
-- **Type:** Data Layer Variable
-- **Data Layer Variable Name:** `user_data.phone_number`
-- **Name:** `DL - User Phone`
-
-#### Variable 4: DL - User Phone (Hashed)
-- **Type:** Data Layer Variable
-- **Data Layer Variable Name:** `user_data.sha256_phone_number`
-- **Name:** `DL - User Phone Hashed`
-
-#### Variable 5: DL - User First Name
+#### Variable 2: DL - User First Name
 - **Type:** Data Layer Variable
 - **Data Layer Variable Name:** `user_data.address.first_name`
 - **Name:** `DL - User First Name`
 
-#### Variable 6: DL - User Last Name
+#### Variable 3: DL - User Last Name
 - **Type:** Data Layer Variable
 - **Data Layer Variable Name:** `user_data.address.last_name`
 - **Name:** `DL - User Last Name`
 
-### Step 2: Create Trigger for Enhanced Conversion
+#### Variable 4: DL - User Phone (Optional)
+- **Type:** Data Layer Variable
+- **Data Layer Variable Name:** `user_data.phone_number`
+- **Name:** `DL - User Phone`
+
+### Step 2: Create SHA-256 Hashing Variables (for Enhanced Conversions)
+
+GTM can hash the data before sending to GA4:
+
+#### Hashed Email Variable
+- **Type:** Custom JavaScript Variable
+- **Name:** `JS - SHA256 Email`
+- **Code:**
+```javascript
+function() {
+  var email = {{DL - User Email}};
+  if (!email) return '';
+  
+  // Normalize email (lowercase, trim)
+  email = email.toLowerCase().trim();
+  
+  // Simple hash function (or use GTM's built-in hashing in GA4 tag)
+  return email; // GTM will hash this in the GA4 tag if configured
+}
+```
+
+### Step 3: Create Trigger for Form Submission
 
 1. Go to **Triggers** → **New**
 2. **Trigger Type:** Custom Event
-3. **Event name:** `enhanced_conversion_data`
-4. **Name:** `CE - Enhanced Conversion Data`
+3. **Event name:** `form_submit`
+4. **Name:** `CE - Form Submit`
 
-### Step 3: Update Your GA4 Configuration Tag
-
-1. Go to **Tags** → Find your **GA4 Configuration** tag
-2. Enable **Include user-provided data from the website**
-3. Check the following options:
-   - ☑️ Email
-   - ☑️ Phone number
-   - ☑️ Address (if you add more fields later)
-
-4. In **User-Provided Data** section, map the variables:
-   - **Email:** `{{DL - User Email Hashed}}`
-   - **Phone:** `{{DL - User Phone Hashed}}`
-   - **First Name:** `{{DL - User First Name}}`
-   - **Last Name:** `{{DL - User Last Name}}`
-
-### Step 4: Create Enhanced Conversion Event Tag
+### Step 4: Create GA4 Event Tag with Enhanced Conversions
 
 1. Go to **Tags** → **New**
 2. **Tag Type:** GA4 Event
 3. **Configuration Tag:** Select your GA4 Configuration tag
-4. **Event Name:** `contact_form_submission`
-5. **Event Parameters:**
-   - `user_email`: `{{DL - User Email Hashed}}`
-   - `user_phone`: `{{DL - User Phone Hashed}}`
-   - `conversion_label`: `contact_form_submission`
-6. **Triggering:** `CE - Enhanced Conversion Data`
-7. **Name:** `GA4 - Enhanced Conversion - Contact Form`
+4. **Event Name:** `form_submit`
 
-### Step 5: (Optional) Google Ads Conversion Tag
+5. **Enable Enhanced Conversions:**
+   - Scroll down to **User Properties**
+   - Click **+ Add Row** for each:
+     - `user_email`: `{{DL - User Email}}`
+     - `user_first_name`: `{{DL - User First Name}}`
+     - `user_last_name`: `{{DL - User Last Name}}`
 
-If you're running Google Ads:
+6. **Event Parameters** (optional but recommended):
+   - `event_category`: `{{DL - Event Category}}` or just type `engagement`
+   - `event_label`: `{{DL - Event Label}}` or just type `contact_form`
 
-1. Go to **Tags** → **New**
-2. **Tag Type:** Google Ads Conversion Tracking
-3. **Conversion ID:** Your Google Ads Conversion ID
-4. **Conversion Label:** Your conversion label
-5. **Enhanced Conversions:**
-   - Enable "Manual Enhanced Conversions"
-   - **Email:** `{{DL - User Email}}`
-   - **Phone:** `{{DL - User Phone}}`
-   - **First Name:** `{{DL - User First Name}}`
-   - **Last Name:** `{{DL - User Last Name}}`
-6. **Triggering:** `CE - Enhanced Conversion Data`
+7. **Triggering:** `CE - Form Submit`
+8. **Name:** `GA4 - Form Submit with Enhanced Conversion`
+
+### Step 5: Update GA4 Configuration Tag
+
+1. Find your **GA4 Configuration** tag
+2. Under **Fields to Set**:
+   - Enable **Send user-provided data**
+3. Under **User Properties**, add:
+   - `email`: `{{DL - User Email}}`
+   - `first_name`: `{{DL - User First Name}}`
+   - `last_name`: `{{DL - User Last Name}}`
 
 ## GA4 Setup Instructions
 
