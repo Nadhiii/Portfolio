@@ -1,7 +1,7 @@
 // src/components/Logo.jsx
 import React from 'react';
 
-const Logo = () => {
+const Logo = React.memo(() => {
   return (
     <svg width="40" height="40" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* This is a much simpler design using basic shapes to ensure clarity.
@@ -19,6 +19,8 @@ const Logo = () => {
       </g>
     </svg>
   );
-};
+});
+
+Logo.displayName = 'Logo';
 
 export default Logo;

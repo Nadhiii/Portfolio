@@ -102,7 +102,7 @@ const Hero = () => {
           className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-4 overflow-hidden py-4 md:py-6"
         >
           {/* Vertical Spreading Animation Container */}
-          <div className="relative overflow-hidden min-h-[180px] sm:min-h-[200px] md:min-h-[260px] lg:min-h-[300px] flex flex-col justify-center">
+          <div className="relative overflow-hidden min-h-[180px] sm:min-h-[200px] md:min-h-[240px] lg:min-h-[270px] flex flex-col justify-center">
             {/* "I Transform" - slides UP from center */}
             <motion.div 
               initial={{ y: 80, opacity: 0.3 }}
@@ -114,7 +114,7 @@ const Hero = () => {
                 duration: 0.8,
                 ease: [0.34, 1.56, 0.64, 1]
               }}
-              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent pb-3 md:pb-4 lg:pb-6 leading-tight"
+              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent pb-1 md:pb-2 leading-tight"
             >
               I Transform
             </motion.div>
@@ -131,7 +131,7 @@ const Hero = () => {
                 delay: 0.1,
                 ease: [0.34, 1.56, 0.64, 1]
               }}
-              className="h-32 sm:h-36 md:h-40 lg:h-48 flex items-center justify-center my-1 py-3 md:py-4 overflow-hidden"
+              className="h-32 sm:h-36 md:h-40 lg:h-48 flex items-center justify-center my-0 py-2 md:py-3 overflow-hidden"
             >
               <AnimatePresence mode="wait">
                 <motion.span
@@ -159,7 +159,7 @@ const Hero = () => {
                 delay: 0.15,
                 ease: [0.34, 1.56, 0.64, 1]
               }}
-              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent pt-3 md:pt-4 lg:pt-6 leading-tight"
+              className="bg-gradient-to-br from-text-light via-text-light/90 to-text-light/70 dark:from-text-dark dark:via-text-dark/90 dark:to-text-dark/70 bg-clip-text text-transparent pt-1 md:pt-2 leading-tight"
             >
               Into Impactful Solutions
             </motion.div>

@@ -9,7 +9,7 @@ import './index.css';
 
 // Import pages
 import HomePage from './pages/Home.jsx';
-import ExperiencePage from './pages/ExperiencePage.jsx';
+import ExperiencePage from './pages/Experience.jsx';
 import PlutoPage from './pages/Pluto.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 

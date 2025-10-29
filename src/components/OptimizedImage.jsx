@@ -1,7 +1,7 @@
 // src/components/OptimizedImage.jsx
 import React, { useState } from 'react';
 
-const OptimizedImage = ({ 
+const OptimizedImage = React.memo(({ 
   src, 
   alt, 
   className = '', 
@@ -47,6 +47,8 @@ const OptimizedImage = ({
       />
     </div>
   );
-};
+});
+
+OptimizedImage.displayName = 'OptimizedImage';
 
 export default OptimizedImage;

@@ -1,7 +1,11 @@
 // src/components/FloatingNav.jsx
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Home, User, Code, Mail, ArrowUp } from 'lucide-react';
+import { 
+  Home, User, Code, Mail, ArrowUp, Download, Briefcase, 
+  MessageSquare, Target, Linkedin, Github, ExternalLink, 
+  Phone, Calendar 
+} from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const FloatingNav = () => {
@@ -162,7 +166,35 @@ const FloatingNav = () => {
             </div>
 
             {/* Navigation Container */}
-            <div className="flex flex-col items-center gap-3 bg-white/40 dark:bg-gray-900/40 backdrop-blur-lg border border-gray-200/30 dark:border-gray-700/30 rounded-full px-4 py-6 shadow-lg">
+            <div className="relative flex flex-col items-center gap-3 bg-white/40 dark:bg-gray-900/40 backdrop-blur-lg border border-gray-200/30 dark:border-gray-700/30 rounded-full px-4 py-6 shadow-lg">
+              {/* Sliding Active Indicator Background */}
+              {(() => {
+                const activeIndex = navItems.findIndex(item => item.id === activeSection);
+                if (activeIndex === -1) return null;
+                
+                // Calculate position: each button is 48px (12 * 4) + 12px gap (3 * 4)
+                const buttonHeight = 48; // h-12
+                const gap = 12; // gap-3
+                const topPosition = activeIndex * (buttonHeight + gap);
+                
+                return (
+                  <motion.div
+                    layoutId="activeIndicator"
+                    className="absolute left-1/2 -translate-x-1/2 w-12 h-12 bg-gradient-to-br from-primary-light to-accent-purple-light dark:from-primary-dark dark:to-accent-purple-dark rounded-full shadow-lg pointer-events-none"
+                    initial={false}
+                    animate={{
+                      top: topPosition
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 350,
+                      damping: 30,
+                      mass: 0.8
+                    }}
+                  />
+                );
+              })()}
+              
               {/* Navigation Items */}
               {navItems.map((item, index) => (
                 <motion.button
@@ -173,38 +205,24 @@ const FloatingNav = () => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className={`relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 group ${
+                  className={`relative flex items-center justify-center w-12 h-12 rounded-full transition-colors duration-300 group z-10 ${
                     activeSection === item.id
-                      ? 'bg-primary-light text-white shadow-lg'
-                      : 'text-text-light dark:text-text-dark hover:text-primary-light dark:hover:text-primary-dark hover:bg-white/20 dark:hover:bg-gray-800/20'
+                      ? 'text-white dark:text-white'
+                      : 'text-text-light dark:text-text-dark hover:text-primary-light dark:hover:text-primary-dark'
                   }`}
                   title={item.label}
                 >
-                  <item.icon size={18} />
+                  <item.icon size={18} className="relative z-10" />
                   
                   {/* Tooltip */}
                   <motion.div
                     initial={{ opacity: 0, x: 10 }}
                     whileHover={{ opacity: 1, x: 0 }}
-                    className="absolute right-16 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-3 py-1 rounded-md text-sm font-medium whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-200"
+                    className="absolute right-16 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-3 py-1 rounded-md text-sm font-medium whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-200 z-50"
                   >
                     {item.label}
                     <div className="absolute left-full top-1/2 -translate-y-1/2 border-4 border-transparent border-l-gray-900 dark:border-l-white"></div>
                   </motion.div>
-                  
-                  {/* Active indicator */}
-                  {activeSection === item.id && (
-                    <motion.div
-                      layoutId="activeIndicator"
-                      className="absolute inset-0 bg-primary-light rounded-full"
-                      style={{ zIndex: -1 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 30
-                      }}
-                    />
-                  )}
                 </motion.button>
               ))}
 

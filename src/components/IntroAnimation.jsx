@@ -33,7 +33,9 @@ const IntroAnimation = ({ onAnimationComplete }) => {
         // 5. Call completion immediately as animation starts
         onAnimationComplete();
       } catch (error) {
-        console.error('Animation sequence error:', error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Animation sequence error:', error);
+        }
         // Fallback: still call completion even if animation fails
         onAnimationComplete();
       }
