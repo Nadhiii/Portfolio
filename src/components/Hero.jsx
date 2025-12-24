@@ -115,7 +115,7 @@ const Hero = () => {
           </p>
           
           <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-            Aspiring <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent font-bold">Product Manager</span>—because after fixing thousands of broken implementations, I know how to build a product that actually works.
+            Aspiring <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent font-bold">Product Manager</span> - because after fixing thousands of broken implementations, I know how to build a product that actually works.
           </p>
           
           {/* Footer Quote - Barney Stinson */}

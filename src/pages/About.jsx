@@ -9,7 +9,7 @@ const journeySteps = [
     chapter: "Chapter 1",
     title: "Graduation",
     subtitle: "B.Com, Acharya Institute",
-    story: "Graduated with a B.Com degree. Honestly? I was clueless—no clear direction, just going with the flow. I started working because that's what you do after graduation.",
+    story: "Graduated with a B.Com degree. Honestly? I was clueless. No clear direction, just going with the flow. I started working because that's what you do after graduation.",
     quote: "Fun fact: I had zero plans. But hey, improvisation is a skill too.",
     icon: GraduationCap,
     accent: "text-blue-500"
@@ -18,7 +18,7 @@ const journeySteps = [
     chapter: "Chapter 2",
     title: "The Start",
     subtitle: "BPO & Customer Support",
-    story: "Landed a tech support role for OnePlus. For the first time, I felt something click—I was working with technology, and I loved it. I didn't know exactly what 'more' looked like, but I knew I had to move toward it.",
+    story: "Landed a tech support role for OnePlus. For the first time, I felt something click. I was working with technology, and I loved it. I didn't know exactly what 'more' looked like, but I knew I had to move toward it.",
     quote: "Tech support taught me one thing: people break things creatively.",
     icon: Headphones,
     accent: "text-purple-500"
@@ -27,7 +27,7 @@ const journeySteps = [
     chapter: "Chapter 3",
     title: "The Shift",
     subtitle: "Digital Marketing & Analytics",
-    story: "Moved to Regalix. Digital marketing meets technology—Google Ads, Analytics, Tag Manager. I wasn't just learning—I was genuinely liking playing with data.",
+    story: "Moved to Regalix. Digital marketing meets technology: Google Ads, Analytics, Tag Manager. I wasn't just learning. I was genuinely liking playing with data.",
     quote: "Turns out, I like playing with data more than I thought.",
     icon: TrendingUp,
     accent: "text-orange-500"
@@ -36,7 +36,7 @@ const journeySteps = [
     chapter: "Chapter 4",
     title: "The 'Aha!' Moment",
     subtitle: "Automation Tool",
-    story: "I automated a manual task that 100+ people were doing daily. When it finally worked, something clicked. I wasn't just solving a problem—I'd discovered what I actually wanted to do: build things.",
+    story: "I automated a manual task that 100+ people were doing daily. When it finally worked, something clicked. I wasn't just solving a problem. I'd discovered what I actually wanted to do: build things.",
     quote: "Why work harder when you can code smarter?",
     icon: Lightbulb,
     accent: "text-yellow-500"
@@ -45,7 +45,7 @@ const journeySteps = [
     chapter: "Chapter 5",
     title: "This Portfolio",
     subtitle: "From Idea to Reality",
-    story: "I wanted to showcase my resume as a website. I learned React and Tailwind CSS from scratch to build this. Every animation, every transition—built by me.",
+    story: "I wanted to showcase my resume as a website. I learned React and Tailwind CSS from scratch to build this. Every animation, every transition: built by me.",
     quote: "Templates were always there. I wanted to build it from scratch.",
     icon: Monitor,
     accent: "text-cyan-500"
@@ -54,7 +54,7 @@ const journeySteps = [
     chapter: "Chapter 6",
     title: "Building Pluto",
     subtitle: "Full-Stack Finance App",
-    story: "I built Pluto—a personal finance app using Flutter & Firebase. UI design, backend logic, databases... I figured it out. That's when it hit me: I could actually build real products.",
+    story: "I built Pluto, a personal finance app using Flutter & Firebase. UI design, backend logic, databases... I figured it out. That's when it hit me: I could actually build real products.",
     quote: "I Googled my way through this. No shame.",
     icon: Code2,
     accent: "text-indigo-500"
@@ -63,7 +63,7 @@ const journeySteps = [
     chapter: "Chapter 7",
     title: "The Goal",
     subtitle: "Product Management",
-    story: "I know what users need, what data tells us, and what it takes to actually ship a product. I don't just want to manage products—I want to build ones that actually matter.",
+    story: "I know what users need, what data tells us, and what it takes to actually ship a product. I don't just want to manage products. I want to build ones that actually matter.",
     quote: "I've done the grunt work. Now let me call the shots.",
     icon: Target,
     accent: "text-emerald-500"
@@ -72,8 +72,8 @@ const journeySteps = [
     chapter: "To Be Continued...",
     title: "Next Chapter",
     subtitle: "The journey is far from over.",
-    story: "Suit up, because the journey is far from over. I've got some serious plays lined up. Spoiler alert: it's gonna be legendary.",
-    quote: "I'm like a shark—if I stop moving forward, I die.",
+    story: "Suit up, because the journey is far from over. I've got some serious plays lined up. All I know is it's gonna be legendary, so let's wait for it.",
+    quote: "I'm like a shark. If I stop moving forward, I die.",
     icon: Rocket,
     accent: "text-rose-500"
   }

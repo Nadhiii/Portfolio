@@ -87,7 +87,7 @@ const ExperiencePage = () => {
             </div>
 
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-8 text-lg">
-              Implementing and troubleshooting measurement across Google’s stack (Google Ads, GA4, GTM). Making conversion tracking work reliably—Consent Mode, Enhanced Conversions, and Offline Conversions.
+              Implementing and troubleshooting measurement across Google's stack (Google Ads, GA4, GTM). Making conversion tracking work reliably: Consent Mode, Enhanced Conversions, and Offline Conversions.
             </p>
 
             <div className="grid md:grid-cols-2 gap-6">

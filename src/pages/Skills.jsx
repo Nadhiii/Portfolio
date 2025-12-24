@@ -149,7 +149,7 @@ const Skills = () => {
           )}
           {activeTab === 'ai' && (
             <p className="text-gray-700 dark:text-gray-300 italic">
-              "AI is my superpower—it turns 'I don't know how' into 'let me try that' in seconds."
+              "AI is my superpower. It turns 'I don't know how' into 'let me try that' in seconds."
             </p>
           )}
           {activeTab === 'analytics' && (
