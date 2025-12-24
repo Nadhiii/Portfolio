@@ -120,7 +120,7 @@ const Hero = () => {
           
           {/* Footer Quote - Barney Stinson */}
           <p className="text-sm text-gray-400 dark:text-gray-500 italic mt-6 opacity-80">
-            (It’s going to be legendary... wait for it.)
+            (It’s going to be legen... wait for it.... dary)
           </p>
         </motion.div>
 
