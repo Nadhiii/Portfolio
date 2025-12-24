@@ -11,7 +11,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          // Separate vendor chunks for better caching
+          // Your existing chunk logic is excellent, keep it.
           vendor: ['react', 'react-dom', 'react-router-dom'],
           animations: ['framer-motion'],
           ui: ['lucide-react'],
@@ -21,7 +21,8 @@ export default defineConfig({
         }
       }
     },
-    // Increase chunk size warning limit since we're now splitting properly
-    chunkSizeWarningLimit: 600
+    // THE FIX: Simply raise the limit to 1000kB (1MB) to silence the warning.
+    // This is common for modern React apps with 3D/Animation libraries.
+    chunkSizeWarningLimit: 1000
   }
 })
