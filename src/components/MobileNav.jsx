@@ -1,20 +1,35 @@
-// src/components/MobileNav.jsx (Final Navigation Fix)
-
-import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+// src/components/MobileNav.jsx
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { Menu, X, ChevronRight } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { trackEvent } from '../utils/analytics';
-import { EASING } from '../config/animations';
 
 const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false);
-  
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  // Lock scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-    if (!isOpen) {
-      trackEvent('mobile_menu_open', 'Navigation', 'Mobile menu opened');
-    }
+    if (!isOpen) trackEvent('mobile_menu_open', 'Navigation', 'Mobile menu opened');
   };
 
   const handleNavClick = (section) => {
@@ -22,159 +37,106 @@ const MobileNav = () => {
     setIsOpen(false);
   };
 
-  // Animation variants for mobile menu
-  const overlayVariants = {
-    closed: {
-      opacity: 0,
-      transition: {
-        duration: 0.2,
-        ease: EASING
-      }
-    },
-    open: {
-      opacity: 1,
-      transition: {
-        duration: 0.3,
-        ease: EASING
-      }
-    }
-  };
+  const menuOverlay = (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-[2px]"
+            onClick={toggleMenu}
+          />
+          
+          {/* GLASS DRAWER */}
+          <motion.div 
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className="fixed inset-y-0 right-0 z-[70] w-[85%] max-w-xs bg-white/60 dark:bg-black/60 backdrop-blur-2xl border-l border-white/20 dark:border-white/10 shadow-2xl p-6 flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex justify-between items-center mb-10">
+              <span className="font-heading text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+                Menu
+              </span>
+              <motion.button 
+                onClick={toggleMenu}
+                whileTap={{ scale: 0.9 }}
+                className="p-2 rounded-full bg-white/20 dark:bg-white/10 border border-white/20 text-gray-900 dark:text-white"
+              >
+                <X size={24} />
+              </motion.button>
+            </div>
 
-  const menuVariants = {
-    closed: {
-      opacity: 0,
-      scale: 0.95,
-      x: 20,
-      transition: {
-        duration: 0.2,
-        ease: EASING
-      }
-    },
-    open: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      transition: {
-        duration: 0.3,
-        ease: EASING,
-        staggerChildren: 0.05,
-        delayChildren: 0.1
-      }
-    }
-  };
+            {/* Links */}
+            <ul className="space-y-3 flex-1">
+              {[
+                { name: 'Projects', path: '/projects' },
+                { name: 'Skills', path: '/skills' },
+                { name: 'Experience', path: '/experience' },
+                { name: 'Contact', path: '/contact' },
+                { name: 'Pluto', path: '/pluto' }
+              ].map((item, i) => (
+                <motion.li 
+                  key={item.name}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 + (i * 0.05) }}
+                >
+                  <NavLink 
+                    to={item.path}
+                    onClick={() => handleNavClick(item.name)} 
+                    className={({ isActive }) => `
+                      group flex items-center justify-between px-5 py-4 rounded-2xl text-lg font-medium transition-all duration-300 border
+                      ${isActive 
+                        ? 'bg-primary-light/10 dark:bg-primary-dark/10 border-primary-light/20 dark:border-primary-dark/20 text-primary-light dark:text-primary-dark shadow-[0_0_15px_rgba(59,130,246,0.15)]' 
+                        : 'bg-transparent border-transparent text-gray-600 dark:text-gray-400 hover:bg-white/10 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
+                      }
+                    `}
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span>{item.name}</span>
+                        {isActive && (
+                          <ChevronRight size={18} className="animate-pulse" />
+                        )}
+                      </>
+                    )}
+                  </NavLink>
+                </motion.li>
+              ))}
+            </ul>
 
-  const itemVariants = {
-    closed: {
-      opacity: 0,
-      x: 10
-    },
-    open: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.3,
-        ease: EASING
-      }
-    }
-  };
+            {/* Footer */}
+            <div className="pt-8 border-t border-gray-200/20 dark:border-white/10">
+              <p className="text-xs text-center text-gray-500 dark:text-gray-400 font-medium">
+                © 2025 Mahanadhi Parisara
+              </p>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
 
   return (
     <div className="md:hidden">
       <motion.button 
         onClick={toggleMenu} 
-        aria-label="Open navigation menu"
         whileTap={{ scale: 0.95 }}
-        transition={{ duration: 0.1 }}
+        className="p-2.5 rounded-full bg-white/10 dark:bg-black/10 backdrop-blur-md border border-white/20 dark:border-white/10 text-gray-800 dark:text-gray-200 shadow-sm"
+        aria-label="Open Menu"
       >
         <Menu size={24} />
       </motion.button>
       
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            className="fixed inset-0 z-[100] bg-black/50" 
-            onClick={toggleMenu}
-            variants={overlayVariants}
-            initial="closed"
-            animate="open"
-            exit="closed"
-          >
-            <motion.div 
-              className="fixed top-4 right-4 w-[calc(100%-2rem)] max-w-xs bg-background-light dark:bg-background-dark p-6 rounded-lg shadow-lg"
-              onClick={(e) => e.stopPropagation()}
-              variants={menuVariants}
-              initial="closed"
-              animate="open"
-              exit="closed"
-            >
-              <motion.div 
-                className="flex justify-between items-center mb-6"
-                variants={itemVariants}
-              >
-                <span className="font-bold">Navigation</span>
-                <motion.button 
-                  onClick={toggleMenu} 
-                  aria-label="Close navigation menu"
-                  whileTap={{ scale: 0.9 }}
-                  transition={{ duration: 0.1 }}
-                >
-                  <X size={24} />
-                </motion.button>
-              </motion.div>
-              <motion.ul 
-                className="space-y-4 text-lg"
-                variants={itemVariants}
-              >
-                <motion.li variants={itemVariants}>
-                  <NavLink 
-                    to="/projects" 
-                    onClick={() => handleNavClick('Projects')} 
-                    className="block py-2 hover:text-primary-light dark:hover:text-primary-dark transition-colors"
-                  >
-                    Projects
-                  </NavLink>
-                </motion.li>
-                <motion.li variants={itemVariants}>
-                  <NavLink 
-                    to="/skills" 
-                    onClick={() => handleNavClick('Skills')} 
-                    className="block py-2 hover:text-primary-light dark:hover:text-primary-dark transition-colors"
-                  >
-                    Skills
-                  </NavLink>
-                </motion.li>
-                <motion.li variants={itemVariants}>
-                  <NavLink 
-                    to="/experience" 
-                    onClick={() => handleNavClick('Experience')} 
-                    className="block py-2 hover:text-primary-light dark:hover:text-primary-dark transition-colors"
-                  >
-                    Experience
-                  </NavLink>
-                </motion.li>
-                <motion.li variants={itemVariants}>
-                  <NavLink 
-                    to="/contact" 
-                    onClick={() => handleNavClick('Contact')} 
-                    className="block py-2 hover:text-primary-light dark:hover:text-primary-dark transition-colors"
-                  >
-                    Contact
-                  </NavLink>
-                </motion.li>
-                <motion.li variants={itemVariants}>
-                  <NavLink 
-                    to="/pluto" 
-                    onClick={() => handleNavClick('Pluto')} 
-                    className="block py-2 hover:text-primary-light dark:hover:text-primary-dark transition-colors"
-                  >
-                    Pluto
-                  </NavLink>
-                </motion.li>
-              </motion.ul>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {mounted && createPortal(menuOverlay, document.body)}
     </div>
   );
 };

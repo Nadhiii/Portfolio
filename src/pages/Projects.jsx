@@ -1,322 +1,208 @@
-// src/components/Projects.jsx
+// src/pages/Projects.jsx
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Rocket, GanttChartSquare, MonitorPlay, ExternalLink, Github, TrendingUp, Users, Clock, Award, ChevronRight, Code, Eye } from 'lucide-react';
+import { Rocket, GanttChartSquare, MonitorPlay, ChevronRight, Users, TrendingUp, Clock, Award, Eye, Github, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { trackEvent } from '../utils/analytics';
+import { trackPageView } from '../utils/analytics';
+import Button from '../components/Button';
 
 const Projects = () => {
-  const [activeProject, setActiveProject] = useState(null);
+  // Track page view
+  React.useEffect(() => {
+    trackPageView('Projects Page', 'projects');
+  }, []);
 
   const projects = [
     {
       id: 'automation',
-      title: 'Team-Wide Data Sync Automation',
+      title: 'Team-Wide Automation',
       icon: GanttChartSquare,
-      description: 'What started as "how can I be lazy?" became a tool used by 120+ people across 10+ teams.',
-  problem: 'Team leaders spent over 30 minutes daily on a tedious and error-prone manual data-copying task.',
-  build: 'I architected the core logic and implemented a Google Apps Script that automated the entire workflow, running daily without intervention. (Set it and forget it—the best kind of solution.)',
-  outcome: 'Adopted by 10+ teams totaling 120+ team members, saving 30-45 mins/day project-wide.',
+      description: 'A Google Apps Script solution that eliminated 45 mins of manual data entry per day for 120+ people.',
+      problem: 'Team leads were wasting 30+ mins daily manually copying data between sheets.',
+      build: 'Architected a fully automated sync system using Google Apps Script & Sheets API that runs while they sleep.',
+      outcome: 'Adopted by 10+ teams. 100% adoption rate. Zero manual intervention required.',
       metrics: [
-        { icon: Users, label: 'Teams Using', value: '10+', color: 'text-blue-600' },
-        { icon: TrendingUp, label: 'Members Impacted', value: '120+', color: 'text-green-600' },
-        { icon: Clock, label: 'Time Saved', value: '30-45min/day', color: 'text-purple-600' },
-        { icon: Award, label: 'Adoption Rate', value: '100%', color: 'text-orange-600' }
+        { icon: Users, value: '10+', label: 'Teams' },
+        { icon: Clock, value: '45m', label: 'Saved/Day' },
+        { icon: Award, value: '100%', label: 'Adoption' }
       ],
-      techStack: ['Google Apps Script', 'JavaScript', 'Google Sheets API', 'Automation'],
-    
-      lessons: ['Teaching myself to code', 'Turning problems into opportunities', 'Building things that scale'],
-      testimonial: 'Turns out laziness + curiosity can lead to something pretty useful. - Mahanadhi Parisara (that\'s me)'
+      techStack: ['Apps Script', 'JavaScript', 'Sheets API'],
+      accent: 'text-blue-500',
+      glow: 'shadow-blue-500/20'
     },
     {
       id: 'pluto',
-      title: 'Pluto - Personal Finance Tracker',
+      title: 'Pluto Finance',
       icon: Rocket,
-      description: 'A full-stack mobile finance app built with Flutter and Firebase, featuring offline data sync.',
-      problem: 'I needed a fast and reliable mobile-native solution to track finances that would work seamlessly whether I was online or offline. (Because who has time for "connection error" messages when you\'re trying to log expenses?)',
-      build: 'I developed a full-stack application using Flutter for the cross-platform front-end and Firebase for the backend, designing the UX flow and engineering seamless offline data synchronization.',
-      outcome: 'Successfully deployed a fully functional finance tracking app with real-time sync, offline capabilities, and intuitive UX design.',
+      description: 'A privacy-first, offline-capable finance tracker built with Flutter & Firebase.',
+      problem: 'Existing apps were either too expensive, privacy-invasive, or required constant internet.',
+      build: 'Engineered a local-first architecture with background sync. Works perfectly in airplane mode.',
+      outcome: 'My daily driver for finances. Fast, private, and zero subscription costs.',
       metrics: [
-        { icon: Users, label: 'Personal Use', value: 'Daily', color: 'text-blue-600' },
-        { icon: TrendingUp, label: 'Offline Sync', value: '100%', color: 'text-green-600' },
-        { icon: Clock, label: 'Load Time', value: '<2s', color: 'text-purple-600' }
+        { icon: Users, value: 'Daily', label: 'Usage' },
+        { icon: TrendingUp, value: '100%', label: 'Offline' },
+        { icon: Clock, value: '<1s', label: 'Load' }
       ],
-      techStack: ['Flutter', 'Firebase', 'Dart', 'Cloud Firestore'],
+      techStack: ['Flutter', 'Firebase', 'Dart'],
       links: [
-        { type: 'demo', label: 'Learn More', url: '/pluto', icon: ChevronRight }
+        { type: 'internal', label: 'View Project', url: '/pluto', icon: ChevronRight }
       ],
-      lessons: ['Offline-first architecture design', 'Cross-platform mobile development', 'Real-time data synchronization'],
-      testimonial: 'Solved my personal finance tracking needs perfectly - Also me!'
+      accent: 'text-purple-500',
+      glow: 'shadow-purple-500/20'
     },
     {
       id: 'portfolio',
-      title: 'Personal Portfolio Website',
+      title: 'This Portfolio',
       icon: MonitorPlay,
-      description: 'A responsive personal portfolio built from scratch to showcase my skills as a product-minded builder.',
-      problem: 'To create a professional, modern website that reflects my transition into product and highlights my real-world projects.',
-      build: 'I built this site using React, Tailwind CSS for styling, and Framer Motion for animations. It features a dark mode, a multi-page layout using React Router, and a functional contact form.',
-      outcome: 'A polished, performant website that not only serves as my portfolio but also demonstrates my hands-on ability with modern front-end technologies.',
+      description: 'A high-performance React application showcasing modern UI/UX principles.',
+      problem: 'Needed a home on the web that wasn\'t just another generic template.',
+      build: 'Built from scratch with React, Tailwind, and Framer Motion. Focused on micro-interactions.',
+      outcome: 'You are looking at it! A 100% responsive, dark-mode enabled 3D experience.',
       metrics: [
-        { icon: TrendingUp, label: 'Performance', value: '95+', color: 'text-green-600' },
-        { icon: Eye, label: 'Responsive', value: '100%', color: 'text-blue-600' },
-        { icon: Clock, label: 'Load Time', value: '<1s', color: 'text-purple-600' }
+        { icon: TrendingUp, value: '99', label: 'Perform.' },
+        { icon: Eye, value: '100%', label: 'Resp.' },
+        { icon: Clock, value: '0.5s', label: 'Load' }
       ],
-      techStack: ['React', 'Tailwind CSS', 'Framer Motion', 'Vite', 'React Router'],
-      links: [
-        { type: 'demo', label: 'You\'re Here!', url: '/', icon: Eye }
-      ],
-      lessons: ['Modern React development', 'Component-based architecture', 'Performance optimization'],
-      testimonial: 'Clean, professional design with smooth interactions - You decide!'
+      techStack: ['React', 'Tailwind', 'Framer'],
+      accent: 'text-emerald-500',
+      glow: 'shadow-emerald-500/20'
     }
   ];
 
   return (
-    <section id="projects" className="max-w-7xl mx-auto pt-24 pb-20 lg:pt-32 lg:pb-24 px-8">
-      <motion.div 
-        className="text-center mb-16"
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 className="font-heading text-4xl lg:text-5xl mb-4">
-          <span className="text-text-light dark:text-text-dark">Things </span>
-          <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">I've Built</span>
-        </h2>
-        <p className="text-lg text-text-light dark:text-text-dark max-w-2xl mx-auto">
-          I learn by doing. Here are some things I've built to solve real problems and drive measurable impact.
-        </p>
-      </motion.div>
-
-      <div className="space-y-24">
-        {projects.map((project, index) => {
-          const IconComponent = project.icon;
-          const isReversed = index % 2 === 1;
-          
-          return (
-            <motion.div
-              key={project.id}
-              className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${isReversed ? 'lg:grid-flow-col-dense' : ''}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: Math.min(index * 0.2, 0.6) }}
-            >
-              {/* Project Visual */}
-              <div className={`w-full ${isReversed ? 'lg:col-start-2' : ''}`}>
-                <motion.div 
-                  className="relative bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700"
-                  whileHover={{ y: -5, shadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)" }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Project Icon */}
-                  <div className="absolute -top-6 left-8">
-                    <div className="w-12 h-12 bg-primary-light dark:bg-primary-dark rounded-full flex items-center justify-center shadow-lg">
-                      <IconComponent size={24} className="text-white" />
-                    </div>
-                  </div>
-
-                  {/* Pluto SVG Animation */}
-                  {project.id === 'pluto' && (
-                    <div className="mt-8 mb-6 flex justify-center">
-                      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" className="w-64 h-64">
-                        <rect x="50" y="50" width="300" height="300" rx="60" ry="60" fill="#121212">
-                          <animate attributeName="opacity" from="0" to="1" dur="1s" begin="0s" fill="freeze" />
-                        </rect>
-                        <path d="M 150,200 A 50,50 0 0,1 250,200" stroke="white" strokeWidth="15" fill="none" strokeLinecap="round" strokeDasharray="157" strokeDashoffset="157">
-                          <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="1s" fill="freeze" />
-                          <animate attributeName="stroke-dashoffset" from="157" to="0" dur="1.2s" begin="1s" fill="freeze" />
-                          <animate attributeName="stroke-width" values="15;18;15" dur="2s" begin="2.2s" repeatCount="indefinite" />
-                        </path>
-                        <text x="200" y="270" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="48" fontWeight="normal" fill="white" opacity="0">
-                          PLUTO
-                          <animate attributeName="opacity" from="0" to="1" dur="1s" begin="2.2s" fill="freeze" />
-                        </text>
-                      </svg>
-                    </div>
-                  )}
-
-                  {/* Metrics Grid */}
-                  <div className="mt-8 grid grid-cols-2 gap-4 mb-6">
-                    {project.metrics.map((metric, idx) => (
-                      <motion.div
-                        key={idx}
-                        className="text-center p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600"
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.4 + (index * 0.2) + idx * 0.05 }}
-                      >
-                        <metric.icon size={20} className={`mx-auto mb-2 ${metric.color}`} />
-                        <div className="text-2xl font-bold">{metric.value}</div>
-                        <div className="text-sm text-text-light dark:text-text-dark">{metric.label}</div>
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  {/* Tech Stack */}
-                  <div className="flex flex-wrap gap-2 justify-center">
-                    {project.techStack.map((tech, idx) => (
-                      <span
-                        key={idx}
-                        className="px-3 py-1 text-sm bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark rounded-full"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-              </div>
-
-              {/* Project Content */}
-              <div className={isReversed ? 'lg:col-start-1' : ''}>
-                <motion.div
-                  initial={{ opacity: 0, x: isReversed ? 15 : -15 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 + (index * 0.2) }}
-                >
-                  <h3 className="flex items-center gap-3 text-3xl font-bold mb-4">
-                    <IconComponent size={32} className="text-primary-light dark:text-primary-dark" />
-                    {project.title}
-                  </h3>
-                  
-                  <p className="text-lg text-text-light dark:text-text-dark mb-6">
-                    {project.description}
-                  </p>
-
-                  <div className="space-y-6">
-                    {/* Problem */}
-                    <motion.div
-                      className="bg-white dark:bg-gray-700 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <h4 className="font-bold text-lg mb-2 text-text-light dark:text-text-dark">The Problem</h4>
-                      <p className="text-text-light dark:text-text-dark">{project.problem}</p>
-                    </motion.div>
-
-                    {/* Build */}
-                    <motion.div
-                      className="bg-white dark:bg-gray-700 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <h4 className="font-bold text-lg mb-2 text-text-light dark:text-text-dark">The Build</h4>
-                      <p className="text-text-light dark:text-text-dark">{project.build}</p>
-                    </motion.div>
-
-                    {/* Outcome */}
-                    <motion.div
-                      className="bg-white dark:bg-gray-700 p-4 rounded-lg border-l-4 border-primary-light dark:border-primary-dark"
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <h4 className="font-bold text-lg mb-2 text-primary-light dark:text-primary-dark">The Outcome</h4>
-                      <p className="text-text-light dark:text-text-dark">{project.outcome}</p>
-                    </motion.div>
-
-                    {/* What I Learned */}
-                    <motion.div
-                      className="bg-white dark:bg-gray-700 p-4 rounded-lg border-l-4 border-gray-300 dark:border-gray-600"
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <h4 className="font-bold text-lg mb-2 text-text-light dark:text-text-dark">What I Learned</h4>
-                      <ul className="list-disc list-inside text-text-light dark:text-text-dark space-y-1">
-                        {project.lessons.map((lesson, idx) => (
-                          <li key={idx}>{lesson}</li>
-                        ))}
-                      </ul>
-                    </motion.div>
-
-                    {/* Testimonial */}
-                    <motion.div
-                      className="bg-white dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-700"
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <p className="italic text-text-light dark:text-text-dark">"{project.testimonial.split(' - ')[0]}"</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">- {project.testimonial.split(' - ')[1]}</p>
-                    </motion.div>
-
-                    {/* Project Links */}
-                    {project.links && project.links.length > 0 && (
-                      <div className="flex flex-wrap gap-3 mt-6">
-                        {project.links.map((link, idx) => {
-                          const LinkIcon = link.icon;
-                          const isDisabled = link.disabled;
-                          
-                          if (isDisabled) {
-                            return (
-                              <button
-                                key={idx}
-                                disabled
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 rounded-lg cursor-not-allowed text-sm font-medium"
-                              >
-                                <LinkIcon size={16} />
-                                {link.label}
-                              </button>
-                            );
-                          }
-                          
-                          return (
-                            <Link
-                              key={idx}
-                              to={link.url}
-                              className="inline-flex items-center gap-2 px-4 py-2 bg-primary-light dark:bg-primary-dark text-white rounded-lg hover:bg-primary-light/80 dark:hover:bg-primary-dark/80 hover:scale-105 hover:shadow-lg transition-all duration-300 text-sm font-medium"
-                            >
-                              <LinkIcon size={16} />
-                              {link.label}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-
-
-                </motion.div>
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      {/* Call to Action */}
-      <motion.div
-        className="text-center mt-20 bg-gradient-to-r from-primary-light/10 to-accent-green-light/10 dark:from-primary-dark/10 dark:to-accent-green-dark/10 rounded-2xl p-8"
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.8 }}
-      >
-        <h3 className="text-2xl font-bold mb-4">Want to see more?</h3>
-        <p className="text-text-light dark:text-text-dark mb-6">
-          I'm always working on something, thinking about the next challenge, and eager to learn whatever comes my way. 
-          These projects represent my approach to identifying problems and building solutions.
-        </p>
+    <div className="min-h-screen pt-28 pb-24 px-4 md:px-8 relative z-10">
+      <section className="max-w-6xl mx-auto">
         
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <motion.a
-            href="mailto:mahanadhip@gmail.com"
-            className="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark px-8 py-4 rounded-lg font-bold hover:bg-primary-light hover:text-white dark:hover:bg-primary-dark dark:hover:text-white transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Let's discuss your next project
-            <ChevronRight size={20} />
-          </motion.a>
-          
-          <span className="text-gray-400 hidden sm:block">or</span>
-          
-          <motion.a
-            href="mailto:mahanadhip@gmail.com"
-            className="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark px-8 py-4 rounded-lg font-bold hover:bg-accent-green-light hover:text-white dark:hover:bg-accent-green-dark dark:hover:text-white transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Want to build something together?
-            <ChevronRight size={20} />
-          </motion.a>
+        {/* Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
+          <h1 className="font-heading text-4xl md:text-6xl mb-4 text-gray-900 dark:text-white">
+            My <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">Projects</span>
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Solutions engineered to address real-world inefficiencies and deliver measurable impact.
+          </p>
+        </motion.div>
+
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 gap-12">
+          {projects.map((project, index) => {
+            const Icon = project.icon;
+            return (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="relative"
+              >
+                {/* GLASS CARD CONTAINER */}
+                <div className="rounded-3xl bg-white/40 dark:bg-black/40 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-xl overflow-hidden group hover:border-white/60 dark:hover:border-white/20 transition-colors duration-500">
+                  <div className="grid lg:grid-cols-12 gap-0">
+                    
+                    {/* Left Column: Visuals & Metrics */}
+                    <div className="lg:col-span-5 p-8 border-b lg:border-b-0 lg:border-r border-white/20 dark:border-white/5 flex flex-col justify-between bg-white/20 dark:bg-white/5">
+                      <div>
+                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-white dark:bg-gray-800 shadow-lg ${project.accent}`}>
+                          <Icon size={28} />
+                        </div>
+                        
+                        {/* Metrics Grid */}
+                        <div className="grid grid-cols-3 gap-4 mb-8">
+                          {project.metrics.map((m, i) => (
+                            <div key={i} className="text-center p-3 rounded-xl bg-white/40 dark:bg-black/20 border border-white/20 dark:border-white/5">
+                              <m.icon size={16} className={`mx-auto mb-2 ${project.accent} opacity-80`} />
+                              <div className="font-bold text-gray-900 dark:text-white">{m.value}</div>
+                              <div className="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400">{m.label}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Tech Stack Pills */}
+                      <div className="flex flex-wrap gap-2">
+                        {project.techStack.map((tech) => (
+                          <span key={tech} className="px-3 py-1 text-xs font-medium rounded-full bg-white/60 dark:bg-white/10 border border-white/20 text-gray-700 dark:text-gray-300">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Right Column: Content */}
+                    <div className="lg:col-span-7 p-8 md:p-10 flex flex-col justify-center">
+                      <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-primary-light dark:group-hover:text-primary-dark transition-colors">
+                        {project.title}
+                      </h2>
+                      <p className="text-lg text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
+                        {project.description}
+                      </p>
+
+                      <div className="space-y-6 mb-8">
+                        <div className="flex gap-4">
+                          <div className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${project.accent.replace('text', 'bg')}`} />
+                          <div>
+                            <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1">Problem</span>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">{project.problem}</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-4">
+                          <div className={`mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${project.accent.replace('text', 'bg')}`} />
+                          <div>
+                            <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1">Solution</span>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">{project.build}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {project.links && (
+                        <div className="flex gap-4">
+                          {project.links.map((link, i) => (
+                            <Link 
+                              key={i}
+                              to={link.url}
+                              className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold hover:gap-3 transition-all ${project.glow}`}
+                            >
+                              {link.label} <link.icon size={18} />
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
-      </motion.div>
-    </section>
+
+        {/* CTA */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="mt-24 text-center"
+        >
+          <div className="inline-block p-1 rounded-full bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-700">
+            <Button
+              asLink
+              href="mailto:mahanadhip@gmail.com"
+              variant="secondary"
+              className="rounded-full px-8 bg-white dark:bg-gray-900 border-none"
+            >
+              Let's build something new together
+            </Button>
+          </div>
+        </motion.div>
+
+      </section>
+    </div>
   );
 };
 

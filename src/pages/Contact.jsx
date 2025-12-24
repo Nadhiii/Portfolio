@@ -6,6 +6,7 @@ import { Mail, Linkedin, Phone, Send, User, MessageSquare, Calendar, CheckCircle
 import { trackEvent, trackFormSubmissionWithEnhancedConversion } from '../utils/analytics';
 import { containerVariants, itemVariants } from '../config/animations';
 import CalendarModal from '../components/CalendarModal';
+import Button from '../components/Button';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
@@ -173,54 +174,60 @@ const Contact = () => {
           animate={isVisible ? "visible" : "hidden"}
           className="max-w-6xl mx-auto"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Contact Information */}
-            <motion.div variants={itemVariants} className="space-y-8">
+            <motion.div variants={itemVariants} className="space-y-6">
               <div>
-                <h3 className="text-2xl font-bold mb-6">Get in Touch</h3>
-                <p className="text-text-light dark:text-text-dark mb-8">
+                <h3 className="text-2xl font-bold mb-4">Get in Touch</h3>
+                <p className="text-text-light dark:text-text-dark mb-6">
                   Got a product idea that's keeping you up at night? A user problem that needs solving? Or just want to chat about the intersection of tech and common sense? Let's talk.
                 </p>
               </div>
 
-              <div className="space-y-6 relative">
+              {/* UPDATED: Changed from space-y-6 to grid to ensure consistent sizing and alignment */}
+              <div className="grid grid-cols-1 gap-4 relative">
                 {contactInfo.map((item, index) => (
-                  <motion.a
+                  <a
                     key={item.label}
                     href={item.href}
                     target={item.href.startsWith('http') ? '_blank' : undefined}
                     rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                     onClick={() => trackEvent(`${item.label.toLowerCase()}_click`, 'Contact', `${item.label} clicked`)}
-                    whileHover={{ scale: 1.02, x: 5 }}
-                    className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-300 group"
+                    // UPDATED: Changed justify-center to justify-start and added px-6 to align icons to the left
+                    className="flex items-center justify-start px-6 py-4 w-full rounded-2xl gap-4 bg-white/28 dark:bg-black/24 backdrop-blur-3xl backdrop-saturate-150 text-text-light dark:text-text-dark hover:bg-white/40 dark:hover:bg-black/35 hover:shadow-md transition-all duration-300"
                   >
-                    <div className={`flex items-center justify-center w-12 h-12 ${item.color} bg-gray-100 dark:bg-gray-700 rounded-lg group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors`}>
+                    <div className={`flex items-center justify-center w-12 h-12 ${item.color} bg-gray-100/80 dark:bg-gray-700/80 rounded-lg transition-colors flex-shrink-0`}>
                       <item.icon size={20} />
                     </div>
-                    <div>
-                      <p className="font-medium text-text-light dark:text-text-dark">{item.label}</p>
-                      <p className="text-sm text-text-light dark:text-text-dark">{item.value}</p>
+                    {/* UPDATED: Changed text-center to text-left */}
+                    <div className="text-left">
+                      <p className="font-medium text-text-light dark:text-text-dark truncate">{item.label}</p>
+                      <p className="text-sm text-text-light dark:text-text-dark opacity-75 truncate">{item.value}</p>
                     </div>
-                  </motion.a>
+                  </a>
                 ))}
                 
-                <motion.button
-                  onClick={() => {
-                    setIsCalendarOpen(true);
-                    trackEvent('calendar_click', 'Contact', 'Schedule call button clicked');
-                  }}
-                  onHoverStart={() => setShowCallTooltip(true)}
-                  onHoverEnd={() => setShowCallTooltip(false)}
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-300 group w-full relative"
-                >
-                  <div className="flex items-center justify-center w-12 h-12 text-green-600 dark:text-green-400 bg-gray-100 dark:bg-gray-700 rounded-lg group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors">
-                    <Calendar size={20} />
-                  </div>
-                  <div>
-                    <p className="font-medium text-text-light dark:text-text-dark">Schedule Call</p>
-                    <p className="text-sm text-text-light dark:text-text-dark">15-30 min chat</p>
-                  </div>
+                <div className="relative w-full">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsCalendarOpen(true);
+                      trackEvent('calendar_click', 'Contact', 'Schedule call button clicked');
+                    }}
+                    onMouseEnter={() => setShowCallTooltip(true)}
+                    onMouseLeave={() => setShowCallTooltip(false)}
+                    // UPDATED: Changed justify-center to justify-start and added px-6 for alignment
+                    className="flex items-center justify-start px-6 py-4 w-full rounded-2xl gap-4 bg-white/28 dark:bg-black/24 backdrop-blur-3xl backdrop-saturate-150 text-text-light dark:text-text-dark hover:bg-white/40 dark:hover:bg-black/35 hover:shadow-md transition-all duration-300"
+                  >
+                    <div className="flex items-center justify-center w-12 h-12 text-green-600 dark:text-green-400 bg-gray-100/80 dark:bg-gray-700/80 rounded-lg transition-colors flex-shrink-0">
+                      <Calendar size={20} />
+                    </div>
+                    {/* UPDATED: Changed text-center to text-left */}
+                    <div className="text-left">
+                      <p className="font-medium text-text-light dark:text-text-dark truncate">Schedule Call</p>
+                      <p className="text-sm text-text-light dark:text-text-dark opacity-75 truncate">15-30 min chat</p>
+                    </div>
+                  </button>
                   
                   {/* Tooltip */}
                   <motion.div
@@ -235,19 +242,19 @@ const Contact = () => {
                       <strong>Prefer a quick chat?</strong> Schedule a 15-30 minute call to discuss your project ideas, timeline, and how we can collaborate effectively.
                     </p>
                   </motion.div>
-                </motion.button>
+                </div>
               </div>
             </motion.div>
 
             {/* Contact Form */}
             <motion.div variants={itemVariants}>
-              <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
+              <div className="bg-white/60 dark:bg-black/40 backdrop-blur-lg rounded-3xl p-6 border border-white/40 dark:border-white/20 shadow-xl shadow-gray-200/20 dark:shadow-black/40">
                 <div className="flex items-center gap-3 mb-6">
                   <MessageSquare size={24} className="text-primary-light dark:text-primary-dark" />
                   <h3 className="text-xl font-bold">Send a Message</h3>
                 </div>
                 
-                <form ref={form} onSubmit={sendEmail} className="space-y-6">
+                <form ref={form} onSubmit={sendEmail} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium mb-2 text-text-light dark:text-text-dark">
@@ -338,56 +345,65 @@ const Contact = () => {
                     />
                   </div>
 
-                  <motion.button
+                  <Button
                     type="submit"
                     disabled={status === 'sending'}
-                    whileHover={status === 'idle' ? { scale: 1.02 } : {}}
-                    whileTap={status === 'idle' ? { scale: 0.98 } : {}}
-                    className={`w-full flex items-center justify-center gap-2 py-4 px-6 rounded-lg font-medium transition-all duration-300 ${
+                    variant={
+                      status === 'success'
+                        ? 'primary'
+                        : status === 'error'
+                        ? 'primary'
+                        : 'primary'
+                    }
+                    size="lg"
+                    className={`w-full flex items-center justify-center gap-2 ${
                       status === 'success'
                         ? 'bg-green-500 text-white'
                         : status === 'error'
                         ? 'bg-red-500 text-white'
-                        : status === 'sending'
-                        ? 'bg-primary-light/80 text-white cursor-not-allowed'
-                        : 'bg-primary-light hover:bg-primary-light/80 dark:hover:bg-primary-dark/80 text-white shadow-lg hover:shadow-xl'
+                        : ''
                     }`}
                   >
                     {getButtonContent()}
-                  </motion.button>
+                  </Button>
                 </form>
 
                 {/* Alternative Contact Methods */}
                 <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
                   <div className="flex justify-center space-x-4">
-                    <motion.a
+                    <Button
+                      asLink
                       href="mailto:mahanadhip@gmail.com"
                       onClick={() => trackEvent('email_click', 'Contact', 'Email clicked')}
-                      whileHover={{ scale: 1.1 }}
-                      className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-blue-600 hover:bg-gray-600 hover:text-white dark:hover:bg-gray-700 dark:text-blue-400 transition-all duration-300"
+                      variant="secondary"
+                      size="icon"
+                      className="rounded-full"
                     >
                       <Mail size={20} />
-                    </motion.a>
-                    <motion.a
+                    </Button>
+                    <Button
+                      asLink
                       href="https://www.linkedin.com/in/mahanadhi/"
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => trackEvent('linkedin_click', 'Contact', 'LinkedIn clicked')}
-                      whileHover={{ scale: 1.1 }}
-                      className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-blue-700 hover:bg-gray-600 hover:text-white dark:hover:bg-gray-700 dark:text-blue-300 transition-all duration-300"
+                      variant="secondary"
+                      size="icon"
+                      className="rounded-full"
                     >
                       <Linkedin size={20} />
-                    </motion.a>
-                    <motion.button
+                    </Button>
+                    <Button
                       onClick={() => {
                         setIsCalendarOpen(true);
                         trackEvent('calendar_click', 'Contact', 'Schedule call button clicked');
                       }}
-                      whileHover={{ scale: 1.1 }}
-                      className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-green-600 hover:bg-gray-600 hover:text-white dark:hover:bg-gray-700 dark:text-green-400 transition-all duration-300"
+                      variant="secondary"
+                      size="icon"
+                      className="rounded-full"
                     >
                       <Calendar size={20} />
-                    </motion.button>
+                    </Button>
                   </div>
                 </div>
               </div>

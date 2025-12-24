@@ -1,4 +1,4 @@
-// src/App.jsx (Simple and Reliable Transition Approach)
+// src/App.jsx
 
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
@@ -9,10 +9,11 @@ import CalendarButton from './components/CalendarButton';
 import CalendarModal from './components/CalendarModal';
 import IntroAnimation from './components/IntroAnimation';
 import Footer from './components/Footer';
-import ActionButtons from './components/ActionButtons';
+import FloatingNav from './components/FloatingNav'; // REPLACED ActionButtons with FloatingNav
 import ThemeTransition from './components/ThemeTransition';
 import ScrollToTop from './components/ScrollToTop';
 import { useThemeTransition } from './hooks/useThemeTransition';
+import Hero3D from './components/Hero3D';
 
 // Utility to check if we're on the server (for SSR compatibility)
 const isBrowser = typeof window !== "undefined";
@@ -26,6 +27,7 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
   
+  // Logic to show intro only once per session on the homepage
   const [showIntro, setShowIntro] = useState(() => {
     if (!isBrowser) return false;
     const hasSeenIntro = sessionStorage.getItem('hasSeenIntro');
@@ -34,8 +36,6 @@ function App() {
   });
 
   const [showMainContent, setShowMainContent] = useState(false);
-
-  // Simple transition state
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Theme transition hook
@@ -56,11 +56,10 @@ function App() {
     if (!isBrowser) return;
     sessionStorage.setItem('hasSeenIntro', 'true');
     setShowIntro(false);
-    // Show main content immediately for seamless transition
     setShowMainContent(true);
   };
 
-  // Scroll to top on initial load (page refresh)
+  // Scroll to top on initial load
   useEffect(() => {
     if (!isBrowser) return;
     window.scrollTo(0, 0);
@@ -69,7 +68,6 @@ function App() {
   // Theme management
   useLayoutEffect(() => {
     if (!isBrowser) return;
-    
     const root = window.document.documentElement;
     if (theme === 'dark') {
       root.classList.add('dark');
@@ -82,9 +80,7 @@ function App() {
   // Body overflow management for intro animation
   useEffect(() => {
     if (!isBrowser) return;
-    
     document.body.style.overflow = showIntro ? 'hidden' : 'auto';
-    
     return () => {
       document.body.style.overflow = 'auto';
     };
@@ -92,30 +88,24 @@ function App() {
 
   // Handle route transitions
   useEffect(() => {
-    if (showIntro) return; // Skip during intro
-    
+    if (showIntro) return;
     setIsTransitioning(true);
-    
     const timer = setTimeout(() => {
       setIsTransitioning(false);
-    }, 50); // Very short delay just to trigger the transition
-    
+    }, 50);
     return () => clearTimeout(timer);
   }, [location.pathname, showIntro]);
 
-  // Initialize main content visibility for users who have seen intro
+  // Ensure content is visible if intro is skipped/done
   useEffect(() => {
     if (!showIntro && !showMainContent) {
       setShowMainContent(true);
     }
   }, [showIntro, showMainContent]);
 
-  // Animation variants for main content slide up with bounce
+  // Animation variants
   const mainContentVariants = {
-    hidden: {
-      y: '100vh',
-      opacity: 0,
-    },
+    hidden: { y: '100vh', opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
@@ -131,12 +121,8 @@ function App() {
     },
   };
 
-  // Individual component animation
   const contentItemVariants = {
-    hidden: {
-      y: 50,
-      opacity: 0,
-    },
+    hidden: { y: 50, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
@@ -149,31 +135,11 @@ function App() {
     },
   };
 
-  // CSS classes for route transition
-  const transitionClasses = isTransitioning 
-    ? 'opacity-0 transform translate-x-4' 
-    : 'opacity-100 transform translate-x-0';
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-100 via-indigo-100 to-emerald-100 dark:bg-gradient-to-br dark:from-gray-900 dark:via-blue-950 dark:to-gray-900 text-text-light dark:text-text-dark font-body transition-all duration-500">
       
-      {/* Enhanced animated background orbs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Top left - Blue/Purple orb */}
-        <div className="absolute top-1/4 -left-40 w-96 h-96 bg-gradient-to-r from-blue-400/50 via-indigo-400/45 to-purple-400/40 dark:from-blue-600/30 dark:via-purple-600/25 dark:to-blue-700/20 rounded-full blur-3xl animate-pulse"></div>
-        
-        {/* Bottom right - Green/Blue orb */}
-        <div className="absolute bottom-1/4 -right-40 w-[32rem] h-[32rem] bg-gradient-to-r from-emerald-400/50 via-cyan-400/45 to-teal-400/40 dark:from-green-600/25 dark:via-blue-600/20 dark:to-green-700/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        
-        {/* Center left - Purple/Pink accent */}
-        <div className="absolute top-3/4 left-1/4 w-80 h-80 bg-gradient-to-r from-violet-400/45 via-fuchsia-400/40 to-pink-400/35 dark:from-purple-600/20 dark:via-pink-600/15 dark:to-purple-700/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
-        
-        {/* Top right - Accent orb */}
-        <div className="absolute top-1/3 -right-20 w-72 h-72 bg-gradient-to-r from-cyan-400/40 via-sky-400/35 to-blue-400/35 dark:from-cyan-600/15 dark:to-blue-600/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '6s' }}></div>
-        
-        {/* Middle center - Warm accent for light mode */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-rose-300/25 via-amber-300/20 to-yellow-300/20 dark:from-transparent dark:to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
-      </div>
+      {/* 3D Background Layer */}
+      <Hero3D theme={theme} />
       
       <AnimatePresence mode="wait">
         {showIntro ? (
@@ -184,12 +150,14 @@ function App() {
             variants={mainContentVariants}
             initial="hidden"
             animate={showMainContent ? "visible" : "hidden"}
-            className="min-h-screen"
+            className="min-h-screen relative z-20"
           >
             <ScrollToTop />
+            
             <motion.div variants={contentItemVariants}>
               <Header theme={theme} onThemeSwitch={handleThemeSwitch} />
             </motion.div>
+            
             <main className="min-h-screen">
               <AnimatePresence mode="wait">
                 <div key={location.pathname} className="min-h-full">
@@ -197,9 +165,12 @@ function App() {
                 </div>
               </AnimatePresence>
             </main>
+
+            {/* Floating Elements */}
             <motion.div variants={contentItemVariants}>
               <CalendarButton onClick={() => setIsModalOpen(true)} />
             </motion.div>
+            
             <motion.div variants={contentItemVariants}>
               <CalendarModal 
                 isOpen={isModalOpen} 
@@ -207,9 +178,12 @@ function App() {
                 theme={theme} 
               />
             </motion.div>
+
+            {/* NEW: FloatingNav replaces ActionButtons */}
             <motion.div variants={contentItemVariants}>
-              <ActionButtons />
+              <FloatingNav />
             </motion.div>
+            
             <motion.div variants={contentItemVariants}>
               <Footer />
             </motion.div>
@@ -217,7 +191,6 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* Theme Transition */}
       <ThemeTransition
         isActive={isThemeTransitioning}
         onComplete={completeTransition}

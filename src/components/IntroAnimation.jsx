@@ -1,156 +1,112 @@
-// src/components/IntroAnimation.jsx (Slide Up Version)
-
+// src/components/IntroAnimation.jsx
 import React, { useEffect, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { EASING } from '../config/animations';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const IntroAnimation = ({ onAnimationComplete }) => {
-  const firstName = "Mahanadhi".split("");
-  const lastName = "Parisara".split("");
-  const controls = useAnimation();
-  const [animationStarted, setAnimationStarted] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Prevent multiple animation starts
-    if (animationStarted) return;
-    
-    setAnimationStarted(true);
-    
-    const sequence = async () => {
-      try {
-        // 1. Small initial delay to ensure everything is loaded
-        await new Promise(resolve => setTimeout(resolve, 300));
-        
-        // 2. Start typewriter animation
-        await controls.start("visible");
-        
-        // 3. Hold the complete text for a moment
-        await new Promise(resolve => setTimeout(resolve, 600));
-        
-        // 4. Slide up and fade
-        await controls.start("exit");
-        
-        // 5. Call completion immediately as animation starts
-        onAnimationComplete();
-      } catch (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Animation sequence error:', error);
-        }
-        // Fallback: still call completion even if animation fails
-        onAnimationComplete();
-      }
-    };
-    
-    sequence();
-  }, [controls, onAnimationComplete, animationStarted]);
+    // We handle the sequence with a simple timeout coordination
+    // to ensure the exit animation plays fully before unmounting
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 2500); // Adjust total duration here (2.5s)
 
-  // Container variants with slide up animation
-  const containerVariants = {
-    hidden: {
-      opacity: 1, // Keep container visible
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1, // Slightly slower for better readability
-        delayChildren: 0.2,   // Small delay before letters start
-      },
-    },
-    exit: {
-      y: '-100vh', // Slide up completely off screen
-      opacity: 0,
-      transition: {
-        duration: 0.8,
-        ease: EASING,
-      },
-    },
-  };
-
-  // Letter variants with smoother animation
-  const letterVariants = {
-    hidden: { 
-      opacity: 0,
-      y: 20, // Start slightly below
-      scale: 0.8,
-    },
-    visible: { 
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.4,
-        ease: EASING,
-      }
-    },
-  };
-
-  // Background variants for smooth transition
-  const backgroundVariants = {
-    hidden: {
-      opacity: 1,
-    },
-    visible: {
-      opacity: 1,
-    },
-    exit: {
-      opacity: 0,
-      transition: {
-        duration: 0.4,
-        ease: "easeOut",
-      },
-    },
-  };
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <motion.div 
-      className="fixed inset-0 flex justify-center items-center bg-background-light dark:bg-background-dark z-50 px-4"
-      variants={backgroundVariants}
-      initial="hidden"
-      animate={controls}
+    <AnimatePresence
+      mode="wait"
+      onExitComplete={() => onAnimationComplete()}
     >
-      <motion.div
-        className="font-heading text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-center font-bold tracking-wider max-w-full flex flex-col items-center gap-2"
-        variants={containerVariants}
-        initial="hidden"
-        animate={controls}
-        style={{ 
-          textShadow: '2px 2px 4px rgba(0,0,0,0.1)',
-          willChange: 'transform, opacity'
-        }}
-      >
-        {/* First Name - Mahanadhi */}
-        <div className="flex">
-          {firstName.map((letter, index) => (
-            <motion.span
-              key={`first-${letter}-${index}`}
-              variants={letterVariants}
-              style={{ 
-                display: 'inline-block',
-                willChange: 'transform, opacity'
-              }}
+      {isVisible && (
+        <motion.div
+          key="intro-overlay"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-gray-50 dark:bg-black overflow-hidden"
+          initial={{ y: 0 }}
+          exit={{
+            y: '-100%',
+            transition: {
+              duration: 0.8,
+              ease: [0.76, 0, 0.24, 1], // Premium "Quart" easing
+              delay: 0.2
+            }
+          }}
+        >
+          {/* Content Container */}
+          <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-4xl px-4">
+            
+            {/* 1. Top Text (First Name) */}
+            <motion.div
+              className="overflow-hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, y: -20, transition: { duration: 0.3 } }}
             >
-              {letter}
-            </motion.span>
-          ))}
-        </div>
-        
-        {/* Last Name - Parisara */}
-        <div className="flex">
-          {lastName.map((letter, index) => (
-            <motion.span
-              key={`last-${letter}-${index}`}
-              variants={letterVariants}
-              style={{ 
-                display: 'inline-block',
-                willChange: 'transform, opacity'
-              }}
+              <h1 className="font-heading text-4xl sm:text-6xl md:text-8xl font-bold tracking-tighter text-gray-900 dark:text-white uppercase">
+                <LetterStagger text="Mahanadhi" />
+              </h1>
+            </motion.div>
+
+            {/* 2. Futuristic Divider Line */}
+            <motion.div
+              className="h-[2px] bg-gray-900 dark:bg-white my-4 sm:my-6"
+              initial={{ width: 0 }}
+              animate={{ width: '100px' }}
+              exit={{ width: 0, opacity: 0, transition: { duration: 0.3 } }}
+              transition={{ duration: 0.8, ease: "easeInOut", delay: 0.2 }}
+            />
+
+            {/* 3. Bottom Text (Last Name) */}
+            <motion.div
+              className="overflow-hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, y: 20, transition: { duration: 0.3 } }}
             >
-              {letter}
-            </motion.span>
-          ))}
-        </div>
-      </motion.div>
-    </motion.div>
+              <h1 className="font-heading text-4xl sm:text-6xl md:text-8xl font-bold tracking-tighter text-gray-400 dark:text-gray-500 uppercase">
+                <LetterStagger text="Parisara" delay={0.4} />
+              </h1>
+            </motion.div>
+
+          </div>
+
+          {/* Optional: Subtle Background Grid for "Tech" feel */}
+          <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" 
+               style={{ 
+                 backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', 
+                 backgroundSize: '40px 40px' 
+               }} 
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// Sub-component for individual letter animation (Blur Reveal)
+const LetterStagger = ({ text, delay = 0 }) => {
+  const letters = text.split("");
+  
+  return (
+    <span className="inline-flex">
+      {letters.map((letter, i) => (
+        <motion.span
+          key={i}
+          initial={{ y: 40, opacity: 0, filter: 'blur(10px)' }}
+          animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+          transition={{
+            duration: 0.8,
+            ease: [0.2, 0.65, 0.3, 0.9],
+            delay: delay + (i * 0.05), // Stagger effect
+          }}
+          className="inline-block"
+        >
+          {letter}
+        </motion.span>
+      ))}
+    </span>
   );
 };
 

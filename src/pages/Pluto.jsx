@@ -1,13 +1,12 @@
-// src/pages/PlutoPage.jsx
+// src/pages/Pluto.jsx
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Check, ArrowLeft, Smartphone } from 'lucide-react';
+import { Check, ArrowLeft, Smartphone, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Slider from 'react-slick';
 import FsLightbox from 'fslightbox-react';
 import { trackEvent, trackPageView } from '../utils/analytics';
-import { pageVariants, childVariants } from '../config/animations';
 import OptimizedImage from '../components/OptimizedImage';
 
 // --- Importing all your screenshots ---
@@ -42,6 +41,7 @@ const PlutoPage = () => {
 
   // Track page view
   React.useEffect(() => {
+    document.title = 'Pluto App | Project Details'; // <--- Dynamic Title
     trackPageView('Pluto Project Details', 'pluto');
   }, []);
 
@@ -66,246 +66,221 @@ const PlutoPage = () => {
   };
 
   return (
-    <motion.div 
-      className="max-w-7xl mx-auto py-12 md:py-24 px-8"
-      initial="initial"
-      animate="animate"
-      variants={pageVariants}
-    >
-      <motion.header className="text-center mb-20" variants={childVariants}>
-        <div className="max-w-4xl mx-auto">
-          <h1 className="font-heading text-5xl md:text-7xl mb-4">Pluto</h1>
-          <p className="text-lg text-text-light dark:text-text-dark mb-6">
-            Previously known as Finance Manager
-          </p>
-          <p className="text-2xl md:text-3xl font-light leading-relaxed">
-            Because Your Wallet Deserves{' '}
-            <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent font-medium">
-              Better
-            </span>
-          </p>
-          
-          {/* Key Metrics */}
-          <div className="flex flex-wrap justify-center gap-8 mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary-light dark:text-primary-dark">16</div>
-              <div className="text-sm text-text-light dark:text-text-dark">Screenshots</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary-light dark:text-primary-dark">0₹</div>
-              <div className="text-sm text-text-light dark:text-text-dark">Cost</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary-light dark:text-primary-dark">100%</div>
-              <div className="text-sm text-text-light dark:text-text-dark">Privacy</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary-light dark:text-primary-dark">1st</div>
-              <div className="text-sm text-text-light dark:text-text-dark">App Built</div>
-            </div>
-          </div>
-          
-          {/* Quick Download Button */}
-          <div className="mt-8">
-            <motion.a 
-              href="https://drive.google.com/drive/folders/1xpOz7nBaKJ3IBFPERQ8IAU_lBi5PXdL9?usp=sharing" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              onClick={() => trackEvent('download_click_top', 'Engagement', 'Pluto APK download clicked - top button')}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark text-sm font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-all border border-gray-300 dark:border-gray-600"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-              Download APK
-            </motion.a>
-          </div>
-        </div>
-      </motion.header>
-
-      {/* --- ENHANCED CONTENT WITH MINIMAL DESIGN --- */}
-      <motion.div className="max-w-4xl mx-auto space-y-20 mb-24" variants={childVariants}>
+    <div className="min-h-screen pt-28 pb-24 px-4 md:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto">
         
-        {/* Problem & Solution with Clash Animation */}
-        <motion.div variants={childVariants} className="grid md:grid-cols-2 gap-12 items-start">
+        {/* HERO HEADER */}
+        <motion.header 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
+          <div className="max-w-4xl mx-auto">
+            <h1 className="font-heading text-6xl md:text-8xl mb-4 text-gray-900 dark:text-white tracking-tight">
+              Pluto
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-400 mb-6">
+              Personal Finance. Private. Offline.
+            </p>
+            <p className="text-2xl md:text-3xl font-light leading-relaxed text-gray-800 dark:text-gray-200">
+              Because Your Wallet Deserves{' '}
+              <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent font-medium">
+                Better
+              </span>
+            </p>
+            
+            {/* HUD Metrics */}
+            <div className="flex flex-wrap justify-center gap-6 mt-12">
+              {[
+                { label: 'Screenshots', value: '16' },
+                { label: 'Cost', value: '0₹' },
+                { label: 'Privacy', value: '100%' },
+                { label: 'App Built', value: '1st' }
+              ].map((metric, i) => (
+                <div key={i} className="px-6 py-3 rounded-2xl bg-white/40 dark:bg-black/40 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg">
+                  <div className="text-2xl font-bold text-primary-light dark:text-primary-dark">{metric.value}</div>
+                  <div className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">{metric.label}</div>
+                </div>
+              ))}
+            </div>
+            
+            {/* Quick Download Button */}
+            <div className="mt-8">
+              <motion.a 
+                href="https://drive.google.com/drive/folders/1xpOz7nBaKJ3IBFPERQ8IAU_lBi5PXdL9?usp=sharing" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={() => trackEvent('download_click_top', 'Engagement', 'Pluto APK download clicked - top button')}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-bold rounded-full hover:scale-105 transition-transform shadow-lg"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Download size={16} />
+                Download APK
+              </motion.a>
+            </div>
+          </div>
+        </motion.header>
+
+        {/* --- PROBLEM vs SOLUTION (Glass Cards) --- */}
+        <div className="max-w-5xl mx-auto mb-24 grid md:grid-cols-2 gap-8">
+          {/* Problem */}
           <motion.div
-            initial={{ x: -300, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ 
-              duration: 0.8, 
-              ease: [0.25, 0.25, 0, 1],
-              delay: 0.2
-            }}
+            initial={{ x: -20, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            className="p-8 rounded-3xl bg-white/30 dark:bg-black/30 backdrop-blur-xl border border-red-500/10 shadow-xl relative overflow-hidden group"
           >
-            <h2 className="font-heading text-3xl mb-6 text-text-light dark:text-text-dark">The Problem</h2>
-            <p className="text-lg leading-relaxed text-text-light dark:text-text-dark">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 blur-[50px] pointer-events-none" />
+            <h2 className="font-heading text-2xl mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+              <span className="text-red-500">✕</span> The Problem
+            </h2>
+            <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
               I wanted to track my finances without giving apps access to my SMS, email, or bank accounts. 
               Most apps demand subscriptions, invade privacy, or still don't deliver what you need.
             </p>
-            <p className="text-lg leading-relaxed text-text-light dark:text-text-dark mt-4">
-              So, I thought:
-            </p>
-            <motion.p 
-              className="text-lg font-medium mt-2 text-primary-light dark:text-primary-dark"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 1.6, duration: 0.5, ease: "backOut" }}
-            >
-              "Fine. I'll build it myself."
-            </motion.p>
+            <div className="mt-6 pt-6 border-t border-gray-200/20 dark:border-gray-700/20">
+              <p className="text-lg font-medium text-gray-800 dark:text-gray-200 italic">
+                "Fine. I'll build it myself."
+              </p>
+            </div>
           </motion.div>
+
+          {/* Solution */}
           <motion.div
-            initial={{ x: 300, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ 
-              duration: 0.8, 
-              ease: [0.25, 0.25, 0, 1],
-              delay: 0.2
-            }}
+            initial={{ x: 20, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            className="p-8 rounded-3xl bg-white/40 dark:bg-black/40 backdrop-blur-xl border border-green-500/20 shadow-xl relative overflow-hidden"
           >
-            <h2 className="font-heading text-3xl mb-6 text-text-light dark:text-text-dark">The Solution</h2>
-            <p className="text-lg leading-relaxed text-text-light dark:text-text-dark">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 blur-[50px] pointer-events-none" />
+            <h2 className="font-heading text-2xl mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+              <span className="text-green-500">✓</span> The Solution
+            </h2>
+            <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
               A privacy-first finance app that works entirely offline. No permissions needed, 
               no subscriptions required, no data harvesting. Just clean, simple money management.
             </p>
           </motion.div>
-          
-          {/* Clash Effect - Invisible collision point */}
-          <motion.div 
-            className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-            initial={{ scale: 0 }}
-            animate={{ 
-              scale: [0, 1.5, 0],
-              rotate: [0, 180, 360]
-            }}
-            transition={{ 
-              delay: 1.0,
-              duration: 0.6,
-              ease: "easeInOut"
-            }}
-          >
-            <div className="w-8 h-8 bg-primary-light/20 dark:bg-primary-dark/20 rounded-full blur-sm"></div>
-          </motion.div>
-        </motion.div>
+        </div>
 
-        {/* Core Features */}
-        <motion.div variants={childVariants}>
-          <h2 className="font-heading text-3xl mb-8 text-center text-text-light dark:text-text-dark">What It Actually Does</h2>
+        {/* CORE FEATURES GRID */}
+        <div className="max-w-5xl mx-auto mb-24">
+          <h2 className="font-heading text-3xl mb-10 text-center text-gray-900 dark:text-white">What It Actually Does</h2>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <Check className="text-accent-green-light dark:text-accent-green-dark mb-3" size={24} />
-              <h3 className="font-semibold mb-2">Complete Financial Tracking</h3>
-              <p className="text-sm text-text-light dark:text-text-dark">Income, expenses, debts, and investments in one place</p>
-            </div>
-            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <Check className="text-accent-green-light dark:text-accent-green-dark mb-3" size={24} />
-              <h3 className="font-semibold mb-2">Smart Budgets & Goals</h3>
-              <p className="text-sm text-text-light dark:text-text-dark">Set savings targets and debt payoff plans</p>
-            </div>
-            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <Check className="text-accent-green-light dark:text-accent-green-dark mb-3" size={24} />
-              <h3 className="font-semibold mb-2">Cross-Device Sync</h3>
-              <p className="text-sm text-text-light dark:text-text-dark">Works seamlessly across all your devices</p>
-            </div>
-            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <Check className="text-accent-green-light dark:text-accent-green-dark mb-3" size={24} />
-              <h3 className="font-semibold mb-2">2 AM Friendly</h3>
-              <p className="text-sm text-text-light dark:text-text-dark">Light and dark modes for late-night budgeting</p>
-            </div>
+            {[
+              { title: "Complete Tracking", desc: "Income, expenses, debts, and investments in one place." },
+              { title: "Smart Budgets", desc: "Set savings targets and debt payoff plans." },
+              { title: "Cross-Device Sync", desc: "Works seamlessly across all your devices." },
+              { title: "2 AM Friendly", desc: "Light and dark modes for late-night budgeting." }
+            ].map((feature, i) => (
+              <motion.div 
+                key={i}
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="p-6 rounded-2xl bg-white/20 dark:bg-white/5 backdrop-blur-md border border-white/20 dark:border-white/10 hover:bg-white/30 dark:hover:bg-white/10 transition-colors"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="p-2 rounded-lg bg-green-500/20 text-green-600 dark:text-green-400">
+                    <Check size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900 dark:text-white mb-1">{feature.title}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{feature.desc}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
-        </motion.div>
+        </div>
         
-        {/* Privacy & Learning */}
-        <motion.div variants={childVariants} className="grid md:grid-cols-2 gap-12 items-start">
-          <div className="p-8 bg-blue-50 dark:bg-blue-900 rounded-xl border-l-4 border-blue-500">
-            <h3 className="font-semibold text-lg mb-4 text-blue-700 dark:text-blue-300">Privacy Promise</h3>
-            <p className="text-blue-600 dark:text-blue-400">
+        {/* Privacy & Learning (Side by Side Glass) */}
+        <div className="max-w-5xl mx-auto mb-24 grid md:grid-cols-2 gap-8">
+          <div className="p-8 rounded-3xl bg-blue-500/5 backdrop-blur-xl border border-blue-500/20">
+            <h3 className="font-bold text-xl mb-4 text-blue-600 dark:text-blue-400">Privacy Promise</h3>
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
               No SMS reading. No bank scraping. No subscriptions. No data collection. 
               Your financial data stays yours, period.
             </p>
           </div>
-          <div className="p-8 bg-green-50 dark:bg-green-900/20 rounded-xl border-l-4 border-green-500">
-            <h3 className="font-semibold text-lg mb-4 text-green-700 dark:text-green-300">Learning Journey</h3>
-            <p className="text-green-600 dark:text-green-400">
+          <div className="p-8 rounded-3xl bg-purple-500/5 backdrop-blur-xl border border-purple-500/20">
+            <h3 className="font-bold text-xl mb-4 text-purple-600 dark:text-purple-400">Learning Journey</h3>
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
               My first mobile app taught me full-stack development from scratch. 
               Every bug was a lesson, every feature a breakthrough.
             </p>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Tech Approach */}
-        <motion.div variants={childVariants} className="text-center">
-          <h2 className="font-heading text-3xl mb-6 text-text-light dark:text-text-dark">Built With Purpose</h2>
-          <p className="text-lg leading-relaxed text-text-light dark:text-text-dark max-w-2xl mx-auto">
-            Rather than learning theory, I built something I actually needed. 
-            This hands-on approach taught me more about mobile development, 
-            databases, and user experience than any tutorial could.
-          </p>
-        </motion.div>
-      </motion.div>
-
-      <motion.div className="mb-24" variants={childVariants}>
-        <h2 className="font-heading text-3xl mb-8 text-center text-text-light dark:text-text-dark flex items-center justify-center gap-3">
-          <Smartphone size={30} className="text-primary-light dark:text-primary-dark" />
-          App Walkthrough
-        </h2>
-        <p className="text-center text-text-light dark:text-text-dark mb-8">
-          Click any screenshot to view full-size
-        </p>
-        <div className="px-4">
-          <Slider {...sliderSettings}>
-            {screenshots.map((shot, index) => (
-              <div key={index} className="px-2" onClick={() => openLightboxOnSlide(index + 1)}>
-                <div className="bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden shadow-md aspect-[9/16] cursor-pointer group">
-                  <OptimizedImage
-                    src={shot}
-                    alt={`Pluto Screenshot ${index + 1}`}
-                    className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
-                    loading="lazy"
-                  />
+        {/* SCREENSHOTS SLIDER */}
+        <div className="mb-24">
+          <h2 className="font-heading text-3xl mb-8 text-center text-gray-900 dark:text-white flex items-center justify-center gap-3">
+            <Smartphone size={28} className="text-primary-light dark:text-primary-dark" />
+            App Walkthrough
+          </h2>
+          <div className="px-4">
+            <Slider {...sliderSettings}>
+              {screenshots.map((shot, index) => (
+                <div key={index} className="px-3 pb-8" onClick={() => openLightboxOnSlide(index + 1)}>
+                  <div className="rounded-2xl overflow-hidden shadow-2xl border-4 border-gray-800 dark:border-gray-700 cursor-pointer hover:scale-[1.02] transition-transform duration-300">
+                    <OptimizedImage
+                      src={shot}
+                      alt={`Pluto Screenshot ${index + 1}`}
+                      className="w-full h-auto object-cover"
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
-          </Slider>
+              ))}
+            </Slider>
+          </div>
         </div>
-      </motion.div>
 
-      <motion.div className="text-center bg-gray-50 dark:bg-gray-800 rounded-2xl p-12" variants={childVariants}>
-        <h3 className="font-heading text-2xl mb-4">Ready to Try It?</h3>
-        <p className="text-text-light dark:text-text-dark mb-8 max-w-md mx-auto">
-          Download the APK and start managing your finances without compromising your privacy.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <motion.a 
-            href="https://drive.google.com/drive/folders/1xpOz7nBaKJ3IBFPERQ8IAU_lBi5PXdL9?usp=sharing" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            onClick={() => trackEvent('download_click', 'Engagement', 'Pluto APK download clicked')}
-            className="bg-primary-light text-white font-medium py-4 px-8 rounded-xl hover:bg-primary-light/90 transition-all text-lg shadow-lg hover:shadow-xl"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            Download APK
-          </motion.a>
-          <Link 
-            to="/" 
-            onClick={() => trackEvent('back_to_home', 'Navigation', 'Back to home from Pluto page')}
-            className="flex items-center gap-2 text-text-light dark:text-text-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors font-medium"
-          >
-            <ArrowLeft size={16} />
-            Back to HomePage
-          </Link>
-        </div>
-      </motion.div>
+        {/* BOTTOM CTA */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-center"
+        >
+          <div className="inline-block p-12 rounded-3xl bg-white/40 dark:bg-black/40 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-2xl">
+            <h3 className="font-heading text-3xl mb-4 text-gray-900 dark:text-white">Ready to Try It?</h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
+              Download the APK and start managing your finances without compromising your privacy.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <motion.a 
+                href="https://drive.google.com/drive/folders/1xpOz7nBaKJ3IBFPERQ8IAU_lBi5PXdL9?usp=sharing" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={() => trackEvent('download_click', 'Engagement', 'Pluto APK download clicked')}
+                className="px-8 py-4 bg-primary-light dark:bg-primary-dark text-white font-bold rounded-xl shadow-lg hover:shadow-primary-light/40 transition-shadow"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Download APK
+              </motion.a>
+              <Link 
+                to="/" 
+                onClick={() => trackEvent('back_to_home', 'Navigation', 'Back to home from Pluto page')}
+                className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors font-medium px-6 py-4"
+              >
+                <ArrowLeft size={18} />
+                Back to Home
+              </Link>
+            </div>
+          </div>
+        </motion.div>
 
-      <FsLightbox
-        toggler={lightbox.toggler}
-        sources={screenshots}
-        slide={lightbox.slide}
-      />
-    </motion.div>
+        <FsLightbox
+          toggler={lightbox.toggler}
+          sources={screenshots}
+          slide={lightbox.slide}
+        />
+      </div>
+    </div>
   );
 };
 

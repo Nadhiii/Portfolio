@@ -23,7 +23,7 @@ const Header = ({ theme, onThemeSwitch }) => {
   };
 
   return (
-    <div className="fixed top-4 left-0 right-0 z-30 flex justify-center px-4">
+    <div className="fixed top-4 left-0 right-0 z-40 flex justify-center px-4">
       <motion.header 
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -32,13 +32,13 @@ const Header = ({ theme, onThemeSwitch }) => {
       >
       <div className={`
         relative px-6 py-3 rounded-full 
-        bg-white/40 dark:bg-gray-900/40 
-        backdrop-blur-xl 
-        border border-gray-300/30 dark:border-gray-600/30
+        bg-white/28 dark:bg-black/24 
+        backdrop-blur-3xl backdrop-saturate-150
+        border border-transparent
         transition-all duration-300
         ${isScrolled 
-          ? 'shadow-2xl shadow-gray-400/30 dark:shadow-black/50' 
-          : 'shadow-xl shadow-gray-300/40 dark:shadow-black/40'
+          ? 'shadow-2xl shadow-gray-400/25 dark:shadow-black/45' 
+          : 'shadow-xl shadow-gray-300/30 dark:shadow-black/35'
         }
       `}>
         <div className="flex justify-between items-center">
@@ -72,11 +72,23 @@ const Header = ({ theme, onThemeSwitch }) => {
                 to="/projects" 
                 onClick={() => trackEvent('nav_click', 'Navigation', 'Projects section visited')}
                 className={({isActive}) => `
-                  px-4 py-2 rounded-full transition-all duration-300
+                  px-4 py-2 rounded-lg transition-all duration-300 relative group
+                  text-text-light dark:text-text-dark
                   ${isActive 
-                    ? 'bg-gray-600 dark:bg-gray-700 text-white' 
-                    : 'hover:bg-gray-600 dark:hover:bg-gray-700 hover:text-white'
+                    ? 'text-primary-light dark:text-primary-dark font-semibold' 
+                    : ''
                   }
+                  after:content-['']
+                  after:absolute
+                  after:bottom-0
+                  after:left-4
+                  after:w-0
+                  after:h-0.5
+                  after:bg-primary-light
+                  dark:after:bg-primary-dark
+                  after:transition-all
+                  after:duration-300
+                  ${isActive ? 'after:w-[calc(100%-32px)]' : 'group-hover:after:w-[calc(100%-32px)]'}
                 `}
               >
                 Projects
@@ -87,11 +99,23 @@ const Header = ({ theme, onThemeSwitch }) => {
                 to="/skills" 
                 onClick={() => trackEvent('nav_click', 'Navigation', 'Skills section visited')}
                 className={({isActive}) => `
-                  px-4 py-2 rounded-full transition-all duration-300
+                  px-4 py-2 rounded-lg transition-all duration-300 relative group
+                  text-text-light dark:text-text-dark
                   ${isActive 
-                    ? 'bg-gray-600 dark:bg-gray-700 text-white' 
-                    : 'hover:bg-gray-600 dark:hover:bg-gray-700 hover:text-white'
+                    ? 'text-primary-light dark:text-primary-dark font-semibold' 
+                    : ''
                   }
+                  after:content-['']
+                  after:absolute
+                  after:bottom-0
+                  after:left-4
+                  after:w-0
+                  after:h-0.5
+                  after:bg-primary-light
+                  dark:after:bg-primary-dark
+                  after:transition-all
+                  after:duration-300
+                  ${isActive ? 'after:w-[calc(100%-32px)]' : 'group-hover:after:w-[calc(100%-32px)]'}
                 `}
               >
                 Skills
@@ -102,11 +126,23 @@ const Header = ({ theme, onThemeSwitch }) => {
                 to="/experience" 
                 onClick={() => trackEvent('nav_click', 'Navigation', 'Experience page visited')}
                 className={({isActive}) => `
-                  px-4 py-2 rounded-full transition-all duration-300
+                  px-4 py-2 rounded-lg transition-all duration-300 relative group
+                  text-text-light dark:text-text-dark
                   ${isActive 
-                    ? 'bg-gray-600 dark:bg-gray-700 text-white' 
-                    : 'hover:bg-gray-600 dark:hover:bg-gray-700 hover:text-white'
+                    ? 'text-primary-light dark:text-primary-dark font-semibold' 
+                    : ''
                   }
+                  after:content-['']
+                  after:absolute
+                  after:bottom-0
+                  after:left-4
+                  after:w-0
+                  after:h-0.5
+                  after:bg-primary-light
+                  dark:after:bg-primary-dark
+                  after:transition-all
+                  after:duration-300
+                  ${isActive ? 'after:w-[calc(100%-32px)]' : 'group-hover:after:w-[calc(100%-32px)]'}
                 `}
               >
                 Experience
@@ -117,11 +153,23 @@ const Header = ({ theme, onThemeSwitch }) => {
                 to="/contact" 
                 onClick={() => trackEvent('nav_click', 'Navigation', 'Contact section visited')}
                 className={({isActive}) => `
-                  px-4 py-2 rounded-full transition-all duration-300
+                  px-4 py-2 rounded-lg transition-all duration-300 relative group
+                  text-text-light dark:text-text-dark
                   ${isActive 
-                    ? 'bg-gray-600 dark:bg-gray-700 text-white' 
-                    : 'hover:bg-gray-600 dark:hover:bg-gray-700 hover:text-white'
+                    ? 'text-primary-light dark:text-primary-dark font-semibold' 
+                    : ''
                   }
+                  after:content-['']
+                  after:absolute
+                  after:bottom-0
+                  after:left-4
+                  after:w-0
+                  after:h-0.5
+                  after:bg-primary-light
+                  dark:after:bg-primary-dark
+                  after:transition-all
+                  after:duration-300
+                  ${isActive ? 'after:w-[calc(100%-32px)]' : 'group-hover:after:w-[calc(100%-32px)]'}
                 `}
               >
                 Contact
@@ -132,11 +180,23 @@ const Header = ({ theme, onThemeSwitch }) => {
                 to="/pluto" 
                 onClick={() => trackEvent('nav_click', 'Navigation', 'Pluto page visited')}
                 className={({isActive}) => `
-                  px-4 py-2 rounded-full transition-all duration-300
+                  px-4 py-2 rounded-lg transition-all duration-300 relative group
+                  text-text-light dark:text-text-dark
                   ${isActive 
-                    ? 'bg-gray-600 dark:bg-gray-700 text-white' 
-                    : 'hover:bg-gray-600 dark:hover:bg-gray-700 hover:text-white'
+                    ? 'text-primary-light dark:text-primary-dark font-semibold' 
+                    : ''
                   }
+                  after:content-['']
+                  after:absolute
+                  after:bottom-0
+                  after:left-4
+                  after:w-0
+                  after:h-0.5
+                  after:bg-primary-light
+                  dark:after:bg-primary-dark
+                  after:transition-all
+                  after:duration-300
+                  ${isActive ? 'after:w-[calc(100%-32px)]' : 'group-hover:after:w-[calc(100%-32px)]'}
                 `}
               >
                 Pluto

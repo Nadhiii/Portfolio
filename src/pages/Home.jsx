@@ -1,4 +1,4 @@
-// src/pages/HomePage.jsx
+// src/pages/Home.jsx
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -20,15 +20,19 @@ const HomePage = () => {
     
     if (path === '/projects') {
       setCurrentSection('projects');
+      document.title = 'Projects | Mahanadhi Parisara'; // <--- Dynamic Title
       trackPageView('Projects Section', 'projects');
     } else if (path === '/skills') {
       setCurrentSection('skills');
+      document.title = 'Skills | Mahanadhi Parisara'; // <--- Dynamic Title
       trackPageView('Skills Section', 'skills');
     } else if (path === '/contact') {
       setCurrentSection('contact');
+      document.title = 'Contact | Mahanadhi Parisara'; // <--- Dynamic Title
       trackPageView('Contact Section', 'contact');
     } else {
       setCurrentSection('home');
+      document.title = 'Mahanadhi Parisara | Product-Minded Dev'; // <--- Dynamic Title
       trackPageView('Home Page', 'home');
     }
   }, [location.pathname]);

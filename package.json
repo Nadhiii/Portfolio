@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.2",
     "framer-motion": "^12.23.7",
     "fslightbox-react": "^1.8.0",
     "lucide-react": "^0.525.0",
@@ -18,7 +20,8 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.7.0",
     "react-slick": "^0.30.3",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "three": "^0.182.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
