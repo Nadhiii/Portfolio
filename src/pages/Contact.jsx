@@ -7,6 +7,7 @@ import { trackEvent, trackFormSubmissionWithEnhancedConversion } from '../utils/
 import { containerVariants, itemVariants } from '../config/animations';
 import CalendarModal from '../components/CalendarModal';
 import Button from '../components/Button';
+import { supabase } from '../utils/supabaseClient';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
@@ -37,7 +38,7 @@ const Contact = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const sendEmail = (e) => {
+  const sendEmail = async (e) => {
     e.preventDefault();
     setStatus('sending');
     // Removed: trackEvent('contact_form_submit', 'Engagement', 'Contact form submitted');
@@ -45,6 +46,34 @@ const Contact = () => {
     const serviceID = 'service_yr5fl2q';
     const templateID = 'template_a8h4rjw';
     const publicKey = 'iOjr3dwBPBnhBOiGn';
+
+    const messagePayload = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      subject: formData.subject,
+      message: formData.message,
+      source: 'portfolio',
+      status: 'new',
+      created_at: new Date().toISOString()
+    };
+
+    if (supabase) {
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert([messagePayload]);
+
+      if (error) {
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Supabase logging failed:', error);
+        }
+        trackEvent('contact_form_supabase_error', 'Error', error.message || 'Supabase insert failed');
+      } else {
+        trackEvent('contact_form_supabase_logged', 'Engagement', 'Contact form saved to Supabase');
+      }
+    } else if (process.env.NODE_ENV === 'development') {
+      console.warn('Supabase client not configured; skipping DB logging.');
+    }
     
     const templateParams = {
       from_name: formData.name,
@@ -55,36 +84,36 @@ const Contact = () => {
       to_name: 'Mahanadi',
     };
     
-    emailjs.send(serviceID, templateID, templateParams, publicKey)
-      .then((result) => {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Email sent successfully:', result);
-        }
-        setStatus('success');
-        
-        // Push Enhanced Conversion Data to dataLayer (single event)
-        trackFormSubmissionWithEnhancedConversion({
-          email: formData.email,
-          phone: formData.phone,
-          name: formData.name,
-          firstName: formData.name.split(' ')[0],
-          lastName: formData.name.split(' ').slice(1).join(' ')
-        });
-        
-        setTimeout(() => {
-          setStatus('idle');
-          setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-        }, 3000);
-      }, (error) => {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Email sending failed:', error);
-        }
-        setStatus('error');
-        trackEvent('contact_form_error', 'Error', `Contact form failed: ${error.text || 'Unknown error'}`);
-        setTimeout(() => {
-          setStatus('idle');
-        }, 3000);
+    try {
+      const result = await emailjs.send(serviceID, templateID, templateParams, publicKey);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Email sent successfully:', result);
+      }
+      setStatus('success');
+      
+      // Push Enhanced Conversion Data to dataLayer (single event)
+      trackFormSubmissionWithEnhancedConversion({
+        email: formData.email,
+        phone: formData.phone,
+        name: formData.name,
+        firstName: formData.name.split(' ')[0],
+        lastName: formData.name.split(' ').slice(1).join(' ')
       });
+      
+      setTimeout(() => {
+        setStatus('idle');
+        setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+      }, 3000);
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Email sending failed:', error);
+      }
+      setStatus('error');
+      trackEvent('contact_form_error', 'Error', `Contact form failed: ${error.text || error.message || 'Unknown error'}`);
+      setTimeout(() => {
+        setStatus('idle');
+      }, 3000);
+    }
   };
 
   const contactInfo = [
