@@ -17,7 +17,7 @@ export const trackEvent = (eventName, eventCategory, eventLabel, value = null) =
     window.dataLayer.push(eventData);
     
     // Only log in development
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       console.log(`Event tracked: ${eventName} | ${eventCategory} | ${eventLabel}`);
     }
   }
@@ -33,30 +33,9 @@ export const trackPageView = (pageName, section = null) => {
     });
     
     // Only log in development
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       console.log(`Page view tracked: ${pageName}`);
     }
-  }
-};
-
-// Track user engagement time
-export const trackEngagement = (section, timeSpent) => {
-  if (window.dataLayer) {
-    window.dataLayer.push({
-      event: 'user_engagement',
-      engagement_time_msec: timeSpent,
-      section: section,
-    });
-  }
-};
-
-// Track scroll depth
-export const trackScrollDepth = (percentage) => {
-  if (window.dataLayer) {
-    window.dataLayer.push({
-      event: 'scroll',
-      scroll_depth: percentage,
-    });
   }
 };
 
@@ -76,41 +55,11 @@ const formatPhoneToE164 = (phone, defaultCountryCode = '91') => {
   return '+' + digits;
 };
 
-// Push user data for Enhanced Conversions (GDPR compliant - hash on server side in GTM)
-export const pushEnhancedConversionData = (userData) => {
-  if (window.dataLayer) {
-    // Format phone to E.164 if provided
-    const formattedPhone = userData.phone ? formatPhoneToE164(userData.phone) : '';
-    
-    // Simple synchronous push - GTM will handle hashing via built-in variable or custom JavaScript
-    const enhancedConversionData = {
-      event: 'form_success', // Single clear event name for GTM
-      event_category: 'engagement',
-      event_label: 'contact_form',
-      // User data for enhanced conversions - place at root level for easier GTM access
-      email: userData.email || '',
-      phone_number: formattedPhone, // E.164 format: +[country code][number]
-      first_name: userData.firstName || '',
-      last_name: userData.lastName || ''
-    };
-
-    window.dataLayer.push(enhancedConversionData);
-
-    // Log in development
-    if (process.env.NODE_ENV === 'development') {
-      console.log('✅ Form Submit Event Pushed to dataLayer');
-      console.log('📊 Event Data:', enhancedConversionData);
-    }
-  } else {
-    console.error('❌ dataLayer not found - is GTM installed?');
-  }
-};
-
 // Track form submission with enhanced conversion data
 export const trackFormSubmissionWithEnhancedConversion = (formData) => {
   if (window.dataLayer) {
     // Log what we're receiving
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       console.log('📝 Form data received:', formData);
     }
 
@@ -125,7 +74,7 @@ export const trackFormSubmissionWithEnhancedConversion = (formData) => {
       lastName: formData.lastName || formData.name?.split(' ').slice(1).join(' ') || ''
     };
 
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       console.log('👤 User data prepared:', userData);
     }
 
@@ -143,7 +92,7 @@ export const trackFormSubmissionWithEnhancedConversion = (formData) => {
     window.dataLayer.push(enhancedConversionData);
 
     // Log in development
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       console.log('✅ Form submission tracked with enhanced conversion data');
       console.log('📊 DataLayer push:', enhancedConversionData);
     }

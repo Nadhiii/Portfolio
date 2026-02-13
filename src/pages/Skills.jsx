@@ -1,7 +1,7 @@
 // src/pages/Skills.jsx
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { BrainCircuit, Code, Zap, Target, TrendingUp } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { BrainCircuit, Code, Zap, Target } from 'lucide-react';
 import { trackPageView } from '../utils/analytics';
 
 const mindsetSkills = [
@@ -64,12 +64,22 @@ const SkillCard = ({ skill, index }) => (
   </motion.div>
 );
 
+const tabIds = ['mindset', 'technical', 'ai', 'analytics'];
+
 const Skills = () => {
   const [activeTab, setActiveTab] = useState('mindset');
+  const directionRef = useRef(1); // 1 = right, -1 = left
 
   React.useEffect(() => {
     trackPageView('Skills Page', 'skills');
   }, []);
+
+  const handleTabChange = (tabId) => {
+    const prevIndex = tabIds.indexOf(activeTab);
+    const nextIndex = tabIds.indexOf(tabId);
+    directionRef.current = nextIndex > prevIndex ? 1 : -1;
+    setActiveTab(tabId);
+  };
 
   const tabs = [
     { id: 'mindset', label: 'Mindset', icon: BrainCircuit },
@@ -77,6 +87,12 @@ const Skills = () => {
     { id: 'ai', label: 'AI Stack', icon: Zap },
     { id: 'analytics', label: 'Analytics', icon: Target }
   ];
+
+  const slideVariants = {
+    enter: (dir) => ({ x: dir * 80, opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (dir) => ({ x: dir * -80, opacity: 0 }),
+  };
 
   return (
     <div className="min-h-screen pt-28 pb-24 px-4 md:px-8 relative z-10">
@@ -106,7 +122,7 @@ const Skills = () => {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => handleTabChange(tab.id)}
                   className={`flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${
                     isActive
                       ? 'bg-white dark:bg-gray-800 text-primary-light dark:text-primary-dark shadow-md scale-105'
@@ -122,11 +138,24 @@ const Skills = () => {
         </div>
 
         {/* Grid Content */}
-        <div className="grid md:grid-cols-2 gap-4 mb-12">
-          {activeTab === 'mindset' && mindsetSkills.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
-          {activeTab === 'technical' && technicalSkills.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
-          {activeTab === 'ai' && aiTools.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
-          {activeTab === 'analytics' && analyticsTools.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
+        <div className="relative mb-12 overflow-hidden">
+          <AnimatePresence mode="wait" custom={directionRef.current}>
+            <motion.div
+              key={activeTab}
+              custom={directionRef.current}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="grid md:grid-cols-2 gap-4"
+            >
+              {activeTab === 'mindset' && mindsetSkills.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
+              {activeTab === 'technical' && technicalSkills.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
+              {activeTab === 'ai' && aiTools.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
+              {activeTab === 'analytics' && analyticsTools.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Philosophy Footer */}

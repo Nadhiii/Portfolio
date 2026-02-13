@@ -12,7 +12,9 @@ import Footer from './components/Footer';
 import FloatingNav from './components/FloatingNav'; // REPLACED ActionButtons with FloatingNav
 import ThemeTransition from './components/ThemeTransition';
 import ScrollToTop from './components/ScrollToTop';
+import CustomCursor from './components/CustomCursor';
 import { useThemeTransition } from './hooks/useThemeTransition';
+import useSmoothScroll from './hooks/useSmoothScroll';
 import Hero3D from './components/Hero3D';
 
 // Utility to check if we're on the server (for SSR compatibility)
@@ -36,7 +38,9 @@ function App() {
   });
 
   const [showMainContent, setShowMainContent] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Smooth scroll with Lenis (disabled during intro)
+  useSmoothScroll(!showIntro);
 
   // Theme transition hook
   const {
@@ -86,15 +90,12 @@ function App() {
     };
   }, [showIntro]);
 
-  // Handle route transitions
+  // Listen for calendar modal open events from child components
   useEffect(() => {
-    if (showIntro) return;
-    setIsTransitioning(true);
-    const timer = setTimeout(() => {
-      setIsTransitioning(false);
-    }, 50);
-    return () => clearTimeout(timer);
-  }, [location.pathname, showIntro]);
+    const handleOpenCalendar = () => setIsModalOpen(true);
+    window.addEventListener('open-calendar-modal', handleOpenCalendar);
+    return () => window.removeEventListener('open-calendar-modal', handleOpenCalendar);
+  }, []);
 
   // Ensure content is visible if intro is skipped/done
   useEffect(() => {
@@ -136,7 +137,18 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-100 via-indigo-100 to-emerald-100 dark:bg-gradient-to-br dark:from-gray-900 dark:via-blue-950 dark:to-gray-900 text-text-light dark:text-text-dark font-body transition-all duration-500">
+    <div className="theme-transition min-h-screen bg-gradient-to-br from-sky-100 via-indigo-100 to-emerald-100 dark:bg-gradient-to-br dark:from-gray-900 dark:via-blue-950 dark:to-gray-900 text-text-light dark:text-text-dark font-body transition-all duration-500">
+      
+      {/* Custom Cursor (desktop only) */}
+      <CustomCursor />
+      
+      {/* Skip to content link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:bg-primary-light focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none"
+      >
+        Skip to main content
+      </a>
       
       {/* 3D Background Layer */}
       <Hero3D theme={theme} />
@@ -158,11 +170,18 @@ function App() {
               <Header theme={theme} onThemeSwitch={handleThemeSwitch} />
             </motion.div>
             
-            <main className="min-h-screen">
+            <main id="main-content" className="min-h-screen">
               <AnimatePresence mode="wait">
-                <div key={location.pathname} className="min-h-full">
+                <motion.div 
+                  key={location.pathname} 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  className="min-h-full"
+                >
                   <Outlet />
-                </div>
+                </motion.div>
               </AnimatePresence>
             </main>
 

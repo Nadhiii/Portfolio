@@ -70,6 +70,31 @@ const IntroAnimation = ({ onAnimationComplete }) => {
               </h1>
             </motion.div>
 
+            {/* 4. Loading Progress Bar */}
+            <motion.div
+              className="mt-8 sm:mt-12 w-32 sm:w-48"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.2 } }}
+              transition={{ delay: 0.8 }}
+            >
+              <div className="h-[1px] w-full bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full bg-gray-900 dark:bg-white rounded-full"
+                  initial={{ width: '0%' }}
+                  animate={{ width: '100%' }}
+                  transition={{ duration: 1.5, delay: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+                />
+              </div>
+              <motion.p
+                className="text-[10px] tracking-[0.3em] uppercase text-gray-400 dark:text-gray-600 text-center mt-3 font-medium"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+              >
+                Loading
+              </motion.p>
+            </motion.div>
           </div>
 
           {/* Optional: Subtle Background Grid for "Tech" feel */}

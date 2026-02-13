@@ -1,5 +1,5 @@
 // src/components/FloatingNav.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowUp, FileText, // FileText represents a Document/Resume
@@ -11,33 +11,45 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const FloatingNav = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  const [contextualActions, setContextualActions] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const getContextualActions = (pathname) => {
+  const contextualActions = useMemo(() => {
+    const pathname = location.pathname;
+    
     // 1. PROJECT PAGE
     if (pathname === '/projects') {
       return [
-        { id: 'github', label: 'GitHub', icon: Github, action: () => window.open('https://github.com/Nadhiii', '_blank'), color: 'hover:text-black dark:hover:text-white' },
-        { id: 'contact-quick', label: 'Let\'s Talk', icon: MessageSquare, action: () => navigate('/contact'), color: 'hover:text-green-500' }
+        { id: 'github', label: 'GitHub', icon: Github, action: 'github', color: 'hover:text-black dark:hover:text-white' },
+        { id: 'contact-quick', label: 'Let\'s Talk', icon: MessageSquare, action: 'contact', color: 'hover:text-green-500' }
       ];
     }
     
     // 2. CONTACT PAGE
     if (pathname === '/contact') {
       return [
-        { id: 'email', label: 'Email', icon: Mail, action: () => window.open('mailto:mahanadhip@gmail.com', '_blank'), color: 'hover:text-blue-500' },
-        { id: 'linkedin', label: 'LinkedIn', icon: Linkedin, action: () => window.open('https://www.linkedin.com/in/mahanadhi/', '_blank'), color: 'hover:text-blue-600' }
+        { id: 'email', label: 'Email', icon: Mail, action: 'email', color: 'hover:text-blue-500' },
+        { id: 'linkedin', label: 'LinkedIn', icon: Linkedin, action: 'linkedin', color: 'hover:text-blue-600' }
       ];
     }
 
     // 3. HOME / DEFAULT
     return [
-      { id: 'resume', label: 'Resume', icon: FileText, action: () => window.open('https://drive.google.com/file/d/1dBcASDXDvYTuDoaSr4-7XQS0-kH9QZ_T/view?usp=drive_link', '_blank'), color: 'hover:text-purple-500' },
-      { id: 'linkedin-main', label: 'LinkedIn', icon: Linkedin, action: () => window.open('https://www.linkedin.com/in/mahanadhi/', '_blank'), color: 'hover:text-blue-600' }
+      { id: 'resume', label: 'Resume', icon: FileText, action: 'resume', color: 'hover:text-purple-500' },
+      { id: 'linkedin-main', label: 'LinkedIn', icon: Linkedin, action: 'linkedin', color: 'hover:text-blue-600' }
     ];
-  };
+  }, [location.pathname]);
+
+  const handleAction = useCallback((actionId) => {
+    switch (actionId) {
+      case 'github': window.open('https://github.com/Nadhiii', '_blank'); break;
+      case 'contact': navigate('/contact'); break;
+      case 'email': window.open('mailto:mahanadhip@gmail.com', '_blank'); break;
+      case 'linkedin': window.open('https://www.linkedin.com/in/mahanadhi/', '_blank'); break;
+      case 'resume': window.open('https://drive.google.com/file/d/1dBcASDXDvYTuDoaSr4-7XQS0-kH9QZ_T/view?usp=drive_link', '_blank'); break;
+      default: break;
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,13 +57,12 @@ const FloatingNav = () => {
       const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
       setScrollProgress(progress);
       setIsVisible(window.scrollY > 100);
-      setContextualActions(getContextualActions(location.pathname));
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [location.pathname]);
+  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -83,7 +94,7 @@ const FloatingNav = () => {
             {contextualActions.map((action, index) => (
               <motion.button
                 key={action.id}
-                onClick={action.action}
+                onClick={() => handleAction(action.action)}
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1 }}

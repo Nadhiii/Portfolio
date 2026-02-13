@@ -46,9 +46,14 @@ const ScrambleText = ({ text }) => {
   }, [text]);
 
   return (
-    <span className="font-mono text-primary-light dark:text-primary-dark inline-block min-w-[200px] text-left">
-      {displayText}
-    </span>
+    <>
+      {/* Screen reader gets the real text */}
+      <span className="sr-only">{text}</span>
+      {/* Visual scramble effect hidden from assistive tech */}
+      <span aria-hidden="true" className="font-mono text-primary-light dark:text-primary-dark inline-block min-w-[200px] text-left">
+        {displayText}
+      </span>
+    </>
   );
 };
 

@@ -5,7 +5,6 @@ import emailjs from '@emailjs/browser';
 import { Mail, Linkedin, Phone, Send, User, MessageSquare, Calendar, CheckCircle, AlertCircle } from 'lucide-react';
 import { trackEvent, trackFormSubmissionWithEnhancedConversion } from '../utils/analytics';
 import { containerVariants, itemVariants } from '../config/animations';
-import CalendarModal from '../components/CalendarModal';
 import Button from '../components/Button';
 import { supabase } from '../utils/supabaseClient';
 
@@ -13,7 +12,6 @@ const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [status, setStatus] = useState('idle'); // idle, sending, success, error
   const [isVisible, setIsVisible] = useState(false);
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [showCallTooltip, setShowCallTooltip] = useState(false);
   const form = useRef();
 
@@ -43,9 +41,9 @@ const Contact = () => {
     setStatus('sending');
     // Removed: trackEvent('contact_form_submit', 'Engagement', 'Contact form submitted');
     
-    const serviceID = 'service_yr5fl2q';
-    const templateID = 'template_a8h4rjw';
-    const publicKey = 'iOjr3dwBPBnhBOiGn';
+    const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
     const messagePayload = {
       name: formData.name,
@@ -64,14 +62,14 @@ const Contact = () => {
         .insert([messagePayload]);
 
       if (error) {
-        if (process.env.NODE_ENV === 'development') {
+        if (import.meta.env.DEV) {
           console.error('Supabase logging failed:', error);
         }
         trackEvent('contact_form_supabase_error', 'Error', error.message || 'Supabase insert failed');
       } else {
         trackEvent('contact_form_supabase_logged', 'Engagement', 'Contact form saved to Supabase');
       }
-    } else if (process.env.NODE_ENV === 'development') {
+    } else if (import.meta.env.DEV) {
       console.warn('Supabase client not configured; skipping DB logging.');
     }
     
@@ -86,7 +84,7 @@ const Contact = () => {
     
     try {
       const result = await emailjs.send(serviceID, templateID, templateParams, publicKey);
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log('Email sent successfully:', result);
       }
       setStatus('success');
@@ -105,7 +103,7 @@ const Contact = () => {
         setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
       }, 3000);
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.error('Email sending failed:', error);
       }
       setStatus('error');
@@ -215,7 +213,7 @@ const Contact = () => {
 
               {/* UPDATED: Changed from space-y-6 to grid to ensure consistent sizing and alignment */}
               <div className="grid grid-cols-1 gap-4 relative">
-                {contactInfo.map((item, index) => (
+                {contactInfo.map((item) => (
                   <a
                     key={item.label}
                     href={item.href}
@@ -240,7 +238,7 @@ const Contact = () => {
                   <button
                     type="button"
                     onClick={() => {
-                      setIsCalendarOpen(true);
+                      window.dispatchEvent(new CustomEvent('open-calendar-modal'));
                       trackEvent('calendar_click', 'Contact', 'Schedule call button clicked');
                     }}
                     onMouseEnter={() => setShowCallTooltip(true)}
@@ -377,13 +375,7 @@ const Contact = () => {
                   <Button
                     type="submit"
                     disabled={status === 'sending'}
-                    variant={
-                      status === 'success'
-                        ? 'primary'
-                        : status === 'error'
-                        ? 'primary'
-                        : 'primary'
-                    }
+                    variant="primary"
                     size="lg"
                     className={`w-full flex items-center justify-center gap-2 ${
                       status === 'success'
@@ -392,9 +384,17 @@ const Contact = () => {
                         ? 'bg-red-500 text-white'
                         : ''
                     }`}
+                    aria-describedby="form-status"
                   >
                     {getButtonContent()}
                   </Button>
+                  
+                  {/* Screen reader status announcements */}
+                  <div id="form-status" role="status" aria-live="polite" className="sr-only">
+                    {status === 'sending' && 'Sending your message...'}
+                    {status === 'success' && 'Message sent successfully!'}
+                    {status === 'error' && 'Failed to send message. Please try again.'}
+                  </div>
                 </form>
 
                 {/* Alternative Contact Methods */}
@@ -424,7 +424,7 @@ const Contact = () => {
                     </Button>
                     <Button
                       onClick={() => {
-                        setIsCalendarOpen(true);
+                        window.dispatchEvent(new CustomEvent('open-calendar-modal'));
                         trackEvent('calendar_click', 'Contact', 'Schedule call button clicked');
                       }}
                       variant="secondary"
@@ -440,12 +440,6 @@ const Contact = () => {
           </div>
         </motion.div>
 
-        {/* Calendar Modal */}
-        <CalendarModal 
-          isOpen={isCalendarOpen} 
-          onClose={() => setIsCalendarOpen(false)} 
-          theme="light" 
-        />
       </div>
     </section>
   );

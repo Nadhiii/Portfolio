@@ -18,9 +18,24 @@ const Header = ({ theme, onThemeSwitch }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const activeLinkStyle = {
-    color: theme === 'light' ? '#4C6EF5' : '#A5B4FC'
-  };
+
+
+  const navLinkClassName = ({ isActive }) => `
+    px-4 py-2 rounded-lg transition-all duration-300 relative group
+    text-text-light dark:text-text-dark
+    ${isActive ? 'text-primary-light dark:text-primary-dark font-semibold' : ''}
+    after:content-['']
+    after:absolute
+    after:bottom-0
+    after:left-4
+    after:w-0
+    after:h-0.5
+    after:bg-primary-light
+    dark:after:bg-primary-dark
+    after:transition-all
+    after:duration-300
+    ${isActive ? 'after:w-[calc(100%-32px)]' : 'group-hover:after:w-[calc(100%-32px)]'}
+  `;
 
   return (
     <div className="fixed top-4 left-0 right-0 z-40 flex justify-center px-4">
@@ -71,25 +86,7 @@ const Header = ({ theme, onThemeSwitch }) => {
               <NavLink 
                 to="/projects" 
                 onClick={() => trackEvent('nav_click', 'Navigation', 'Projects section visited')}
-                className={({isActive}) => `
-                  px-4 py-2 rounded-lg transition-all duration-300 relative group
-                  text-text-light dark:text-text-dark
-                  ${isActive 
-                    ? 'text-primary-light dark:text-primary-dark font-semibold' 
-                    : ''
-                  }
-                  after:content-['']
-                  after:absolute
-                  after:bottom-0
-                  after:left-4
-                  after:w-0
-                  after:h-0.5
-                  after:bg-primary-light
-                  dark:after:bg-primary-dark
-                  after:transition-all
-                  after:duration-300
-                  ${isActive ? 'after:w-[calc(100%-32px)]' : 'group-hover:after:w-[calc(100%-32px)]'}
-                `}
+                className={navLinkClassName}
               >
                 Projects
               </NavLink>
@@ -98,25 +95,7 @@ const Header = ({ theme, onThemeSwitch }) => {
               <NavLink 
                 to="/skills" 
                 onClick={() => trackEvent('nav_click', 'Navigation', 'Skills section visited')}
-                className={({isActive}) => `
-                  px-4 py-2 rounded-lg transition-all duration-300 relative group
-                  text-text-light dark:text-text-dark
-                  ${isActive 
-                    ? 'text-primary-light dark:text-primary-dark font-semibold' 
-                    : ''
-                  }
-                  after:content-['']
-                  after:absolute
-                  after:bottom-0
-                  after:left-4
-                  after:w-0
-                  after:h-0.5
-                  after:bg-primary-light
-                  dark:after:bg-primary-dark
-                  after:transition-all
-                  after:duration-300
-                  ${isActive ? 'after:w-[calc(100%-32px)]' : 'group-hover:after:w-[calc(100%-32px)]'}
-                `}
+                className={navLinkClassName}
               >
                 Skills
               </NavLink>
@@ -125,25 +104,7 @@ const Header = ({ theme, onThemeSwitch }) => {
               <NavLink 
                 to="/experience" 
                 onClick={() => trackEvent('nav_click', 'Navigation', 'Experience page visited')}
-                className={({isActive}) => `
-                  px-4 py-2 rounded-lg transition-all duration-300 relative group
-                  text-text-light dark:text-text-dark
-                  ${isActive 
-                    ? 'text-primary-light dark:text-primary-dark font-semibold' 
-                    : ''
-                  }
-                  after:content-['']
-                  after:absolute
-                  after:bottom-0
-                  after:left-4
-                  after:w-0
-                  after:h-0.5
-                  after:bg-primary-light
-                  dark:after:bg-primary-dark
-                  after:transition-all
-                  after:duration-300
-                  ${isActive ? 'after:w-[calc(100%-32px)]' : 'group-hover:after:w-[calc(100%-32px)]'}
-                `}
+                className={navLinkClassName}
               >
                 Experience
               </NavLink>
@@ -152,25 +113,7 @@ const Header = ({ theme, onThemeSwitch }) => {
               <NavLink 
                 to="/contact" 
                 onClick={() => trackEvent('nav_click', 'Navigation', 'Contact section visited')}
-                className={({isActive}) => `
-                  px-4 py-2 rounded-lg transition-all duration-300 relative group
-                  text-text-light dark:text-text-dark
-                  ${isActive 
-                    ? 'text-primary-light dark:text-primary-dark font-semibold' 
-                    : ''
-                  }
-                  after:content-['']
-                  after:absolute
-                  after:bottom-0
-                  after:left-4
-                  after:w-0
-                  after:h-0.5
-                  after:bg-primary-light
-                  dark:after:bg-primary-dark
-                  after:transition-all
-                  after:duration-300
-                  ${isActive ? 'after:w-[calc(100%-32px)]' : 'group-hover:after:w-[calc(100%-32px)]'}
-                `}
+                className={navLinkClassName}
               >
                 Contact
               </NavLink>
@@ -179,25 +122,7 @@ const Header = ({ theme, onThemeSwitch }) => {
               <NavLink 
                 to="/pluto" 
                 onClick={() => trackEvent('nav_click', 'Navigation', 'Pluto page visited')}
-                className={({isActive}) => `
-                  px-4 py-2 rounded-lg transition-all duration-300 relative group
-                  text-text-light dark:text-text-dark
-                  ${isActive 
-                    ? 'text-primary-light dark:text-primary-dark font-semibold' 
-                    : ''
-                  }
-                  after:content-['']
-                  after:absolute
-                  after:bottom-0
-                  after:left-4
-                  after:w-0
-                  after:h-0.5
-                  after:bg-primary-light
-                  dark:after:bg-primary-dark
-                  after:transition-all
-                  after:duration-300
-                  ${isActive ? 'after:w-[calc(100%-32px)]' : 'group-hover:after:w-[calc(100%-32px)]'}
-                `}
+                className={navLinkClassName}
               >
                 Pluto
               </NavLink>

@@ -1,5 +1,5 @@
 // src/pages/Projects.jsx
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Rocket, GanttChartSquare, MonitorPlay, ChevronRight, Users, TrendingUp, Clock, Award, Eye, Github, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';

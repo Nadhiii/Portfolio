@@ -24,6 +24,7 @@ const Button = React.forwardRef(({
   target = undefined,
   rel = undefined,
   onClick = undefined,
+  type = 'button',
   ...props
 }, ref) => {
   
@@ -124,7 +125,7 @@ const Button = React.forwardRef(({
   return (
     <motion.button
       ref={ref}
-      type="button"
+      type={type}
       disabled={disabled}
       onClick={onClick}
       whileHover={!disabled ? { scale: 1.02, y: -1 } : {}}

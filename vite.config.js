@@ -11,18 +11,17 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          // Your existing chunk logic is excellent, keep it.
           vendor: ['react', 'react-dom', 'react-router-dom'],
           animations: ['framer-motion'],
           ui: ['lucide-react'],
           slider: ['react-slick', 'slick-carousel'],
           lightbox: ['fslightbox-react'],
-          email: ['@emailjs/browser']
+          email: ['@emailjs/browser'],
+          three: ['three', '@react-three/fiber', '@react-three/drei'],
+          lenis: ['lenis'],
         }
       }
     },
-    // THE FIX: Simply raise the limit to 1000kB (1MB) to silence the warning.
-    // This is common for modern React apps with 3D/Animation libraries.
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 600
   }
 })

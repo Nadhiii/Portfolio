@@ -1,35 +1,49 @@
 // src/utils/themeSound.js
 
+// Reuse a single AudioContext to avoid browser throttling
+let audioContext = null;
+
+const getAudioContext = () => {
+  if (!audioContext && typeof window !== 'undefined' && (window.AudioContext || window.webkitAudioContext)) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  return audioContext;
+};
+
 export const playThemeSound = () => {
-  // Only run in browser environment
-  if (typeof window === 'undefined' || !window.AudioContext) return;
+  if (typeof window === 'undefined') return;
 
   try {
-    // Create audio context
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    
+    // Resume if suspended (browsers require user gesture)
+    if (ctx.state === 'suspended') {
+      ctx.resume();
+    }
     
     // Create oscillator for gentle theme change sound
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
     
     // Connect nodes
     oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+    gainNode.connect(ctx.destination);
     
     // Configure subtle, pleasant sound
     oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.2);
-    oscillator.frequency.exponentialRampToValueAtTime(300, audioContext.currentTime + 0.4);
+    oscillator.frequency.setValueAtTime(400, ctx.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.2);
+    oscillator.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.4);
     
     // Volume envelope for smooth fade
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.05);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    gainNode.gain.setValueAtTime(0, ctx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.05);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
     
     // Play sound
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.5);
+    oscillator.start(ctx.currentTime);
+    oscillator.stop(ctx.currentTime + 0.5);
     
     // Cleanup
     oscillator.onended = () => {

@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="max-w-xs mx-auto h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent mb-6 opacity-50" />
       
       <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-        © 2025 Mahanadhi Parisara. Built with curiosity.
+        © {new Date().getFullYear()} Mahanadhi Parisara. Built with curiosity.
       </p>
     </footer>
   );

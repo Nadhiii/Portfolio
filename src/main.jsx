@@ -1,17 +1,20 @@
 // src/main.jsx
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
+import PageLoader from './components/PageLoader.jsx';
 import './index.css';
 
-// Import pages
+// Eagerly loaded (critical path)
 import HomePage from './pages/Home.jsx';
-import ExperiencePage from './pages/Experience.jsx';
-import PlutoPage from './pages/Pluto.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
+
+// Lazy loaded (non-critical routes)
+const ExperiencePage = React.lazy(() => import('./pages/Experience.jsx'));
+const PlutoPage = React.lazy(() => import('./pages/Pluto.jsx'));
 
 const router = createBrowserRouter([
   {
@@ -37,11 +40,11 @@ const router = createBrowserRouter([
       },
       { 
         path: '/experience', 
-        element: <ExperiencePage />
+        element: <Suspense fallback={<PageLoader />}><ExperiencePage /></Suspense>
       },
       { 
         path: '/pluto', 
-        element: <PlutoPage />
+        element: <Suspense fallback={<PageLoader />}><PlutoPage /></Suspense>
       },
       { 
         path: '*', 

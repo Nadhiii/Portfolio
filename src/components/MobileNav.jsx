@@ -1,5 +1,5 @@
 // src/components/MobileNav.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
@@ -9,6 +9,8 @@ import { trackEvent } from '../utils/analytics';
 const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const drawerRef = useRef(null);
+  const closeButtonRef = useRef(null);
 
   useEffect(() => {
     setMounted(true);
@@ -25,6 +27,37 @@ const MobileNav = () => {
     return () => {
       document.body.style.overflow = 'unset';
     };
+  }, [isOpen]);
+
+  // Escape key handler and focus trap
+  useEffect(() => {
+    if (!isOpen) return;
+    // Focus close button when drawer opens
+    setTimeout(() => closeButtonRef.current?.focus(), 100);
+    
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+      }
+      // Focus trap
+      if (e.key === 'Tab' && drawerRef.current) {
+        const focusableElements = drawerRef.current.querySelectorAll(
+          'button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusableElements || focusableElements.length === 0) return;
+        const firstEl = focusableElements[0];
+        const lastEl = focusableElements[focusableElements.length - 1];
+        if (e.shiftKey && document.activeElement === firstEl) {
+          e.preventDefault();
+          lastEl.focus();
+        } else if (!e.shiftKey && document.activeElement === lastEl) {
+          e.preventDefault();
+          firstEl.focus();
+        }
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
   const toggleMenu = () => {
@@ -59,6 +92,10 @@ const MobileNav = () => {
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
             className="fixed inset-y-0 right-0 z-[70] w-[85%] max-w-xs bg-white/60 dark:bg-black/60 backdrop-blur-2xl border-l border-white/20 dark:border-white/10 shadow-2xl p-6 flex flex-col"
             onClick={(e) => e.stopPropagation()}
+            ref={drawerRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
           >
             {/* Header */}
             <div className="flex justify-between items-center mb-10">
@@ -66,9 +103,11 @@ const MobileNav = () => {
                 Menu
               </span>
               <motion.button 
+                ref={closeButtonRef}
                 onClick={toggleMenu}
                 whileTap={{ scale: 0.9 }}
                 className="p-2 rounded-full bg-white/20 dark:bg-white/10 border border-white/20 text-gray-900 dark:text-white"
+                aria-label="Close navigation menu"
               >
                 <X size={24} />
               </motion.button>
@@ -116,7 +155,7 @@ const MobileNav = () => {
             {/* Footer */}
             <div className="pt-8 border-t border-gray-200/20 dark:border-white/10">
               <p className="text-xs text-center text-gray-500 dark:text-gray-400 font-medium">
-                © 2025 Mahanadhi Parisara
+                © {new Date().getFullYear()} Mahanadhi Parisara
               </p>
             </div>
           </motion.div>

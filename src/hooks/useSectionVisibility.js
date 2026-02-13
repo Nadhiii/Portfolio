@@ -8,6 +8,7 @@ import { useState, useEffect, useRef } from 'react';
 const useSectionVisibility = (options = { threshold: 0.1 }) => {
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const optionsRef = useRef(options);
 
   useEffect(() => {
     if (isVisible) {
@@ -21,7 +22,7 @@ const useSectionVisibility = (options = { threshold: 0.1 }) => {
           observer.unobserve(entry.target);
         }
       });
-    }, options);
+    }, optionsRef.current);
 
     const current = sectionRef.current;
     if (current) {
@@ -31,7 +32,7 @@ const useSectionVisibility = (options = { threshold: 0.1 }) => {
     return () => {
       observer.disconnect();
     };
-  }, [isVisible, options]);
+  }, [isVisible]);
 
   return [sectionRef, isVisible];
 };

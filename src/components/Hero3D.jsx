@@ -1,15 +1,16 @@
 // src/components/Hero3D.jsx
-import React, { useRef, useMemo, useState } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Environment } from '@react-three/drei';
+import { Float } from '@react-three/drei';
 import * as THREE from 'three';
 
 function InteractiveParticles({ count = 80, isDark }) {
   const mesh = useRef();
+  const dummy = useMemo(() => new THREE.Object3D(), []);
   
   // Premium Colors: Deep Blue/Indigo for Dark, Crisp Blue/Sky for Light
-  const lightColor = new THREE.Color('#3B82F6'); // Blue-500
-  const darkColor = new THREE.Color('#818CF8');  // Indigo-400
+  const lightColor = useMemo(() => new THREE.Color('#3B82F6'), []);
+  const darkColor = useMemo(() => new THREE.Color('#818CF8'), []);
 
   // 1. Generate Particle Data
   const particles = useMemo(() => {
@@ -48,8 +49,6 @@ function InteractiveParticles({ count = 80, isDark }) {
       const a = Math.cos(t) + Math.sin(t * 1) / 10;
       const b = Math.sin(t) + Math.cos(t * 2) / 10;
       const s = Math.cos(t) * 0.5 + 0.5; // Pulsing scale
-
-      const dummy = new THREE.Object3D();
       
       // Calculate Wave Position
       dummy.position.set(
@@ -92,11 +91,12 @@ const Hero3D = ({ theme = 'light' }) => {
   const isDark = theme === 'dark' || (typeof document !== 'undefined' && document.documentElement.classList.contains('dark'));
 
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none">
+    <div className="fixed inset-0 z-0 pointer-events-auto">
       <Canvas 
         camera={{ position: [0, 0, 20], fov: 60 }} 
-        gl={{ alpha: true, antialias: true }}
-        dpr={[1, 2]} // Crisp rendering on high-DPI screens
+        gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
+        dpr={[1, 1.5]}
+        style={{ pointerEvents: 'auto' }}
       >
         {/* Lighting Setup */}
         <ambientLight intensity={0.4} />
@@ -106,9 +106,6 @@ const Hero3D = ({ theme = 'light' }) => {
         <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
           <InteractiveParticles count={70} isDark={isDark} />
         </Float>
-        
-        {/* Environment Reflection for Metallic Feel */}
-        <Environment preset="city" />
         
         {/* Subtle Fog for depth fading */}
         <fog attach="fog" args={[isDark ? '#000000' : '#ffffff', 20, 40]} />

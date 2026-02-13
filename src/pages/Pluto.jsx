@@ -1,37 +1,26 @@
 // src/pages/Pluto.jsx
 
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, ArrowLeft, Smartphone, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Slider from 'react-slick';
-import FsLightbox from 'fslightbox-react';
 import { trackEvent, trackPageView } from '../utils/analytics';
 import OptimizedImage from '../components/OptimizedImage';
 
-// --- Importing all your screenshots ---
-import PlutoShot1 from '../assets/intro.png';
-import PlutoShot2 from '../assets/intro1.png';
-import PlutoShot3 from '../assets/intro2.png';
-import PlutoShot4 from '../assets/intro3.png';
-import PlutoShot5 from '../assets/intro4.png';
-import PlutoShot6 from '../assets/intro5.png';
-import PlutoShot7 from '../assets/homepage.png';
-import PlutoShot8 from '../assets/money_flow.png';
-import PlutoShot9 from '../assets/money_flow2.png';
-import PlutoShot10 from '../assets/debt_management.png';
-import PlutoShot11 from '../assets/debt_management1.png';
-import PlutoShot12 from '../assets/debt_management2.png';
-import PlutoShot13 from '../assets/debt_management3.png';
-import PlutoShot14 from '../assets/debt_management4.png';
-import PlutoShot15 from '../assets/settings.png';
-import PlutoShot16 from '../assets/settings1.png';
+// Lazy load the lightbox - only needed when user clicks a screenshot
+const FsLightbox = lazy(() => import('fslightbox-react'));
 
-const screenshots = [
-  PlutoShot1, PlutoShot2, PlutoShot3, PlutoShot4, PlutoShot5, PlutoShot6,
-  PlutoShot7, PlutoShot8, PlutoShot9, PlutoShot10, PlutoShot11, PlutoShot12,
-  PlutoShot13, PlutoShot14, PlutoShot15, PlutoShot16
+// Use public directory paths instead of static imports (saves ~large bundle cost)
+const screenshotFiles = [
+  'intro.png', 'intro1.png', 'intro2.png', 'intro3.png', 'intro4.png', 'intro5.png',
+  'homepage.png', 'money_flow.png', 'money_flow2.png',
+  'debt_management.png', 'debt_management1.png', 'debt_management2.png',
+  'debt_management3.png', 'debt_management4.png',
+  'settings.png', 'settings1.png'
 ];
+
+const screenshots = screenshotFiles.map(file => `/screenshots/${file}`);
 
 const PlutoPage = () => {
   const [lightbox, setLightbox] = useState({
@@ -274,11 +263,13 @@ const PlutoPage = () => {
           </div>
         </motion.div>
 
-        <FsLightbox
-          toggler={lightbox.toggler}
-          sources={screenshots}
-          slide={lightbox.slide}
-        />
+        <Suspense fallback={null}>
+          <FsLightbox
+            toggler={lightbox.toggler}
+            sources={screenshots}
+            slide={lightbox.slide}
+          />
+        </Suspense>
       </div>
     </div>
   );
