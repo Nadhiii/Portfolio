@@ -2,11 +2,11 @@
 
 A modern, responsive portfolio website built with React, Vite, and Tailwind CSS. Features smooth animations, dark mode support, and comprehensive analytics tracking.
 
-## 🚀 Live Demo
+## Live Demo
 
-[View Live Portfolio](https://your-portfolio-url.com) _(Update with your actual URL)_
+[View Live Portfolio](https://mahanadhi.space) 
 
-## ✨ Features
+## Features
 
 - **Modern Design**: Clean, professional interface with dark/light mode toggle
 - **Responsive**: Optimized for all devices and screen sizes
@@ -16,7 +16,7 @@ A modern, responsive portfolio website built with React, Vite, and Tailwind CSS.
 - **Contact Form**: EmailJS integration for seamless communication
 - **Project Showcase**: Interactive gallery with lightbox for project screenshots
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend**: React 19, Vite
 - **Styling**: Tailwind CSS
@@ -27,7 +27,7 @@ A modern, responsive portfolio website built with React, Vite, and Tailwind CSS.
 - **Icons**: Lucide React
 - **Image Gallery**: React Slick, FSLightbox
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -67,7 +67,7 @@ A modern, responsive portfolio website built with React, Vite, and Tailwind CSS.
    npm run build
    ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
@@ -88,7 +88,7 @@ src/
 └── App.jsx             # Main application component
 ```
 
-## 🎨 Customization
+## Customization
 
 ### Updating Content
 - **Personal Info**: Edit `src/components/Hero.jsx` and `src/components/About.jsx`
@@ -101,7 +101,7 @@ src/
 - **Fonts**: Modify font settings in `tailwind.config.js`
 - **Animations**: Customize animations in component files using Framer Motion
 
-## 📊 Analytics Setup
+## Analytics Setup
 
 1. **Google Analytics 4**
    - Create a GA4 property
@@ -116,7 +116,7 @@ src/
    - Set up email service and template
    - Add credentials to `.env`
 
-## 🚀 Deployment
+## Deployment
 
 ### Vercel (Recommended)
 ```bash
@@ -136,7 +136,7 @@ npm run build
 # Deploy dist folder to gh-pages branch
 ```
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -144,17 +144,17 @@ npm run build
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📧 Contact
+## Contact
 
-**Your Name** - [your.email@example.com](mailto:your.email@example.com)
+ Mahanadhi Parisara - [mahanadhip@gmail.com](mailto:mahanadhip@gmail.com)
 
-Project Link: [https://github.com/Nadhiii/Portfolio](https://github.com/Nadhiii/Portfolio)
+Project Link: [https://mahanadhi.space](https://mahanadhi.space)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [React](https://reactjs.org/)
 - [Vite](https://vitejs.dev/)
