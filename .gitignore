@@ -17,6 +17,9 @@ pids
 node_modules/
 jspm_packages/
 
+# macOS files
+.DS_Store
+
 # Build outputs
 dist-ssr/
 build/

@@ -1,35 +1,24 @@
 // src/pages/Skills.jsx
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BrainCircuit, Code, Zap, Target } from 'lucide-react';
+import { Code, Target } from 'lucide-react';
 import { trackPageView } from '../utils/analytics';
 
-const mindsetSkills = [
+const engineeringSkills = [
   { name: 'AI-Assisted Dev', level: 'Advanced', description: 'Leveraging AI to build faster than humanly possible.', accent: 'bg-blue-500' },
-  { name: 'Problem First', level: 'Strong', description: 'Finding the real issue before writing a single line of code.', accent: 'bg-purple-500' },
-  { name: 'Velocity', level: 'High', description: 'Shipping working solutions over perfect architecture.', accent: 'bg-green-500' },
-  { name: 'Outcome Focus', level: 'Strong', description: 'Measuring success by impact, not lines of code.', accent: 'bg-orange-500' }
-];
-
-const technicalSkills = [
   { name: 'React & JS', level: 'Learning', description: 'Building functional apps with heavy AI assistance.', accent: 'bg-cyan-500' },
   { name: 'Flutter', level: 'Learning', description: 'Cross-platform mobile development for real apps.', accent: 'bg-blue-500' },
   { name: 'Apps Script', level: 'Pro', description: 'Automating enterprise workflows at scale.', accent: 'bg-yellow-500' },
-  { name: 'Firebase', level: 'Comfortable', description: 'Backend-as-a-Service for quick deployments.', accent: 'bg-orange-500' }
+  { name: 'Firebase', level: 'Comfortable', description: 'Backend-as-a-Service for quick deployments.', accent: 'bg-orange-500' },
+  { name: 'Cursor / VS Code / Antigravity', level: 'Daily Driver', description: 'AI-powered IDE for rapid development.', accent: 'bg-blue-500' },
 ];
 
-const aiTools = [
-  { name: 'Cursor / VS Code', level: 'Daily Driver', accent: 'bg-blue-500' },
-  { name: 'ChatGPT / Claude', level: 'Primary', accent: 'bg-purple-500' },
-  { name: 'GitHub Copilot', level: 'Assistant', accent: 'bg-gray-500' },
-  { name: 'Perplexity', level: 'Research', accent: 'bg-teal-500' }
-];
-
-const analyticsTools = [
+const measurementSkills = [
   { name: 'Google Analytics', level: 'Expert', description: 'Setup, analysis, and custom reporting.', accent: 'bg-orange-500' },
+  { name: 'Amplitude', level: 'Beginner', description: 'Setup, analysis, and custom reporting.', accent: 'bg-red-500' },
   { name: 'GTM', level: 'Expert', description: 'Complex event tracking and data layers.', accent: 'bg-blue-500' },
   { name: 'Google Ads', level: 'Expert', description: 'Conversion tracking & attribution modeling.', accent: 'bg-green-500' },
-  { name: 'Looker Studio', level: 'Proficient', description: 'Visualizing data for stakeholders.', accent: 'bg-indigo-500' }
+  { name: 'Looker Studio', level: 'Proficient', description: 'Visualizing data for stakeholders.', accent: 'bg-indigo-500' },
 ];
 
 const SkillCard = ({ skill, index }) => (
@@ -64,11 +53,11 @@ const SkillCard = ({ skill, index }) => (
   </motion.div>
 );
 
-const tabIds = ['mindset', 'technical', 'ai', 'analytics'];
+const tabIds = ['measurement', 'engineering'];
 
 const Skills = () => {
-  const [activeTab, setActiveTab] = useState('mindset');
-  const directionRef = useRef(1); // 1 = right, -1 = left
+  const [activeTab, setActiveTab] = useState('measurement');
+  const directionRef = useRef(1);
 
   React.useEffect(() => {
     trackPageView('Skills Page', 'skills');
@@ -82,10 +71,8 @@ const Skills = () => {
   };
 
   const tabs = [
-    { id: 'mindset', label: 'Mindset', icon: BrainCircuit },
-    { id: 'technical', label: 'Tech Stack', icon: Code },
-    { id: 'ai', label: 'AI Stack', icon: Zap },
-    { id: 'analytics', label: 'Analytics', icon: Target }
+    { id: 'measurement', label: 'Measurement', icon: Target },
+    { id: 'engineering', label: 'Engineering', icon: Code },
   ];
 
   const slideVariants = {
@@ -150,10 +137,8 @@ const Skills = () => {
               transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="grid md:grid-cols-2 gap-4"
             >
-              {activeTab === 'mindset' && mindsetSkills.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
-              {activeTab === 'technical' && technicalSkills.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
-              {activeTab === 'ai' && aiTools.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
-              {activeTab === 'analytics' && analyticsTools.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
+              {activeTab === 'engineering' && engineeringSkills.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
+              {activeTab === 'measurement' && measurementSkills.map((s, i) => <SkillCard key={s.name} skill={s} index={i} />)}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -166,22 +151,12 @@ const Skills = () => {
           transition={{ delay: 0.2 }}
           className="p-6 rounded-2xl bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-md border border-blue-500/20 text-center"
         >
-          {activeTab === 'mindset' && (
+          {activeTab === 'engineering' && (
             <p className="text-gray-700 dark:text-gray-300 italic">
-              "It doesn't have to make sense until it actually does. The how matters less than the doing."
+              "It doesn't have to make sense until it actually does. Ship it, learn from it, improve it."
             </p>
           )}
-          {activeTab === 'technical' && (
-            <p className="text-gray-700 dark:text-gray-300 italic">
-              "Perfect code that never ships is just expensive art. Ship it, learn from it, improve it."
-            </p>
-          )}
-          {activeTab === 'ai' && (
-            <p className="text-gray-700 dark:text-gray-300 italic">
-              "AI is my superpower. It turns 'I don't know how' into 'let me try that' in seconds."
-            </p>
-          )}
-          {activeTab === 'analytics' && (
+          {activeTab === 'measurement' && (
             <p className="text-gray-700 dark:text-gray-300 italic">
               "Numbers don't lie, but they love to mislead. The real skill is asking the right questions."
             </p>

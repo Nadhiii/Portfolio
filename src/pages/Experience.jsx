@@ -197,7 +197,7 @@ const ExperiencePage = () => {
             to="/contact"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark text-white font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
           >
-            Work With Me <ArrowRight size={20} />
+            Let's work together <ArrowRight size={20} />
           </Link>
         </motion.div>
 

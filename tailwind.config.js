@@ -35,7 +35,7 @@ export default {
           dark: '#111827',
         },
         surface: {
-          light: '#F9FAFB',
+          light: 'rgba(255,255,255,0.15)',
           dark: '#1F2937',
         }
       },

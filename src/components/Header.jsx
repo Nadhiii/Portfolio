@@ -61,7 +61,7 @@ const Header = ({ theme, onThemeSwitch }) => {
         {/* === THE ANIMATED NAME/INITIALS (NOW A LINK) === */}
         <Link to="/" aria-label="Back to homepage" onClick={() => trackEvent('logo_click', 'Navigation', 'Header logo clicked')}>
           <LayoutGroup>
-            <motion.div className="flex items-center gap-2 font-heading text-xl h-8">
+            <motion.div className="flex items-center gap-2 font-heading text-xl h-8 text-gray-900 dark:text-gray-100">
               <AnimatePresence>
                 {!isScrolled ? (
                   <motion.div key="fullName" className="flex items-center gap-2">

@@ -1,47 +1,52 @@
 // src/pages/NotFoundPage.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Home, ArrowLeft } from 'lucide-react';
+import { Home } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Lottie from 'lottie-react';
+import animationData from '../assets/404.json';
 
 const NotFoundPage = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 relative z-10">
+    <div 
+      className="fixed inset-0 z-30 flex flex-col items-center justify-center overflow-hidden"
+      style={{ background: 'linear-gradient(to bottom, #4893B9, #E4ECF9)' }}
+    >
+      {/* Light overlay behind the header area so nav text stays readable */}
+      <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-white/60 to-transparent z-10" />
+      {/* Full Screen Lottie Animation */}
       <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="max-w-lg w-full text-center p-12 rounded-3xl bg-white/30 dark:bg-black/40 backdrop-blur-2xl border border-white/20 dark:border-white/10 shadow-2xl"
+        className="absolute inset-0 flex items-center justify-center"
       >
-        <h1 className="font-heading text-8xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-gray-900 to-gray-500 dark:from-white dark:to-gray-600 mb-2">
-          404
-        </h1>
-        
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-          Lost in Space?
-        </h2>
-        
-        <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-          The page you're looking for seems to have drifted away into the void. Let's get you back to solid ground.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link 
-            to="/"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary-light dark:bg-primary-dark text-white rounded-xl font-medium shadow-lg hover:scale-105 transition-transform"
-          >
-            <Home size={18} />
-            Mission Control
-          </Link>
-          
-          <button 
-            onClick={() => window.history.back()}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/10 dark:bg-white/5 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl font-medium hover:bg-white/20 dark:hover:bg-white/10 transition-colors"
-          >
-            <ArrowLeft size={18} />
-            Go Back
-          </button>
-        </div>
+        <Lottie 
+          animationData={animationData}
+          loop={true}
+          autoplay={true}
+          rendererSettings={{ preserveAspectRatio: 'xMidYMid slice' }}
+          style={{ 
+            width: '100%', 
+            height: '100%',
+          }}
+        />
+      </motion.div>
+      
+      {/* Mission Control Button at Bottom */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="absolute bottom-10 inset-x-0 flex justify-center z-20"
+      >
+        <Link 
+          to="/"
+          className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-white/80 backdrop-blur-md text-[#2a6a8a] border border-white/50 rounded-full font-semibold hover:bg-white transition-all hover:scale-105 shadow-lg"
+        >
+          <Home size={20} />
+          Mission Control
+        </Link>
       </motion.div>
     </div>
   );
