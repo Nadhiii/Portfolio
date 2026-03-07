@@ -46,7 +46,7 @@ const FloatingNav = () => {
       case 'contact': navigate('/contact'); break;
       case 'email': window.open('mailto:mahanadhip@gmail.com', '_blank'); break;
       case 'linkedin': window.open('https://www.linkedin.com/in/mahanadhi/', '_blank'); break;
-      case 'resume': window.open('https://drive.google.com/file/d/1dBcASDXDvYTuDoaSr4-7XQS0-kH9QZ_T/view?usp=drive_link', '_blank'); break;
+      case 'resume': window.open('https://rxresu.me/nadhiii/general', '_blank'); break;
       default: break;
     }
   }, [navigate]);
