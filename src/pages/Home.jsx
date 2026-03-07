@@ -32,7 +32,7 @@ const HomePage = () => {
       trackPageView('Contact Section', 'contact');
     } else {
       setCurrentSection('home');
-      document.title = 'Mahanadhi Parisara | Product-Minded Dev'; // <--- Dynamic Title
+      document.title = 'Mahanadi Parisara | MarTech & Analytics Specialist'; // <--- Dynamic Title
       trackPageView('Home Page', 'home');
     }
   }, [location.pathname]);
