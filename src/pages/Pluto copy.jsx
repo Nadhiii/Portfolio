@@ -12,15 +12,24 @@ import OptimizedImage from '../components/OptimizedImage';
 const FsLightbox = lazy(() => import('fslightbox-react'));
 
 // Use public directory paths instead of static imports (saves ~large bundle cost)
-const screenshotFiles = [
-  'intro.png', 'intro1.png', 'intro2.png', 'intro3.png', 'intro4.png', 'intro5.png',
-  'homepage.png', 'money_flow.png', 'money_flow2.png',
-  'debt_management.png', 'debt_management1.png', 'debt_management2.png',
-  'debt_management3.png', 'debt_management4.png',
-  'settings.png', 'settings1.png'
+const screenshots = [
+  new URL('../assets/intro.png', import.meta.url).href,
+  new URL('../assets/intro1.png', import.meta.url).href,
+  new URL('../assets/intro2.png', import.meta.url).href,
+  new URL('../assets/intro3.png', import.meta.url).href,
+  new URL('../assets/intro4.png', import.meta.url).href,
+  new URL('../assets/intro5.png', import.meta.url).href,
+  new URL('../assets/homepage.png', import.meta.url).href,
+  new URL('../assets/money_flow.png', import.meta.url).href,
+  new URL('../assets/money_flow2.png', import.meta.url).href,
+  new URL('../assets/debt_management.png', import.meta.url).href,
+  new URL('../assets/debt_management1.png', import.meta.url).href,
+  new URL('../assets/debt_management2.png', import.meta.url).href,
+  new URL('../assets/debt_management3.png', import.meta.url).href,
+  new URL('../assets/debt_management4.png', import.meta.url).href,
+  new URL('../assets/settings.png', import.meta.url).href,
+  new URL('../assets/settings1.png', import.meta.url).href,
 ];
-
-const screenshots = screenshotFiles.map(file => `/screenshots/${file}`);
 
 const PlutoPage = () => {
   const [lightbox, setLightbox] = useState({

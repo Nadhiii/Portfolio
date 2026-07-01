@@ -120,7 +120,6 @@ const MobileNav = () => {
                 { name: 'Skills', path: '/skills' },
                 { name: 'Experience', path: '/experience' },
                 { name: 'Contact', path: '/contact' },
-                { name: 'Pluto', path: '/pluto' }
               ].map((item, i) => (
                 <motion.li 
                   key={item.name}

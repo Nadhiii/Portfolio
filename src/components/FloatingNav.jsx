@@ -88,7 +88,7 @@ const FloatingNav = () => {
           </div>
 
           {/* 2. Main Glass Pill (Unified Container) */}
-          <div className="flex flex-col gap-4 p-3 rounded-full bg-white/60 dark:bg-black/60 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-2xl shadow-black/5 dark:shadow-black/20">
+          <div className="flex flex-col gap-4 p-3 rounded-full bg-white/45 dark:bg-black/45 backdrop-blur-xl border border-white/30 dark:border-white/10 shadow-2xl shadow-black/5 dark:shadow-black/20">
             
             {/* Contextual Icons */}
             {contextualActions.map((action, index) => (

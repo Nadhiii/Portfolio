@@ -1,20 +1,20 @@
 // src/main.jsx
-import React, { Suspense } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
-import PageLoader from './components/PageLoader.jsx';
 import './index.css';
 
 // Eagerly loaded (critical path)
 import HomePage from './pages/Home.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
-
-// Lazy loaded (non-critical routes)
-const ExperiencePage = React.lazy(() => import('./pages/Experience.jsx'));
-const PlutoPage = React.lazy(() => import('./pages/Pluto.jsx'));
+import ExperiencePage from './pages/Experience.jsx';
+import NexusPage from './pages/Nexus.jsx';
+import ProjectsPage from './pages/Projects.jsx';
+import ContactPage from './pages/Contact.jsx';
+import SkillsPage from './pages/Skills.jsx';
 
 const router = createBrowserRouter([
   {
@@ -22,29 +22,23 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFoundPage />, 
     children: [
-      { 
-        path: '/', 
-        element: <HomePage />
+      {
+        index: true,
+        element: <HomePage />,
       },
-      { 
-        path: '/projects', 
-        element: <HomePage />
+      {
+        path: 'nexus',
+        element: <NexusPage />
       },
-      { 
-        path: '/skills', 
-        element: <HomePage />
+      { path: 'projects', element: <ProjectsPage /> },
+      {
+        path: 'skills',
+        element: <SkillsPage />
       },
-      { 
-        path: '/contact', 
-        element: <HomePage />
-      },
-      { 
-        path: '/experience', 
-        element: <Suspense fallback={<PageLoader />}><ExperiencePage /></Suspense>
-      },
-      { 
-        path: '/pluto', 
-        element: <Suspense fallback={<PageLoader />}><PlutoPage /></Suspense>
+      { path: 'contact', element: <ContactPage /> },
+      {
+        path: 'experience',
+        element: <ExperiencePage />
       },
       { 
         path: '*', 
@@ -55,9 +49,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <ErrorBoundary>
-      <RouterProvider router={router} />
-    </ErrorBoundary>
-  </React.StrictMode>
+  <ErrorBoundary>
+    <RouterProvider router={router} />
+  </ErrorBoundary>
 );

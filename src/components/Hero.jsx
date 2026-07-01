@@ -1,135 +1,156 @@
 // src/components/Hero.jsx
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { containerVariants, itemVariants } from '../config/animations';
+import FadeUp from './FadeUp';
+import RevealText from './RevealText';
+import StackPhysics from './StackPhysics';
 
-// CONSTANTS: Strictly professional nouns that fit "I Engineer [X]"
 const SWITCHING_WORDS = [
-  "Efficiency",    // Ref: Apps Script automation saving time 
-  "Clarity",       // Ref: Ensuring 100% data accuracy 
-  "Impact",        // Ref: Driving 25-40% effectiveness 
-  "Trust",         // Ref: Safeguarding high-spend client ROI
-  "Solutions"      // Ref: Technical Solutions Professional 
+  'Measurement',
+  'Clarity',
+  'Conversion',
+  'Accountability',
+  'Trust',
 ];
 
 const GLYPHS = '01/>_<!?-+X';
-
 const ScrambleText = ({ text }) => {
-  const [displayText, setDisplayText] = useState(text);
-
+  const [display, setDisplay] = useState(text);
   useEffect(() => {
-    let interval;
     let iteration = 0;
-    
-    clearInterval(interval);
-
-    interval = setInterval(() => {
-      setDisplayText(() => {
-        return text
-          .split("")
-          .map((letter, index) => {
-            if (index < Math.floor(iteration)) {
-              return text[index];
-            }
-            return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-          })
-          .join("");
-      });
-
-      if (iteration >= text.length) {
-        clearInterval(interval);
-      }
-      iteration += 0.5; 
+    const interval = setInterval(() => {
+      setDisplay(text.split('').map((char, i) =>
+        i < Math.floor(iteration) ? char : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
+      ).join(''));
+      if (iteration >= text.length) clearInterval(interval);
+      iteration += 0.5;
     }, 50);
-
     return () => clearInterval(interval);
   }, [text]);
-
   return (
     <>
-      {/* Screen reader gets the real text */}
       <span className="sr-only">{text}</span>
-      {/* Visual scramble effect hidden from assistive tech */}
-      <span aria-hidden="true" className="font-mono text-primary-light dark:text-primary-dark inline-block min-w-[200px] text-left">
-        {displayText}
-      </span>
+      <span aria-hidden="true" className="font-mono text-brand-orange">{display}</span>
     </>
   );
 };
 
 const Hero = () => {
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-
+  const [wordIdx, setWordIdx] = useState(0);
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentWordIndex((prev) => (prev + 1) % SWITCHING_WORDS.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
+    const iv = setInterval(() => setWordIdx(i => (i + 1) % SWITCHING_WORDS.length), 3000);
+    return () => clearInterval(iv);
   }, []);
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
-      
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="relative z-20 max-w-5xl mx-auto text-center w-full"
-      >
-        {/* 1. GLASS BADGE - Barney Stinson Reference */}
-        <motion.div variants={itemVariants} className="mb-10 flex justify-center">
-          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-primary-light/20 dark:border-primary-dark/20 shadow-[0_0_20px_rgba(59,130,246,0.15)] group hover:border-primary-light/50 transition-colors cursor-default">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
-            </span>
-            <span className="text-xs font-bold tracking-widest text-primary-light dark:text-primary-dark uppercase group-hover:text-white transition-colors">
-              Suiting Up @ Cognizant
-            </span>
-          </div>
-        </motion.div>
+    <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 pt-24 pb-16 overflow-hidden">
+      <div className="relative z-20 w-full max-w-6xl mx-auto">
+        {/* ── BENTO GRID ─────────────────────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
 
-        {/* 2. MAIN HEADING - Static "I Engineer" + Dynamic Word */}
-        <motion.div 
-          variants={itemVariants}
-          className="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-none text-gray-900 dark:text-white"
-        >
-          <div className="mb-2">I Engineer</div>
-          
-          <div className="h-[1.3em] relative flex justify-center items-center">
-            <ScrambleText text={SWITCHING_WORDS[currentWordIndex]} />
-            <motion.span 
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{ duration: 0.8, repeat: Infinity }}
-              className="inline-block w-1.5 h-10 sm:h-14 ml-1 bg-primary-light dark:bg-primary-dark align-middle"
-            />
-          </div>
-        </motion.div>
+          {/* CARD 1: Identity (large, left) */}
+          <FadeUp className="lg:col-span-7">
+            <div className="h-full p-8 md:p-10 rounded-2xl bg-brand-surface border border-brand-border flex flex-col justify-between min-h-[320px]">
+              {/* Live status badge */}
+              <div className="flex items-center gap-2 mb-8">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+                </span>
+                <span className="text-xs tracking-widest uppercase text-brand-muted font-body">
+                  Cognizant · Bengaluru
+                </span>
+              </div>
 
-        {/* 3. SUBTEXT - Contextualized to your Resume */}
-        <motion.div 
-          variants={itemVariants}
-          className="max-w-4xl mx-auto space-y-6 mt-8"
-        >
-          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-            Technical Consultant at <span className="text-gray-900 dark:text-white font-bold">Cognizant (Measurement CoE)</span>.
-            <br className="hidden md:block" />
-            I troubleshoot high-stakes setups for <span className="text-gray-900 dark:text-white font-bold">Google Ads, GTM, GA4, & Firebase</span>. 
-            If the tracking isn't right, the ROI isn't real.
-          </p>
-          
-          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-            Aspiring <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent font-bold">Product Manager</span> - because after fixing thousands of broken implementations, I know how to build a product that actually works.
-          </p>
-          
-          {/* Footer Quote - Barney Stinson */}
-          <p className="text-sm text-gray-400 dark:text-gray-500 italic mt-6 opacity-80">
-            (It’s going to be legen... wait for it.... dary)
-          </p>
-        </motion.div>
+              {/* Main heading */}
+              <div className="flex-1">
+                <h1 className="font-monument text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-none mb-6 text-brand-text">
+                  I Build<br />
+                  <span className="inline-flex items-center mt-2 whitespace-nowrap">
+                    <ScrambleText text={SWITCHING_WORDS[wordIdx]} />
+                    <motion.span
+                      animate={{ opacity: [0, 1, 0] }}
+                      transition={{ duration: 0.8, repeat: Infinity }}
+                      className="inline-block w-1 h-12 ml-2 bg-brand-orange"
+                    />
+                  </span>
+                </h1>
+                <RevealText
+                  text="MarTech & Analytics Specialist at Cognizant. I build measurement systems that make every rupee of ad spend accountable."
+                  className="text-base md:text-lg text-brand-muted leading-relaxed max-w-lg"
+                />
+              </div>
 
-      </motion.div>
+              {/* CTAs */}
+              <div className="flex flex-wrap gap-3 mt-8">
+                <a
+                  href="/projects"
+                  className="px-6 py-3 rounded-xl bg-brand-orange text-brand-bg font-semibold text-sm hover:brightness-110 active:scale-95 transition-all duration-200"
+                >
+                  View My Work
+                </a>
+                <a
+                  href="mailto:mahanadhip@gmail.com"
+                  className="px-6 py-3 rounded-xl border border-brand-border text-brand-text font-semibold text-sm hover:border-brand-orange hover:text-brand-orange transition-all duration-200"
+                >
+                  Let's Talk
+                </a>
+                <a
+                  href="https://rxresu.me/nadhiii/general"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-6 py-3 rounded-xl border border-brand-border text-brand-muted font-semibold text-sm hover:border-brand-gold hover:text-brand-gold transition-all duration-200"
+                >
+                  Resume ↗
+                </a>
+              </div>
+            </div>
+          </FadeUp>
+
+          {/* CARD 2: Stack Physics */}
+          <FadeUp delay={0.1} className="lg:col-span-5">
+            <div className="h-full rounded-2xl bg-brand-surface border border-brand-border flex flex-col overflow-hidden min-h-[320px]">
+              {/* Wrapped both in a single container with the padding */}
+              <div className="p-8 pb-0">
+                <p className="text-xs tracking-[0.3em] uppercase text-brand-muted font-body">Skills</p>
+                {/* Reduced font size (text-[10px]) and lowered opacity/color (opacity-70) */}
+                <p className="text-[10px] tracking-[0.1em] lowercase text-brand-muted font-body opacity-70 mt-1">more to fill...</p>
+              </div>
+              <div className="flex-1">
+                <StackPhysics />
+              </div>
+            </div>
+          </FadeUp>
+
+          {/* CARD 3: Metric - Accounts */}
+          <FadeUp delay={0.15} className="lg:col-span-4">
+            <div className="p-6 rounded-2xl bg-brand-surface border border-brand-border">
+              <p className="text-xs tracking-widest uppercase text-brand-muted mb-2">Implementations & Troubleshooting</p>
+              <p className="font-heading text-5xl font-bold text-brand-text">1000+</p>
+              <p className="text-xs text-brand-muted mt-2">Page views to E-commerce tracking setup</p>
+            </div>
+          </FadeUp>
+
+          {/* CARD 4: Metric - Spend */}
+          <FadeUp delay={0.2} className="lg:col-span-4">
+            <div className="p-6 rounded-2xl bg-brand-surface border border-brand-border">
+              <p className="text-xs tracking-widest uppercase text-brand-muted mb-2">Enterprise Accounts</p>
+              <p className="font-heading text-5xl font-bold text-brand-orange">100+</p>
+              <p className="text-xs text-brand-muted mt-2">Google LCS · Titanium & Platinum</p>
+            </div>
+          </FadeUp>
+
+          {/* CARD 5: Years */}
+          <FadeUp delay={0.25} className="lg:col-span-4">
+            <div className="p-6 rounded-2xl bg-brand-surface border border-brand-border">
+              <p className="text-xs tracking-widest uppercase text-brand-muted mb-2">Experience</p>
+              <p className="font-heading text-5xl font-bold text-brand-text">5+ years</p>
+              <p className="text-xs text-brand-muted mt-2">Jan 2021 – present</p>
+            </div>
+          </FadeUp>
+
+        </div>
+      </div>
     </section>
   );
 };

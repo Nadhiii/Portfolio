@@ -2,94 +2,80 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
-import { Mail, Linkedin, Phone, Send, User, MessageSquare, Calendar, CheckCircle, AlertCircle } from 'lucide-react';
+import { Mail, Linkedin, Phone, Send, User, MessageSquare, Calendar, CheckCircle, AlertCircle, Briefcase, Sparkles, Coffee } from 'lucide-react';
 import { trackEvent, trackFormSubmissionWithEnhancedConversion } from '../utils/analytics';
-import { containerVariants, itemVariants } from '../config/animations';
-import Button from '../components/Button';
-import { supabase } from '../utils/supabaseClient';
+
+const inquiryTypes = [
+  { id: 'project', label: 'Project Inquiry', icon: Briefcase },
+  { id: 'feedback', label: 'Feedback on a Project', icon: Sparkles },
+  { id: 'hello', label: 'Just Saying Hi', icon: Coffee }
+];
+
+const contactInfo = [
+  {
+    icon: Mail,
+    label: 'Email',
+    value: 'mahanadhip@gmail.com',
+    href: 'mailto:mahanadhip@gmail.com'
+  },
+  {
+    icon: Linkedin,
+    label: 'LinkedIn',
+    value: '/in/mahanadhi',
+    href: 'https://www.linkedin.com/in/mahanadhi/'
+  },
+  {
+    icon: Phone,
+    label: 'Phone',
+    value: '+91 6363149672',
+    href: 'tel:+916363149672'
+  }
+];
 
 const Contact = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [inquiryType, setInquiryType] = useState('project');
   const [status, setStatus] = useState('idle'); // idle, sending, success, error
-  const [isVisible, setIsVisible] = useState(false);
-  const [showCallTooltip, setShowCallTooltip] = useState(false);
   const form = useRef();
-
-  React.useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    const element = document.getElementById('contact');
-    if (element) observer.observe(element);
-
-    return () => observer.disconnect();
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const messagePlaceholder = () => {
+    if (inquiryType === 'feedback') return "What did you try, what worked, what didn't, anything helps...";
+    if (inquiryType === 'hello') return "No agenda needed, just say hello...";
+    return "Tell me about your project, timeline, and how I can help...";
+  };
+
   const sendEmail = async (e) => {
     e.preventDefault();
     setStatus('sending');
-    // Removed: trackEvent('contact_form_submit', 'Engagement', 'Contact form submitted');
-    
+
     const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
     const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-    const messagePayload = {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      subject: formData.subject,
-      message: formData.message,
-      source: 'portfolio',
-      status: 'new',
-      created_at: new Date().toISOString()
-    };
+    const subjectLabel = inquiryTypes.find((t) => t.id === inquiryType)?.label || 'Message';
 
-    if (supabase) {
-      const { error } = await supabase
-        .from('contact_messages')
-        .insert([messagePayload]);
-
-      if (error) {
-        if (import.meta.env.DEV) {
-          console.error('Supabase logging failed:', error);
-        }
-        trackEvent('contact_form_supabase_error', 'Error', error.message || 'Supabase insert failed');
-      } else {
-        trackEvent('contact_form_supabase_logged', 'Engagement', 'Contact form saved to Supabase');
-      }
-    } else if (import.meta.env.DEV) {
-      console.warn('Supabase client not configured; skipping DB logging.');
-    }
-    
     const templateParams = {
       from_name: formData.name,
       from_email: formData.email,
       phone: formData.phone,
-      subject: formData.subject,
+      subject: subjectLabel,
       message: formData.message,
-      to_name: 'Mahanadi',
+      to_name: 'Mahanadhi'
     };
-    
+
     try {
       const result = await emailjs.send(serviceID, templateID, templateParams, publicKey);
       if (import.meta.env.DEV) {
         console.log('Email sent successfully:', result);
       }
       setStatus('success');
-      
-      // Push Enhanced Conversion Data to dataLayer (single event)
+
+      // GA4 side enhanced conversion
       trackFormSubmissionWithEnhancedConversion({
         email: formData.email,
         phone: formData.phone,
@@ -97,46 +83,40 @@ const Contact = () => {
         firstName: formData.name.split(' ')[0],
         lastName: formData.name.split(' ').slice(1).join(' ')
       });
-      
+
+      // Explicit GTM dataLayer push for Enhanced Conversions, user provided data
+      if (typeof window !== 'undefined') {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'generate_lead',
+          form_type: inquiryType,
+          user_data: {
+            email_address: formData.email,
+            phone_number: formData.phone,
+            address: {
+              first_name: formData.name.split(' ')[0],
+              last_name: formData.name.split(' ').slice(1).join(' ')
+            }
+          }
+        });
+      }
+
       setTimeout(() => {
         setStatus('idle');
-        setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+        setFormData({ name: '', email: '', phone: '', message: '' });
+        setInquiryType('project');
       }, 3000);
     } catch (error) {
       if (import.meta.env.DEV) {
         console.error('Email sending failed:', error);
       }
       setStatus('error');
-      trackEvent('contact_form_error', 'Error', `Contact form failed: ${error.text || error.message || 'Unknown error'}`);
+      trackEvent('contact_form_error', 'Error', 'Contact form failed: ' + (error.text || error.message || 'Unknown error'));
       setTimeout(() => {
         setStatus('idle');
       }, 3000);
     }
   };
-
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: 'Email',
-      value: 'mahanadhip@gmail.com',
-      href: 'mailto:mahanadhip@gmail.com',
-      color: 'text-blue-600 dark:text-blue-400'
-    },
-    {
-      icon: Linkedin,
-      label: 'LinkedIn',
-      value: '/in/mahanadhi',
-      href: 'https://www.linkedin.com/in/mahanadhi/',
-      color: 'text-blue-700 dark:text-blue-300'
-    },
-    {
-      icon: Phone,
-      label: 'Phone',
-      value: '+91 6363149672',
-      href: 'tel:+916363149672',
-      color: 'text-green-600 dark:text-green-400'
-    }
-  ];
 
   const getButtonContent = () => {
     switch (status) {
@@ -146,7 +126,7 @@ const Contact = () => {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+              className="w-5 h-5 border-2 border-brand-bg border-t-transparent rounded-full"
             />
             Sending...
           </>
@@ -155,14 +135,14 @@ const Contact = () => {
         return (
           <>
             <CheckCircle size={20} />
-            Message Sent!
+            Message Sent
           </>
         );
       case 'error':
         return (
           <>
             <AlertCircle size={20} />
-            Failed. Try Again.
+            Failed, Try Again
           </>
         );
       default:
@@ -176,269 +156,210 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="pt-24 pb-20 lg:pt-32 lg:pb-24 px-8">
-      <div className="max-w-7xl mx-auto">
+    <section id="contact" className="relative py-24 px-4 md:px-8 bg-brand-bg">
+      <div className="max-w-5xl mx-auto">
+
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-16"
         >
-          <h2 className="font-heading text-4xl lg:text-5xl mb-4">
-            Let's Build Something{' '}
-            <span className="bg-gradient-to-r from-primary-light to-accent-green-light dark:from-primary-dark dark:to-accent-green-dark bg-clip-text text-transparent">
-              Amazing Together
-            </span>
+          <span className="font-mono text-sm text-brand-gold tracking-widest uppercase">
+            Get In Touch
+          </span>
+          <h2 className="font-heading text-4xl md:text-5xl font-bold text-brand-text leading-tight">
+            Let's Talk
           </h2>
-          <p className="text-xl text-text-light dark:text-text-dark max-w-2xl mx-auto">
-            I'm always open to discussing new products, ideas, or opportunities to create meaningful user experiences.
+          <p className="font-body text-brand-text/60 mt-4 max-w-xl">
+            Got a project in mind, or feedback on something I have built? Either way works;
+            I would genuinely like to hear it.
           </p>
         </motion.div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isVisible ? "visible" : "hidden"}
-          className="max-w-6xl mx-auto"
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Contact Information */}
-            <motion.div variants={itemVariants} className="space-y-6">
-              <div>
-                <h3 className="text-2xl font-bold mb-4">Get in Touch</h3>
-                <p className="text-text-light dark:text-text-dark mb-6">
-                  Got a product idea that's keeping you up at night? A user problem that needs solving? Or just want to chat about the intersection of tech and common sense? Let's talk.
-                </p>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+          {/* Contact Info Column */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="lg:col-span-2 space-y-3"
+          >
+            {contactInfo.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                target={item.href.startsWith('http') ? '_blank' : undefined}
+                rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                onClick={() => trackEvent(item.label.toLowerCase() + '_click', 'Contact', item.label + ' clicked')}
+                className="flex items-center gap-4 px-5 py-4 rounded-2xl bg-white/[0.02] border border-brand-border hover:border-brand-orange/40 hover:bg-white/[0.04] transition-colors"
+              >
+                <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-orange/10 text-brand-orange shrink-0">
+                  <item.icon size={18} />
+                </div>
+                <div className="text-left min-w-0">
+                  <p className="font-body text-sm font-medium text-brand-text">{item.label}</p>
+                  <p className="font-mono text-xs text-brand-text/50 truncate">{item.value}</p>
+                </div>
+              </a>
+            ))}
+
+            <button
+              type="button"
+              onClick={() => {
+                window.dispatchEvent(new CustomEvent('open-calendar-modal'));
+                trackEvent('calendar_click', 'Contact', 'Schedule call button clicked');
+              }}
+              className="flex items-center gap-4 px-5 py-4 w-full rounded-2xl bg-white/[0.02] border border-brand-border hover:border-brand-orange/40 hover:bg-white/[0.04] transition-colors"
+            >
+              <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-brand-orange/10 text-brand-orange shrink-0">
+                <Calendar size={18} />
+              </div>
+              <div className="text-left min-w-0">
+                <p className="font-body text-sm font-medium text-brand-text">Schedule a Call</p>
+                <p className="font-mono text-xs text-brand-text/50">15 to 30 minutes</p>
+              </div>
+            </button>
+          </motion.div>
+
+          {/* Form Column */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-3"
+          >
+            <div className="rounded-3xl p-6 md:p-8 bg-white/[0.02] border border-brand-border">
+              <div className="flex items-center gap-3 mb-6">
+                <MessageSquare size={20} className="text-brand-orange" />
+                <h3 className="font-heading text-lg text-brand-text">Send a Message</h3>
               </div>
 
-              {/* UPDATED: Changed from space-y-6 to grid to ensure consistent sizing and alignment */}
-              <div className="grid grid-cols-1 gap-4 relative">
-                {contactInfo.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    target={item.href.startsWith('http') ? '_blank' : undefined}
-                    rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    onClick={() => trackEvent(`${item.label.toLowerCase()}_click`, 'Contact', `${item.label} clicked`)}
-                    // UPDATED: Changed justify-center to justify-start and added px-6 to align icons to the left
-                    className="flex items-center justify-start px-6 py-4 w-full rounded-2xl gap-4 bg-white/28 dark:bg-black/24 backdrop-blur-3xl backdrop-saturate-150 text-text-light dark:text-text-dark hover:bg-white/40 dark:hover:bg-black/35 hover:shadow-md transition-all duration-300"
-                  >
-                    <div className={`flex items-center justify-center w-12 h-12 ${item.color} bg-gray-100/80 dark:bg-gray-700/80 rounded-lg transition-colors flex-shrink-0`}>
-                      <item.icon size={20} />
-                    </div>
-                    {/* UPDATED: Changed text-center to text-left */}
-                    <div className="text-left">
-                      <p className="font-medium text-text-light dark:text-text-dark truncate">{item.label}</p>
-                      <p className="text-sm text-text-light dark:text-text-dark opacity-75 truncate">{item.value}</p>
-                    </div>
-                  </a>
-                ))}
-                
-                <div className="relative w-full">
+              {/* Inquiry type pills */}
+              <div className="flex flex-wrap gap-2 mb-6">
+                {inquiryTypes.map((type) => (
                   <button
+                    key={type.id}
                     type="button"
-                    onClick={() => {
-                      window.dispatchEvent(new CustomEvent('open-calendar-modal'));
-                      trackEvent('calendar_click', 'Contact', 'Schedule call button clicked');
-                    }}
-                    onMouseEnter={() => setShowCallTooltip(true)}
-                    onMouseLeave={() => setShowCallTooltip(false)}
-                    // UPDATED: Changed justify-center to justify-start and added px-6 for alignment
-                    className="flex items-center justify-start px-6 py-4 w-full rounded-2xl gap-4 bg-white/28 dark:bg-black/24 backdrop-blur-3xl backdrop-saturate-150 text-text-light dark:text-text-dark hover:bg-white/40 dark:hover:bg-black/35 hover:shadow-md transition-all duration-300"
+                    onClick={() => setInquiryType(type.id)}
+                    className={
+                      "flex items-center gap-2 px-4 py-2 rounded-full font-mono text-xs border transition-colors " +
+                      (inquiryType === type.id
+                        ? "bg-brand-orange/15 border-brand-orange/40 text-brand-orange"
+                        : "bg-transparent border-brand-border text-brand-text/50 hover:text-brand-text/80")
+                    }
                   >
-                    <div className="flex items-center justify-center w-12 h-12 text-green-600 dark:text-green-400 bg-gray-100/80 dark:bg-gray-700/80 rounded-lg transition-colors flex-shrink-0">
-                      <Calendar size={20} />
-                    </div>
-                    {/* UPDATED: Changed text-center to text-left */}
-                    <div className="text-left">
-                      <p className="font-medium text-text-light dark:text-text-dark truncate">Schedule Call</p>
-                      <p className="text-sm text-text-light dark:text-text-dark opacity-75 truncate">15-30 min chat</p>
-                    </div>
+                    <type.icon size={14} />
+                    {type.label}
                   </button>
-                  
-                  {/* Tooltip */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={showCallTooltip ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full left-0 right-0 mt-2 p-3 bg-blue-50 dark:bg-blue-900 rounded-lg border border-blue-200 dark:border-blue-700 shadow-lg z-10"
-                    style={{ pointerEvents: 'none' }}
-                  >
-                    <div className="absolute top-0 left-6 transform -translate-y-2 w-0 h-0 border-l-8 border-r-8 border-b-8 border-transparent border-b-blue-50 dark:border-b-blue-900/20"></div>
-                    <p className="text-sm text-blue-700 dark:text-blue-300">
-                      <strong>Prefer a quick chat?</strong> Schedule a 15-30 minute call to discuss your project ideas, timeline, and how we can collaborate effectively.
-                    </p>
-                  </motion.div>
-                </div>
+                ))}
               </div>
-            </motion.div>
 
-            {/* Contact Form */}
-            <motion.div variants={itemVariants}>
-              <div className="bg-white/60 dark:bg-black/40 backdrop-blur-lg rounded-3xl p-6 border border-white/40 dark:border-white/20 shadow-xl shadow-gray-200/20 dark:shadow-black/40">
-                <div className="flex items-center gap-3 mb-6">
-                  <MessageSquare size={24} className="text-primary-light dark:text-primary-dark" />
-                  <h3 className="text-xl font-bold">Send a Message</h3>
-                </div>
-                
-                <form ref={form} onSubmit={sendEmail} className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium mb-2 text-text-light dark:text-text-dark">
-                        Your Name *
-                      </label>
-                      <div className="relative">
-                        <User size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                        <input
-                          type="text"
-                          name="name"
-                          id="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                          className="w-full pl-10 pr-3 py-3 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent transition-all duration-300"
-                          placeholder="John Doe"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium mb-2 text-text-light dark:text-text-dark">
-                        Your Email *
-                      </label>
-                      <div className="relative">
-                        <Mail size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                        <input
-                          type="email"
-                          name="email"
-                          id="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          required
-                          className="w-full pl-10 pr-3 py-3 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent transition-all duration-300"
-                          placeholder="john@example.com"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="phone" className="block text-sm font-medium mb-2 text-text-light dark:text-text-dark">
-                        Phone Number (Optional)
-                      </label>
-                      <div className="relative">
-                        <Phone size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                        <input
-                          type="tel"
-                          name="phone"
-                          id="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className="w-full pl-10 pr-3 py-3 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent transition-all duration-300"
-                          placeholder="+91 98765 43210"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label htmlFor="subject" className="block text-sm font-medium mb-2 text-text-light dark:text-text-dark">
-                        Subject *
-                      </label>
+              <form ref={form} onSubmit={sendEmail} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="name" className="block font-mono text-xs text-brand-text/50 mb-2">
+                      Your Name *
+                    </label>
+                    <div className="relative">
+                      <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-text/30" />
                       <input
                         type="text"
-                        name="subject"
-                        id="subject"
-                        value={formData.subject}
+                        name="name"
+                        id="name"
+                        value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent transition-all duration-300"
-                        placeholder="Let's discuss a project..."
+                        className="w-full pl-10 pr-3 py-3 rounded-lg bg-brand-bg border border-brand-border text-brand-text font-body text-sm focus:outline-none focus:ring-1 focus:ring-brand-orange focus:border-brand-orange transition-colors"
+                        placeholder="John Doe"
                       />
                     </div>
                   </div>
-
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium mb-2 text-text-light dark:text-text-dark">
-                      Your Message *
+                    <label htmlFor="email" className="block font-mono text-xs text-brand-text/50 mb-2">
+                      Your Email *
                     </label>
-                    <textarea
-                      name="message"
-                      id="message"
-                      rows="5"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      className="w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent transition-all duration-300 resize-none"
-                      placeholder="Tell me about your project, timeline, and how I can help..."
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    disabled={status === 'sending'}
-                    variant="primary"
-                    size="lg"
-                    className={`w-full flex items-center justify-center gap-2 ${
-                      status === 'success'
-                        ? 'bg-green-500 text-white'
-                        : status === 'error'
-                        ? 'bg-red-500 text-white'
-                        : ''
-                    }`}
-                    aria-describedby="form-status"
-                  >
-                    {getButtonContent()}
-                  </Button>
-                  
-                  {/* Screen reader status announcements */}
-                  <div id="form-status" role="status" aria-live="polite" className="sr-only">
-                    {status === 'sending' && 'Sending your message...'}
-                    {status === 'success' && 'Message sent successfully!'}
-                    {status === 'error' && 'Failed to send message. Please try again.'}
-                  </div>
-                </form>
-
-                {/* Alternative Contact Methods */}
-                <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-                  <div className="flex justify-center space-x-4">
-                    <Button
-                      asLink
-                      href="mailto:mahanadhip@gmail.com"
-                      onClick={() => trackEvent('email_click', 'Contact', 'Email clicked')}
-                      variant="secondary"
-                      size="icon"
-                      className="rounded-full"
-                    >
-                      <Mail size={20} />
-                    </Button>
-                    <Button
-                      asLink
-                      href="https://www.linkedin.com/in/mahanadhi/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => trackEvent('linkedin_click', 'Contact', 'LinkedIn clicked')}
-                      variant="secondary"
-                      size="icon"
-                      className="rounded-full"
-                    >
-                      <Linkedin size={20} />
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        window.dispatchEvent(new CustomEvent('open-calendar-modal'));
-                        trackEvent('calendar_click', 'Contact', 'Schedule call button clicked');
-                      }}
-                      variant="secondary"
-                      size="icon"
-                      className="rounded-full"
-                    >
-                      <Calendar size={20} />
-                    </Button>
+                    <div className="relative">
+                      <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-text/30" />
+                      <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="w-full pl-10 pr-3 py-3 rounded-lg bg-brand-bg border border-brand-border text-brand-text font-body text-sm focus:outline-none focus:ring-1 focus:ring-brand-orange focus:border-brand-orange transition-colors"
+                        placeholder="john@example.com"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
+
+                <div>
+                  <label htmlFor="phone" className="block font-mono text-xs text-brand-text/50 mb-2">
+                    Phone Number (Optional)
+                  </label>
+                  <div className="relative">
+                    <Phone size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-text/30" />
+                    <input
+                      type="tel"
+                      name="phone"
+                      id="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full pl-10 pr-3 py-3 rounded-lg bg-brand-bg border border-brand-border text-brand-text font-body text-sm focus:outline-none focus:ring-1 focus:ring-brand-orange focus:border-brand-orange transition-colors"
+                      placeholder="+91 98765 43210"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block font-mono text-xs text-brand-text/50 mb-2">
+                    Your Message *
+                  </label>
+                  <textarea
+                    name="message"
+                    id="message"
+                    rows="5"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    className="w-full p-3 rounded-lg bg-brand-bg border border-brand-border text-brand-text font-body text-sm focus:outline-none focus:ring-1 focus:ring-brand-orange focus:border-brand-orange transition-colors resize-none"
+                    placeholder={messagePlaceholder()}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={status === 'sending'}
+                  className={
+                    "w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg font-body text-sm font-semibold transition-colors disabled:opacity-60 " +
+                    (status === 'success'
+                      ? "bg-brand-green text-brand-text"
+                      : status === 'error'
+                      ? "bg-red-500/90 text-white"
+                      : "bg-brand-orange text-brand-bg hover:bg-brand-orange/90")
+                  }
+                  aria-describedby="form-status"
+                >
+                  {getButtonContent()}
+                </button>
+
+                {/* Screen reader status announcements */}
+                <div id="form-status" role="status" aria-live="polite" className="sr-only">
+                  {status === 'sending' && 'Sending your message...'}
+                  {status === 'success' && 'Message sent successfully!'}
+                  {status === 'error' && 'Failed to send message. Please try again.'}
+                </div>
+              </form>
+            </div>
+          </motion.div>
+        </div>
 
       </div>
     </section>

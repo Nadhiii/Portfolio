@@ -1,152 +1,105 @@
 // src/components/Header.jsx
-
+// CHANGES: Removed theme toggle (dark-only now). Kept glass pill, MP collapse, nav links.
+// Updated colors to brand tokens.
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { Sun, Moon } from 'lucide-react';
 import { Link, NavLink } from 'react-router-dom';
 import { trackEvent } from '../utils/analytics';
 import MobileNav from './MobileNav';
 
-const Header = ({ theme, onThemeSwitch }) => {
+const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-
-
-  const navLinkClassName = ({ isActive }) => `
-    px-4 py-2 rounded-lg transition-all duration-300 relative group
-    text-text-light dark:text-text-dark
-    ${isActive ? 'text-primary-light dark:text-primary-dark font-semibold' : ''}
-    after:content-['']
-    after:absolute
-    after:bottom-0
-    after:left-4
-    after:w-0
-    after:h-0.5
-    after:bg-primary-light
-    dark:after:bg-primary-dark
-    after:transition-all
-    after:duration-300
-    ${isActive ? 'after:w-[calc(100%-32px)]' : 'group-hover:after:w-[calc(100%-32px)]'}
-  `;
-
+  const navLinkClass = ({ isActive }) =>
+    `px-4 py-2 rounded-lg transition-all duration-300 relative group text-brand-text text-sm
+font-medium
+${isActive ? 'text-brand-orange' : 'hover:text-brand-orange'}`;
   return (
     <div className="fixed top-4 left-0 right-0 z-40 flex justify-center px-4">
-      <motion.header 
+      <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
         className="w-full max-w-6xl"
       >
-      <div className={`
-        relative px-6 py-3 rounded-full 
-        bg-white/28 dark:bg-black/24 
-        backdrop-blur-3xl backdrop-saturate-150
-        border border-transparent
-        transition-all duration-300
-        ${isScrolled 
-          ? 'shadow-2xl shadow-gray-400/25 dark:shadow-black/45' 
-          : 'shadow-xl shadow-gray-300/30 dark:shadow-black/35'
-        }
-      `}>
-        <div className="flex justify-between items-center">
-        
-        {/* === THE ANIMATED NAME/INITIALS (NOW A LINK) === */}
-        <Link to="/" aria-label="Back to homepage" onClick={() => trackEvent('logo_click', 'Navigation', 'Header logo clicked')}>
-          <LayoutGroup>
-            <motion.div className="flex items-center gap-2 font-heading text-xl h-8 text-gray-900 dark:text-gray-100">
-              <AnimatePresence>
-                {!isScrolled ? (
-                  <motion.div key="fullName" className="flex items-center gap-2">
-                    <motion.span layoutId="first-token">Mahanadhi</motion.span>
-                    <motion.span layoutId="second-token">Parisara</motion.span>
-                  </motion.div>
-                ) : (
-                  <motion.div key="initials" className="flex items-center gap-1 group relative">
-                    <motion.span layoutId="first-token" className="text-2xl">M</motion.span>
-                    <motion.span layoutId="second-token" className="text-2xl">P</motion.span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          </LayoutGroup>
-        </Link>
+        <div className={`px-6 py-3 rounded-full
+      bg-brand-surface/65 backdrop-blur-xl
+      border border-brand-border/70
+transition-all duration-300
+${isScrolled ? 'shadow-2xl shadow-black/60' : 'shadow-lg shadow-black/30'}`}
+        >
+          <div className="flex justify-between items-center">
+            {/* Logo / Name */}
+            <Link to="/" aria-label="Home" onClick={() => trackEvent('logo_click', 'Navigation',
 
-        {/* Right Side: Navigation */}
-        <nav className="flex items-center gap-2 md:gap-3">
-          <ul className="hidden md:flex items-center gap-2 font-body">
-            <li>
-              <NavLink 
-                to="/projects" 
-                onClick={() => trackEvent('nav_click', 'Navigation', 'Projects section visited')}
-                className={navLinkClassName}
-              >
-                Projects
-              </NavLink>
-            </li>
-            <li>
-              <NavLink 
-                to="/skills" 
-                onClick={() => trackEvent('nav_click', 'Navigation', 'Skills section visited')}
-                className={navLinkClassName}
-              >
-                Skills
-              </NavLink>
-            </li>
-            <li>
-              <NavLink 
-                to="/experience" 
-                onClick={() => trackEvent('nav_click', 'Navigation', 'Experience page visited')}
-                className={navLinkClassName}
-              >
-                Experience
-              </NavLink>
-            </li>
-            <li>
-              <NavLink 
-                to="/contact" 
-                onClick={() => trackEvent('nav_click', 'Navigation', 'Contact section visited')}
-                className={navLinkClassName}
-              >
-                Contact
-              </NavLink>
-            </li>
-            <li>
-              <NavLink 
-                to="/pluto" 
-                onClick={() => trackEvent('nav_click', 'Navigation', 'Pluto page visited')}
-                className={navLinkClassName}
-              >
-                Pluto
-              </NavLink>
-            </li>
-          </ul>
-          
-          <button 
-            onClick={(event) => {
-              onThemeSwitch(event);
-              trackEvent('theme_toggle', 'Engagement', `Switched to ${theme === 'light' ? 'dark' : 'light'} mode`);
-            }} 
-            className="bg-white/40 dark:bg-gray-800/40 p-2 rounded-full hover:bg-gray-600 dark:hover:bg-gray-700 hover:text-white transition-all duration-300" 
-            aria-label="Toggle theme"
-          >
-            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-          </button>
+              'Header logo')}>
 
-          <MobileNav />
-        </nav>
+              <LayoutGroup>
+                <motion.div className="flex items-center gap-2 h-8 font-heading text-lg
+
+text-brand-text">
+
+                  <AnimatePresence mode="wait">
+                    {!isScrolled ? (
+                      <motion.div key="full" className="flex gap-2"
+                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                        <motion.span layoutId="t1">Mahanadhi</motion.span>
+                        <motion.span layoutId="t2"
+                          className="text-brand-orange">Parisara</motion.span>
+
+                      </motion.div>
+                    ) : (
+                      <motion.div key="init" className="flex gap-1"
+                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+
+                        <motion.span layoutId="t1" className="text-2xl
+
+font-bold">M</motion.span>
+
+                        <motion.span layoutId="t2" className="text-2xl font-bold
+
+text-brand-orange">P</motion.span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              </LayoutGroup>
+            </Link>
+            {/* Nav */}
+            <nav className="flex items-center gap-2">
+              <ul className="hidden md:flex items-center gap-1 font-body">
+                {[
+                  { to: '/projects', label: 'Projects' },
+                  { to: '/skills', label: 'Skills' },
+                  { to: '/experience', label: 'Experience' },
+                  { to: '/contact', label: 'Contact' },
+                ].map(({ to, label }) => (
+                  <li key={to}>
+                    <NavLink to={to} className={navLinkClass}
+                      onClick={() => trackEvent('nav_click', 'Navigation', label)}>
+                      {label}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="mailto:mahanadhip@gmail.com"
+                className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full
+bg-brand-orange text-brand-bg text-sm font-semibold
+hover:brightness-110 transition-all duration-200"
+              >
+                Let's Talk
+              </a>
+              <MobileNav />
+            </nav>
+          </div>
         </div>
-      </div>
-    </motion.header>
+      </motion.header>
     </div>
   );
 };
-
 export default Header;
