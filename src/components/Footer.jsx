@@ -7,15 +7,15 @@ import FadeUp from './FadeUp';
 const Footer = () => (
   <footer className="relative z-20 border-t border-brand-border bg-brand-bg">
     <div className="max-w-6xl mx-auto px-4 md:px-8 py-20">
-      <FadeUp>
-        {/* Sign-off */}
+     {/* <FadeUp>
         <div className="text-center mb-16">
           <p className="font-kannada text-3xl md:text-4xl text-brand-gold mb-3">
             ನದಿ ಹರಿಯುತ್ತಲೇ ಇರುತ್ತದೆ.
-          </p>
+         </p>
           <p className="text-brand-muted text-sm font-body">The river keeps flowing.</p>
         </div>
-      </FadeUp>
+     </FadeUp>
+     */}
       <FadeUp delay={0.1}>
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
@@ -24,7 +24,7 @@ const Footer = () => (
 hover:brightness-110 active:scale-95 transition-all duration-200">
             Say Hello
           </a>
-          <a href="https://rxresu.me/nadhiii/general" target="_blank" rel="noreferrer"
+          <a href="https://rxresu.me/nadhiii/mahanadhi-parisara-resume" target="_blank" rel="noreferrer"
             className="px-8 py-3 rounded-xl border border-brand-border text-brand-muted
 
 font-semibold text-sm

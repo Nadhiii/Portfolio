@@ -148,7 +148,7 @@ export default function StackPhysics() {
             const queryResults = Matter.Query.point(bodies, mousePos);
             
             if (queryResults && queryResults.length > 0) {
-                const clickedBody = queryResults; // Grab the actual body object
+                const clickedBody = queryResults[0];
                 const blastRadius = 300;
                 const blastForce = 0.4; 
 

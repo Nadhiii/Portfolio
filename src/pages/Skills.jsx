@@ -148,7 +148,7 @@ const Skills = () => (
       {/* Closing line */}
       <FadeUp delay={0.2}>
         <div className="mt-16 pt-8 border-t border-brand-border">
-          <p className="text-brand-muted text-sm max-w-xl">
+          <p className="text-brand-muted text-sm leading-relaxed max-w-none sm:max-w-3xl lg:whitespace-nowrap">
             The build side is self-taught and genuinely works. The measurement side is what I do every day for enterprise clients handling millions in ad spend.
           </p>
         </div>

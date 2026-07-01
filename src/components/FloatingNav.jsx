@@ -46,7 +46,7 @@ const FloatingNav = () => {
       case 'contact': navigate('/contact'); break;
       case 'email': window.open('mailto:mahanadhip@gmail.com', '_blank'); break;
       case 'linkedin': window.open('https://www.linkedin.com/in/mahanadhi/', '_blank'); break;
-      case 'resume': window.open('https://rxresu.me/nadhiii/general', '_blank'); break;
+      case 'resume': window.open('https://rxresu.me/nadhiii/mahanadhi-parisara-resume', '_blank'); break;
       default: break;
     }
   }, [navigate]);
