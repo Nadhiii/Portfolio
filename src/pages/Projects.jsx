@@ -21,7 +21,7 @@ const projects = [
       { value: '100%', label: 'Adoption rate' },
     ],
     stack: ['Apps Script', 'JavaScript', 'Sheets API'],
-    accentVar: '--color-brand-text', // white-ish
+    accentVar: '--color-brand-text',
     numberColor: 'text-brand-text',
     codeLanguage: 'javascript',
     code: `/**
@@ -230,6 +230,299 @@ function hideYesterday(ss, today) {
     stack: ['Google Apps Script', 'Sheets API', 'JavaScript'],
     accentVar: '--color-brand-text',
     numberColor: 'text-brand-text',
+    codeLanguage: 'javascript',
+    code: `// ============ HELPERS ============
+
+function getDispatchHeaders(sheet) {
+  const range = sheet.getDataRange();
+  const values = range.getValues();
+  for (let r = 0; r < values.length; r++) {
+    const row = values[r];
+    if (row.includes("Case ID")) {
+      const headers = {};
+      row.forEach((val, c) => {
+        if (val) headers[val.toString().trim()] = c;
+      });
+      return { headerRowIndex: r, headers: headers };
+    }
+  }
+  return null;
+}
+
+function getMasterDBHeaders(sheet) {
+  const values = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  const headers = {};
+  values.forEach((val, c) => {
+    if (val) headers[val.toString().trim()] = c;
+  });
+  return headers;
+}
+
+// Sanitized Roster
+const AGENT_EMAILS = {
+  "Agent Alpha": "agent.alpha@company.com",
+  "Agent Beta": "agent.beta@company.com",
+  "Agent Gamma": "agent.gamma@company.com",
+  "Agent Delta": "agent.delta@company.com",
+  "Agent Epsilon": "agent.epsilon@company.com",
+  "Agent Zeta": "agent.zeta@company.com",
+  "Agent Eta": "agent.eta@company.com",
+  "Agent Theta": "agent.theta@company.com",
+  "Agent Iota": "agent.iota@company.com",
+  "Agent Kappa": "agent.kappa@company.com",
+  "Agent Lambda": "agent.lambda@company.com",
+  "Agent Mu": "agent.mu@company.com",
+  "Agent Nu": "agent.nu@company.com",
+  "Agent Xi": "agent.xi@company.com",
+  "Agent Omicron": "agent.omicron@company.com",
+  "Agent Pi": "agent.pi@company.com",
+  "Agent Rho": "agent.rho@company.com",
+  "Agent Sigma": "agent.sigma@company.com",
+  "Agent Tau": "agent.tau@company.com",
+  "Agent Upsilon": "agent.upsilon@company.com",
+  "Agent Phi": "agent.phi@company.com",
+  "Agent Chi": "agent.chi@company.com"
+};
+
+// ============ MAIN ASSIGNMENT FLOW ============
+
+function processAssignment(e) {
+  if (!e) return;
+
+  const sheet = e.source.getActiveSheet();
+  if (sheet.getName() !== "Dispatch Console") return;
+
+  const headerInfo = getDispatchHeaders(sheet);
+  if (!headerInfo) return;
+
+  const headers = headerInfo.headers;
+  const checkboxCol = headers["Assign & Notify"];
+  const caseIdCol = headers["Case ID"];
+  if (checkboxCol === undefined || caseIdCol === undefined) return;
+
+  const editedCol = e.range.getColumn() - 1;
+  const editedRow = e.range.getRow();
+
+  if (editedCol === caseIdCol) {
+    sheet.getRange(editedRow, caseIdCol + 1).setBackground(null);
+    return;
+  }
+
+  if (editedCol !== checkboxCol || e.value !== "TRUE") return;
+  if (editedRow === headerInfo.headerRowIndex + 1) return;
+
+  const taskTypeCol = headers["Task Type"];
+  const agentCol = headers["Assigned Agent"];
+  const deadlineCol = headers["Deadline"];
+  const suggestedCol = headers["Suggested Agent"];
+  const typeCol = headers["Type"];
+  const pocCol = headers["POC"];
+
+  if (taskTypeCol === undefined || agentCol === undefined || deadlineCol === undefined) return;
+
+  const rowValues = sheet.getRange(editedRow, 1, 1, sheet.getLastColumn()).getValues()[0];
+  const caseId = rowValues[caseIdCol];
+  const taskType = rowValues[taskTypeCol];
+  const agentName = rowValues[agentCol];
+  const deadline = sheet.getRange(editedRow, deadlineCol + 1).getDisplayValue();
+  const typeValue = typeCol !== undefined ? rowValues[typeCol] : "";
+  const pocValue = pocCol !== undefined ? sheet.getRange(editedRow, pocCol + 1).getDisplayValue() : "";
+
+  if (!caseId || !agentName) {
+    sheet.getRange(editedRow, checkboxCol + 1).setValue("FALSE");
+    let missing = [];
+    if (!caseId) missing.push("Case ID");
+    if (!agentName) missing.push("Assigned Agent");
+    e.source.toast(\`Missing required fields: \${missing.join(" & ")}\`, "Cannot Process Assignment", 6);
+    return;
+  }
+
+  if (pocValue && pocValue.toString().includes("@")) {
+    sheet.getRange(editedRow, checkboxCol + 1).setValue("FALSE");
+    e.source.toast("The POC column cannot contain email addresses or '@' symbols. Please use names only.", "Invalid POC Data", 6);
+    return;
+  }
+
+  const dbSheet = e.source.getSheetByName("Master Database");
+  const dbHeaders = getMasterDBHeaders(dbSheet);
+  const caseIdColDB = dbHeaders["Case ID"];
+
+  let isDuplicate = false;
+  if (caseIdColDB !== undefined && dbSheet.getLastRow() > 1) {
+    const existingIds = dbSheet.getRange(2, caseIdColDB + 1, dbSheet.getLastRow() - 1, 1)
+      .getValues().flat().map(v => v.toString().trim());
+    isDuplicate = existingIds.includes(caseId.toString().trim());
+  }
+
+  if (isDuplicate) {
+    sheet.getRange(editedRow, checkboxCol + 1).setValue("FALSE");
+    sheet.getRange(editedRow, caseIdCol + 1).setBackground("#f4cccc");
+    if (suggestedCol !== undefined) {
+      sheet.getRange(editedRow, suggestedCol + 1).setValue("❌ Duplicate found — Case ID already exists.");
+    }
+    e.source.toast(\`Case ID "\${caseId}" already exists in Master Database.\`, "Duplicate Found", 6);
+    return;
+  }
+
+  let dispatcherEmail = "";
+  try {
+    dispatcherEmail = Session.getActiveUser().getEmail() || "Unknown";
+  } catch (err) {
+    dispatcherEmail = "Unknown";
+  }
+
+  const currentStatus = "Assigned";
+  const assignedDateObj = new Date();
+  const assignedDateDisplay = Utilities.formatDate(assignedDateObj, Session.getScriptTimeZone(), "MM/dd/yyyy");
+
+  const nextRow = dbSheet.getLastRow() + 1;
+  function writeDB(fieldName, value) {
+    if (dbHeaders[fieldName] !== undefined) {
+      dbSheet.getRange(nextRow, dbHeaders[fieldName] + 1).setValue(value);
+    }
+  }
+  writeDB("Case ID", caseId);
+  writeDB("Task Type", taskType);
+  writeDB("Assigned Agent", agentName);
+  writeDB("Current Status", currentStatus);
+  writeDB("Assigned Date", assignedDateObj);
+  writeDB("Deadline", deadline);
+  writeDB("Type", typeValue);
+  writeDB("POC", pocValue);
+  writeDB("Dispatcher", dispatcherEmail);
+
+  const targetEmail = AGENT_EMAILS[agentName];
+  if (targetEmail) {
+    const subject = \`🚨 New Case Assigned: \${caseId}\`;
+    const body = \`Hello \${agentName},\\n\\nYou have been assigned a new case.\\n\\n\`
+      + \`Case ID: \${caseId}\\nTask Type: \${taskType}\\nType: \${typeValue}\\n\`
+      + \`Assigned Date: \${assignedDateDisplay}\\nSLA Deadline: \${deadline}\\nPOC: \${pocValue}\\n\\n\`
+      + \`Please check the Master Database and update your status accordingly.\`;
+
+    let ccList = "management-cc@company.com";
+    MailApp.sendEmail(targetEmail, subject, body, { cc: ccList });
+  }
+
+  sheet.getRange(editedRow, caseIdCol + 1).clearContent().setBackground(null);
+  sheet.getRange(editedRow, taskTypeCol + 1).clearContent();
+  sheet.getRange(editedRow, agentCol + 1).clearContent();
+  sheet.getRange(editedRow, deadlineCol + 1).clearContent();
+  if (typeCol !== undefined) sheet.getRange(editedRow, typeCol + 1).clearContent();
+  if (pocCol !== undefined) sheet.getRange(editedRow, pocCol + 1).clearContent();
+  sheet.getRange(editedRow, checkboxCol + 1).setValue("FALSE");
+  if (suggestedCol !== undefined) {
+    const cell = sheet.getRange(editedRow, suggestedCol + 1);
+    cell.clearContent();
+    cell.clearNote();
+  }
+}
+
+// ============ SUGGESTION ENGINE ============
+
+function suggestAgent(e) {
+  if (!e) return;
+
+  const sheet = e.source.getActiveSheet();
+  if (sheet.getName() !== "Dispatch Console") return;
+
+  const headerInfo = getDispatchHeaders(sheet);
+  if (!headerInfo) return;
+
+  const headers = headerInfo.headers;
+  const taskTypeCol = headers["Task Type"];
+  const suggestedCol = headers["Suggested Agent"];
+  if (taskTypeCol === undefined || suggestedCol === undefined) return;
+
+  const editedCol = e.range.getColumn() - 1;
+  const editedRow = e.range.getRow();
+  if (editedCol !== taskTypeCol) return;
+  if (editedRow === headerInfo.headerRowIndex + 1) return;
+
+  const taskType = e.value;
+  const outputCell = sheet.getRange(editedRow, suggestedCol + 1);
+
+  if (!taskType) {
+    outputCell.clearContent();
+    outputCell.clearNote();
+    return;
+  }
+
+  const ss = e.source;
+  const heatmap = ss.getSheetByName("Agent Heatmap");
+  const workload = ss.getSheetByName("Workload Dashboard");
+  if (!heatmap || !workload) return;
+
+  const heatmapData = heatmap.getDataRange().getValues();
+  const workloadData = workload.getDataRange().getValues();
+
+  const heatmapHeaderRow = heatmapData[0];
+  const colIndex = heatmapHeaderRow.findIndex(h => h.toString().trim() === taskType.toString().trim());
+
+  if (colIndex === -1) {
+    outputCell.setValue("No history for this task type yet.");
+    outputCell.clearNote();
+    return;
+  }
+
+  const workloadHeaderRow = workloadData[0];
+  const agentColW = workloadHeaderRow.indexOf("Agent");
+  const activeColW = workloadHeaderRow.indexOf("Active Cases");
+
+  const activeMap = {};
+  for (let i = 1; i < workloadData.length; i++) {
+    activeMap[workloadData[i][agentColW]] = workloadData[i][activeColW];
+  }
+
+  const scores = [];
+  for (let i = 1; i < heatmapData.length; i++) {
+    const agent = heatmapData[i][0];
+    const pastCount = heatmapData[i][colIndex] || 0;
+    const activeCount = activeMap[agent] || 0;
+    const score = (pastCount * 2) - (activeCount * 3);
+    scores.push({ agent, pastCount, activeCount, score });
+  }
+
+  scores.sort((a, b) => b.score - a.score);
+  const top3 = scores.slice(0, 3);
+
+  const shortText = "Top picks: " + top3.map(s => s.agent).join(", ");
+  const noteText = top3.map(s => \`\${s.agent} — \${s.pastCount} completed, \${s.activeCount} active\`).join("\\n");
+
+  outputCell.setValue(shortText);
+  outputCell.setNote(noteText);
+  outputCell.setWrapStrategy(SpreadsheetApp.WrapStrategy.CLIP);
+}
+
+function resetDispatchRow() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName("Dispatch Console");
+  const headerInfo = getDispatchHeaders(sheet);
+  if (!headerInfo) return;
+
+  const headers = headerInfo.headers;
+  const dataRow = headerInfo.headerRowIndex + 2;
+
+  const fieldsToClear = ["Case ID", "Task Type", "Assigned Agent", "Deadline", "Type", "POC"];
+  fieldsToClear.forEach(f => {
+    if (headers[f] !== undefined) {
+      sheet.getRange(dataRow, headers[f] + 1).clearContent();
+    }
+  });
+
+  if (headers["Case ID"] !== undefined) {
+    sheet.getRange(dataRow, headers["Case ID"] + 1).setBackground(null);
+  }
+  if (headers["Assign & Notify"] !== undefined) {
+    sheet.getRange(dataRow, headers["Assign & Notify"] + 1).setValue(false);
+  }
+  if (headers["Suggested Agent"] !== undefined) {
+    const cell = sheet.getRange(dataRow, headers["Suggested Agent"] + 1);
+    cell.clearContent();
+    cell.clearNote();
+  }
+
+  ss.toast("Dispatch row cleared.", "Reset", 3);
+}`,
   },
 ];
 
@@ -343,7 +636,6 @@ const Projects = () => {
         <FadeUp>
           <div className="flex items-end justify-between mb-16 pb-6 border-b border-brand-border">
             <div>
-              
               <h2 className="font-heading text-4xl md:text-5xl font-bold text-brand-text leading-tight">
                 Things I've Built
               </h2>
