@@ -1,7 +1,7 @@
 // src/components/CodeModal.jsx
 import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Highlight, themes } from 'prism-react-renderer';
+import { Highlight } from 'prism-react-renderer';
 import { X, Copy, Check } from 'lucide-react';
 
 // Syntax theme mapped to the portfolio's own brand tokens, not a stock Prism theme
@@ -34,6 +34,20 @@ const CodeModal = ({ isOpen, onClose, title, code, language = 'javascript' }) =>
       // clipboard not available, fail silently rather than throwing
     }
   };
+
+  // Prevent background scrolling when modal is open
+  React.useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    // Cleanup to prevent body getting locked if modal unmounts unexpectedly
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isOpen]);
 
   // Close on Escape key
   React.useEffect(() => {
