@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import FadeUp from './FadeUp';
 import RevealText from './RevealText';
-import StackPhysics from './StackPhysics';
+import SkillsConsole from './SkillsConsole';
 
 const SWITCHING_WORDS = [
   'Measurement',
@@ -107,17 +107,17 @@ const Hero = () => {
             </div>
           </FadeUp>
 
-          {/* CARD 2: Stack Physics */}
+          {/* CARD 2: Skills Console */}
           <FadeUp delay={0.1} className="lg:col-span-5">
-            <div className="h-full rounded-2xl bg-brand-surface border border-brand-border flex flex-col overflow-hidden min-h-[320px]">
-              {/* Wrapped both in a single container with the padding */}
-              <div className="p-8 pb-0">
+            <div className="h-full rounded-2xl bg-brand-surface border border-brand-border flex flex-col overflow-hidden min-h-[320px] p-8">
+              <div className="mb-2">
                 <p className="text-xs tracking-[0.3em] uppercase text-brand-muted font-body">Skills</p>
-                {/* Reduced font size (text-[10px]) and lowered opacity/color (opacity-70) */}
-                <p className="text-[10px] tracking-[0.1em] lowercase text-brand-muted font-body opacity-70 mt-1">more to fill...</p>
+                <p className="text-[10px] tracking-[0.1em] lowercase text-brand-muted font-body opacity-70 mt-1">
+                  read like a debug console, because that's where I live
+                </p>
               </div>
               <div className="flex-1">
-                <StackPhysics />
+                <SkillsConsole />
               </div>
             </div>
           </FadeUp>
@@ -136,7 +136,7 @@ const Hero = () => {
             <div className="p-6 rounded-2xl bg-brand-surface border border-brand-border">
               <p className="text-xs tracking-widest uppercase text-brand-muted mb-2">Enterprise Accounts</p>
               <p className="font-heading text-5xl font-bold text-brand-orange">100+</p>
-              <p className="text-xs text-brand-muted mt-2">Google LCS · Titanium & Platinum</p>
+              <p className="text-xs text-brand-muted mt-2">Google LCS · Enterprise clients</p>
             </div>
           </FadeUp>
 

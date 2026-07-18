@@ -22,7 +22,7 @@ const brandTheme = {
   ],
 };
 
-const CodeModal = ({ isOpen, onClose, title, code, language = 'javascript' }) => {
+const CodeModal = ({ isOpen, onClose, title, code, language = 'javascript', note }) => {
   const [copied, setCopied] = React.useState(false);
 
   const handleCopy = async () => {
@@ -101,8 +101,18 @@ const CodeModal = ({ isOpen, onClose, title, code, language = 'javascript' }) =>
               </div>
             </div>
 
+            {/* Excerpt banner */}
+            {note && (
+              <div className="px-6 py-2.5 border-b border-brand-border bg-brand-bg/40 flex-shrink-0">
+                <p className="text-xs text-brand-muted leading-relaxed">{note}</p>
+              </div>
+            )}
+
             {/* Code body */}
-            <div className="overflow-auto px-6 py-5 font-mono text-[13px] leading-relaxed">
+            <div
+              data-lenis-prevent
+              className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-6 py-5 font-mono text-[13px] leading-relaxed"
+            >
               <Highlight theme={brandTheme} code={code.trim()} language={language}>
                 {({ className, style, tokens, getLineProps, getTokenProps }) => (
                   <pre className={className} style={style}>

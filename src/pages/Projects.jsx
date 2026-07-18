@@ -201,13 +201,13 @@ function hideYesterday(ss, today) {
     problem:
       'Generic portfolio sites all look the same, same bento grid, same hero, same "I\'m a developer" headline. None of them say anything.',
     solution:
-      'Rebuilt from scratch with Vite, React 19, Tailwind CSS, and Framer Motion. Brand token system, custom intro animation cycling through five languages, Matter.js physics pills in the skills card.',
+      'Rebuilt from scratch with Vite, React 19, Tailwind CSS, and Framer Motion. Brand token system, custom intro animation cycling through five languages, a CSS orbit ring for the skills card.',
     metrics: [
       { value: '5', label: 'Languages in intro' },
-      { value: 'Matter.js', label: 'Physics sim' },
+      { value: '3', label: 'Proficiency tiers' },
       { value: '0', label: 'Templates used' },
     ],
-    stack: ['React 19', 'Vite', 'Tailwind CSS', 'Framer Motion', 'Matter.js'],
+    stack: ['React 19', 'Vite', 'Tailwind CSS', 'Framer Motion'],
     accentVar: '--color-brand-gold',
     numberColor: 'text-brand-gold',
   },
