@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { trackEvent } from '../utils/analytics.js';
 
 // Team tools: the Apps Script work. Two tabs: the dispatch center and the morning follow-ups. All names and data are samples.
 
@@ -280,7 +281,11 @@ function DispatchConsole() {
             <button
               key={task + p.name}
               type="button"
-              onClick={() => !p.muted && setPicked(p.name)}
+              onClick={() => {
+                if (p.muted) return;
+                trackEvent('dispatch_demo_pick', 'Engagement', task);
+                setPicked(p.name);
+              }}
               disabled={p.muted}
               style={{ textAlign: 'left', padding: '12px 14px', borderRadius: 12, cursor: p.muted ? 'default' : 'pointer', fontFamily: 'inherit',
                 background: picked === p.name ? 'rgba(138,180,248,0.12)' : dark.surface, color: dark.text, opacity: p.muted ? 0.55 : 1,
@@ -388,8 +393,8 @@ export default function TeamPanel({ onGo }) {
           </div>
         </div>
         <div role="group" aria-label="Team tools" style={{ display: 'flex', gap: 8 }}>
-          <button type="button" aria-pressed={tab === 'dispatch'} onClick={() => setTab('dispatch')} style={tabStyle(tab === 'dispatch')}>Dispatch center</button>
-          <button type="button" aria-pressed={tab === 'followups'} onClick={() => setTab('followups')} style={tabStyle(tab === 'followups')}>Morning follow-ups</button>
+          <button type="button" aria-pressed={tab === 'dispatch'} onClick={() => { trackEvent('team_tab', 'Engagement', 'dispatch'); setTab('dispatch'); }} style={tabStyle(tab === 'dispatch')}>Dispatch center</button>
+          <button type="button" aria-pressed={tab === 'followups'} onClick={() => { trackEvent('team_tab', 'Engagement', 'followups'); setTab('followups'); }} style={tabStyle(tab === 'followups')}>Morning follow-ups</button>
         </div>
       </div>
       {tab === 'dispatch' ? <DispatchCase /> : <FollowupsCase />}

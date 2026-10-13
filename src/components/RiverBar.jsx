@@ -1,4 +1,5 @@
 import { STOPS, stopNumber } from '../stops.js';
+import { trackEvent } from '../utils/analytics.js';
 
 // The wavy river along the bottom. Stops sit where the wave crosses its centre line.
 const W = 1376;
@@ -32,6 +33,7 @@ export default function RiverBar({ index, onGo }) {
               aria-current={i === index ? 'page' : undefined}
               onClick={(e) => {
                 e.preventDefault();
+                trackEvent('nav_click', 'Navigation', `riverbar:${s.id}`);
                 onGo(s.id);
               }}
             >

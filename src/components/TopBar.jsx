@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { trackEvent } from '../utils/analytics.js';
 
 const LINKS = [
   { id: 'work', label: 'Work' },
@@ -21,7 +22,14 @@ export default function TopBar({ current: stop, onGo }) {
 
   return (
     <header className="topbar">
-      <a href="#home" className="topbar__brand" onClick={(e) => go(e, 'home')}>
+      <a
+        href="#home"
+        className="topbar__brand"
+        onClick={(e) => {
+          trackEvent('logo_click', 'Navigation', 'Header logo');
+          go(e, 'home');
+        }}
+      >
         <span className="topbar__mark">MP</span>
         <span>Mahanadhi Parisara</span>
       </a>
@@ -30,7 +38,10 @@ export default function TopBar({ current: stop, onGo }) {
         className="topbar__menu"
         aria-expanded={open}
         aria-controls="main-nav"
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => {
+          if (!open) trackEvent('mobile_menu_open', 'Navigation', 'Mobile menu opened');
+          setOpen((o) => !o);
+        }}
       >
         {open ? 'Close' : 'Menu'}
       </button>
@@ -41,12 +52,22 @@ export default function TopBar({ current: stop, onGo }) {
             href={`#${l.id}`}
             className={`topbar__link${current === l.id ? ' is-current' : ''}`}
             aria-current={current === l.id ? 'page' : undefined}
-            onClick={(e) => go(e, l.id)}
+            onClick={(e) => {
+              trackEvent('nav_click', 'Navigation', l.label);
+              go(e, l.id);
+            }}
           >
             {l.label}
           </a>
         ))}
-        <a href="#contact" className="topbar__cta" onClick={(e) => go(e, 'contact')}>
+        <a
+          href="#contact"
+          className="topbar__cta"
+          onClick={(e) => {
+            trackEvent('nav_click', 'Navigation', "Let's talk");
+            go(e, 'contact');
+          }}
+        >
           Let&rsquo;s talk
         </a>
       </nav>

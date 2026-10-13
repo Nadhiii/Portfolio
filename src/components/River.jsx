@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { STOPS } from '../stops.js';
+import { trackPageView } from '../utils/analytics.js';
 import TopBar from './TopBar.jsx';
 import RiverBar from './RiverBar.jsx';
 import HomePanel from '../panels/HomePanel.jsx';
@@ -91,6 +92,14 @@ export default function River() {
     panels.current.forEach((p) => p && io.observe(p));
     return () => io.disconnect();
   }, [sideways]);
+
+  // One page_view per stop, once it has settled (also on first load). The short
+  // wait means a fast wheel run or a deep link doesn't count the stops it passes.
+  useEffect(() => {
+    const stop = STOPS[index];
+    const t = setTimeout(() => trackPageView(stop.label, stop.id), 400);
+    return () => clearTimeout(t);
+  }, [index]);
 
   // Open at the stop in the URL (#nexus etc).
   useEffect(() => {

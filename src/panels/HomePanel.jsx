@@ -1,4 +1,5 @@
 import BenchScene from '../components/BenchScene.jsx';
+import { trackEvent } from '../utils/analytics.js';
 
 export default function Home({ onGo }) {
   const go = (id) => (e) => {
@@ -17,7 +18,7 @@ export default function Home({ onGo }) {
         <p style={{ margin: '0', maxWidth: '600px', fontSize: '20px', lineHeight: '1.5', color: '#33322F' }}>By day, I build and fix measurement for enterprise Google Ads clients: GTM, GA4, Enhanced Conversions, Consent Mode. By night, I build the software my own life runs on, with Claude across the table.</p>
         <div style={{ display: 'flex', gap: '12px' }}>
           <a href="#work" onClick={go('work')} style={{ minHeight: '52px', display: 'inline-flex', alignItems: 'center', padding: '0 26px', background: '#B4430F', color: '#FFFFFF', borderRadius: '999px', fontWeight: '600', fontSize: '16px' }}>See what I've built →</a>
-          <a href="https://rxresu.me/nadhiii/general" style={{ minHeight: '52px', display: 'inline-flex', alignItems: 'center', padding: '0 24px', border: '1px solid #111111', borderRadius: '999px', fontWeight: '600', fontSize: '16px', boxSizing: 'border-box' }}>Résumé ↗</a>
+          <a href="https://rxresu.me/nadhiii/general" onClick={() => trackEvent('resume_click', 'Engagement', 'Home')} style={{ minHeight: '52px', display: 'inline-flex', alignItems: 'center', padding: '0 24px', border: '1px solid #111111', borderRadius: '999px', fontWeight: '600', fontSize: '16px', boxSizing: 'border-box' }}>Résumé ↗</a>
         </div>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', borderTop: '1px solid #111111' }}>

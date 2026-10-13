@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { trackEvent } from '../utils/analytics.js';
 
 // Kept from the current site: the name cycles through five Indian scripts,
 // then lands on English and the teal curtain lifts away.
@@ -56,7 +57,14 @@ export default function Intro({ onDone }) {
           />
         </div>
       </div>
-      <button type="button" className="intro__skip" onClick={onDone}>
+      <button
+        type="button"
+        className="intro__skip"
+        onClick={() => {
+          trackEvent('intro_skip', 'Engagement', 'Intro skipped');
+          onDone();
+        }}
+      >
         Skip intro
       </button>
     </div>

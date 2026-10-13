@@ -1,3 +1,4 @@
+import { trackEvent } from '../utils/analytics.js';
 
 export default function Experience() {
   return (
@@ -7,7 +8,7 @@ export default function Experience() {
         <p style={{ margin: '0', fontFamily: '\'JetBrains Mono\', monospace', fontSize: '13px', letterSpacing: '0.08em', color: '#0E5A5E' }}>05 · EXPERIENCE · JAN 2021 → NOW</p>
         <h1 style={{ margin: '0', fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '700', fontSize: '72px', lineHeight: '0.95', letterSpacing: '-0.045em' }}>Five years, uphill.</h1>
       </div>
-      <a href="https://rxresu.me/nadhiii/general" style={{ minHeight: '48px', display: 'inline-flex', alignItems: 'center', padding: '0 22px', border: '1px solid #111111', borderRadius: '999px', fontWeight: '600', fontSize: '15px', boxSizing: 'border-box' }}>Full résumé ↗</a>
+      <a href="https://rxresu.me/nadhiii/general" onClick={() => trackEvent('resume_click', 'Engagement', 'Experience')} style={{ minHeight: '48px', display: 'inline-flex', alignItems: 'center', padding: '0 22px', border: '1px solid #111111', borderRadius: '999px', fontWeight: '600', fontSize: '15px', boxSizing: 'border-box' }}>Full résumé ↗</a>
     </div>
 
     <ol style={{ flex: '1', minHeight: '0', listStyle: 'none', margin: '0', padding: '0', display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr)) minmax(0, 1.6fr)', gap: '14px', alignItems: 'end' }}>

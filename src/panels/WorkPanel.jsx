@@ -1,8 +1,13 @@
+import { trackEvent } from '../utils/analytics.js';
 
 export default function Work({ onGo }) {
   const go = (id) => (e) => {
     e.preventDefault();
     onGo(id);
+  };
+  const open = (id) => (e) => {
+    trackEvent('case_study_open', 'Engagement', id);
+    go(id)(e);
   };
   return (
 <div style={{ flex: '1', minHeight: '0', boxSizing: 'border-box', padding: '36px 0 24px 32px', display: 'flex', flexDirection: 'column', gap: '28px' }}>
@@ -15,13 +20,13 @@ export default function Work({ onGo }) {
     </div>
 
     <div style={{ flex: '1', minHeight: '0', display: 'flex', gap: '20px', overflowX: 'auto', paddingRight: '32px' }} data-own-scroll="">
-      <a href="#nandini" onClick={go('nandini')} style={{ flex: '0 0 600px', background: '#FFFFFF', border: '1px solid #CFCDC6', borderRadius: '28px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+      <a href="#nandini" onClick={open('nandini')} style={{ flex: '0 0 600px', background: '#FFFFFF', border: '1px solid #CFCDC6', borderRadius: '28px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
         <div style={{ height: '300px', background: '#E4E2DB', overflow: 'hidden', position: 'relative' }}>
           <img src="/img/pos-en-billing.png" alt="Nandini POS billing screen with two items in the cart" style={{ position: 'absolute', left: '24px', top: '24px', width: '760px', borderRadius: '10px', boxShadow: '0 20px 40px rgba(17,17,17,0.18)' }} />
         </div>
         <div style={{ flex: '1', padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-            <span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#5C5B57' }}>01 · REACT · TYPESCRIPT · FIREBASE</span>
+            <span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#5C5B57' }}>01 · LIVE · BUILT WITH CLAUDE</span>
             <span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '11px', padding: '5px 10px', background: '#0E5A5E', color: '#FFFFFF', borderRadius: '999px' }}>NEW</span>
           </div>
           <h2 style={{ margin: '0', fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '700', fontSize: '40px', letterSpacing: '-0.03em' }}>Nandini POS</h2>
@@ -30,7 +35,7 @@ export default function Work({ onGo }) {
         </div>
       </a>
 
-      <a href="#nexus" onClick={go('nexus')} style={{ flex: '0 0 380px', background: '#0E5A5E', color: '#F4F3EF', borderRadius: '28px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px', boxSizing: 'border-box' }}>
+      <a href="#nexus" onClick={open('nexus')} style={{ flex: '0 0 380px', background: '#0E5A5E', color: '#F4F3EF', borderRadius: '28px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px', boxSizing: 'border-box' }}>
         <span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#B9D3D1' }}>02 · FLUTTER · FIREBASE</span>
         <div style={{ flex: '1', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '4px' }}>
           <span style={{ fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '600', fontSize: '64px', letterSpacing: '-0.04em', lineHeight: '1' }}>v2</span>
@@ -41,7 +46,7 @@ export default function Work({ onGo }) {
         <span style={{ fontWeight: '600', fontSize: '15px' }}>Read the story →</span>
       </a>
 
-      <a href="#team" onClick={(e) => { window.dispatchEvent(new CustomEvent('team-tab', { detail: 'dispatch' })); go('team')(e); }} style={{ flex: '0 0 340px', background: '#FFFFFF', border: '1px solid #CFCDC6', borderRadius: '28px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px', boxSizing: 'border-box' }}>
+      <a href="#team" onClick={(e) => { window.dispatchEvent(new CustomEvent('team-tab', { detail: 'dispatch' })); open('team')(e); }} style={{ flex: '0 0 340px', background: '#FFFFFF', border: '1px solid #CFCDC6', borderRadius: '28px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px', boxSizing: 'border-box' }}>
         <span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#5C5B57' }}>03 · APPS SCRIPT</span>
         <div style={{ flex: '1', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '4px' }}>
           <span style={{ fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '600', fontSize: '64px', letterSpacing: '-0.04em', lineHeight: '1' }}>20+</span>
@@ -52,7 +57,7 @@ export default function Work({ onGo }) {
       <span style={{ fontWeight: '600', fontSize: '15px' }}>Read the case study →</span>
       </a>
 
-      <a href="#team" onClick={(e) => { window.dispatchEvent(new CustomEvent('team-tab', { detail: 'followups' })); go('team')(e); }} style={{ flex: '0 0 340px', background: '#FFFFFF', border: '1px solid #CFCDC6', borderRadius: '28px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px', boxSizing: 'border-box' }}>
+      <a href="#team" onClick={(e) => { window.dispatchEvent(new CustomEvent('team-tab', { detail: 'followups' })); open('team')(e); }} style={{ flex: '0 0 340px', background: '#FFFFFF', border: '1px solid #CFCDC6', borderRadius: '28px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '14px', boxSizing: 'border-box' }}>
         <span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#5C5B57' }}>04 · APPS SCRIPT</span>
         <div style={{ flex: '1', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '4px' }}>
           <span style={{ fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '600', fontSize: '64px', letterSpacing: '-0.04em', lineHeight: '1' }}>45 min</span>
