@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { css } from '../css.js';
+import { EMAILJS, emailjsReady } from '../config/emailjs.js';
 import { trackEvent, trackFormSubmissionWithEnhancedConversion } from '../utils/analytics.js';
 
 const TOPICS = [
@@ -9,7 +10,7 @@ const TOPICS = [
   ['A project', 'I am building something and need…'],
   ['Just saying hi', 'Saw your portfolio and…'],
 ];
-const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2PrInWpWnFVLWvxUVR_Dr_mUK1D_FY_gHhG7MLaPBpHwPn10_IouKmbTqcnPeZwIKxzUQOG9y-?gv=true';
+const CALENDAR_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2PrInWpWnFVLWvxUVR_Dr_mUK1D_FY_gHhG7MLaPBpHwPn10_IouKmbTqcnPeZwIKxzUQOG9y-';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ERROR_STYLE = { margin: '0', fontSize: '14px', color: '#B4430F' };
 
@@ -64,11 +65,12 @@ export default function Contact() {
 
     try {
       // Same params the EmailJS template already expects from the old site.
+      if (!emailjsReady()) throw new Error('EmailJS settings missing');
       await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        EMAILJS.serviceId,
+        EMAILJS.templateId,
         { from_name: name, from_email: email, phone: '', subject, message: form.message.trim(), to_name: 'Mahanadhi' },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        EMAILJS.publicKey
       );
       setSent(true);
       setStatus('idle');
@@ -154,7 +156,8 @@ export default function Contact() {
         )}
         <div style={{ display: 'flex', gap: '10px' }}>
           <button type="submit" disabled={sending} aria-busy={sending} style={{ flex: '1', minHeight: '56px', background: '#B4430F', color: '#FFFFFF', border: '0', borderRadius: '999px', fontFamily: 'inherit', fontWeight: '700', fontSize: '16px', cursor: sending ? 'wait' : 'pointer', opacity: sending ? 0.7 : 1 }}>{sending ? 'Sending…' : 'Send message'}</button>
-          <button type="button" onClick={() => { trackEvent('calendar_click', 'Contact', 'Schedule call button clicked'); window.open(CALENDAR_URL, '_blank', 'noopener'); }} style={{ minHeight: '56px', padding: '0 22px', background: 'transparent', color: '#111111', border: '1px solid #111111', borderRadius: '999px', fontFamily: 'inherit', fontWeight: '600', fontSize: '15px', cursor: 'pointer' }}>Book a call</button>
+          {/* A real link, so it opens even where pop-ups are blocked. */}
+          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('calendar_click', 'Contact', 'Schedule call button clicked')} style={{ minHeight: '56px', padding: '0 22px', background: 'transparent', color: '#111111', border: '1px solid #111111', borderRadius: '999px', fontFamily: 'inherit', fontWeight: '600', fontSize: '15px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', boxSizing: 'border-box', textDecoration: 'none' }}>Book a call</a>
         </div>
       </>)}
     </form>
