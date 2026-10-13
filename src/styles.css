@@ -309,6 +309,7 @@ a:hover {
 }
 .river--stacked .panel {
   border-bottom: 1px solid var(--line);
+  scroll-margin-top: var(--bar);
 }
 
 /* ---------- Stage: each stop's designed 1440 x 756 layout ---------- */

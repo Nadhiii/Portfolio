@@ -107,7 +107,8 @@ export default function BenchScene() {
         <span>NADHI</span>
         <span>CLAUDE CODE</span>
       </p>
-      <p className="visually-hidden" aria-live="polite">
+      {/* Not a live region: the chat cycles forever, which would make screen readers repeat it. */}
+      <p className="visually-hidden">
         {who === 'me' ? 'Nadhi' : 'Claude Code'}: {text}
       </p>
     </div>

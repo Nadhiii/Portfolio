@@ -23,7 +23,10 @@ export default function App() {
 
   return (
     <>
-      <River />
+      {/* While the intro covers the page, keep focus and screen readers out of the river behind it. */}
+      <div style={{ display: 'contents' }} inert={showIntro}>
+        <River />
+      </div>
       {showIntro && <Intro onDone={finishIntro} />}
     </>
   );

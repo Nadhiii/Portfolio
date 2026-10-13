@@ -14,7 +14,9 @@ import AboutPanel from '../panels/AboutPanel.jsx';
 import ContactPanel from '../panels/ContactPanel.jsx';
 
 // Landscape screens wide enough get the sideways river; phones and portrait screens stack.
-const SIDEWAYS_QUERY = '(min-width: 1024px) and (orientation: landscape)';
+// Short landscape screens (1024 x 600 and similar) stack too: the stage would shrink so far
+// that the river bar labels overlap.
+const SIDEWAYS_QUERY = '(min-width: 1024px) and (min-height: 680px) and (orientation: landscape)';
 const WHEEL_THRESHOLD = 40; // how much scrolling counts as "next stop"
 const WHEEL_LOCK_MS = 750; // one stop per gesture
 
@@ -102,7 +104,11 @@ export default function River() {
   // wait means a fast wheel run or a deep link doesn't count the stops it passes.
   useEffect(() => {
     const stop = STOPS[index];
-    const t = setTimeout(() => trackPageView(stop.label, stop.id), 400);
+    const t = setTimeout(() => {
+      trackPageView(stop.label, stop.id);
+      // Keep the URL on the stop in view, so a copied link opens where you were.
+      if (location.hash !== `#${stop.id}`) history.replaceState(null, '', `#${stop.id}`);
+    }, 400);
     return () => clearTimeout(t);
   }, [index]);
 
@@ -134,7 +140,20 @@ export default function River() {
 
     const onWheel = (e) => {
       // Let inner areas that scroll sideways (like the project rail) keep their own scroll.
-      if (e.target.closest?.('[data-own-scroll]') && Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      const rail = e.target.closest?.('[data-own-scroll]');
+      if (rail && Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      // A vertical wheel over the rail scrolls the rail first, and only moves to the
+      // next stop once the rail has reached its end in that direction.
+      if (rail && !locked) {
+        const max = rail.scrollWidth - rail.clientWidth;
+        const canScroll = e.deltaY > 0 ? rail.scrollLeft < max - 1 : rail.scrollLeft > 1;
+        if (canScroll) {
+          e.preventDefault();
+          rail.scrollLeft += e.deltaY;
+          acc = 0;
+          return;
+        }
+      }
       e.preventDefault();
       const d = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
       acc += d;
@@ -143,6 +162,8 @@ export default function River() {
 
     const onKey = (e) => {
       if (e.target.closest?.('input, textarea, select, [contenteditable]')) return;
+      // Space presses a focused button or link; it only moves the river from elsewhere.
+      if (e.key === ' ' && e.target.closest?.('button, a, [role="button"], summary')) return;
       if (['ArrowRight', 'PageDown', ' '].includes(e.key)) {
         e.preventDefault();
         step(1);

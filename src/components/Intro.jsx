@@ -60,6 +60,7 @@ export default function Intro({ onDone }) {
       <button
         type="button"
         className="intro__skip"
+        autoFocus
         onClick={() => {
           trackEvent('intro_skip', 'Engagement', 'Intro skipped');
           onDone();
