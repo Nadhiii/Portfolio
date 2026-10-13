@@ -28,7 +28,10 @@ export default function Nexus({ onGo }) {
 
       <li style={{ background: '#FFFFFF', border: '1px solid #CFCDC6', borderRadius: '24px', padding: '22px', display: 'grid', gridTemplateColumns: '210px minmax(0, 1fr)', gap: '22px', boxSizing: 'border-box', minHeight: '0', overflow: 'hidden' }}>
         <div style={{ minHeight: '0', overflow: 'hidden', borderRadius: '22px', background: '#0B0D14' }}>
-          <img src="/img/nexus-flutter-home.png" alt="Nexus Flutter home screen, balances blurred" style={{ width: '100%', display: 'block' }} />
+          <picture>
+            <source srcSet="/img/nexus-flutter-home.webp" type="image/webp" />
+            <img src="/img/nexus-flutter-home.png" alt="Nexus Flutter home screen, balances blurred" width="672" height="1496" loading="lazy" decoding="async" style={{ width: '100%', height: 'auto', display: 'block' }} />
+          </picture>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', minWidth: '0' }}>
           <span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '11px', letterSpacing: '0.06em', color: '#0E5A5E' }}>V2 · FLUTTER · IN DAILY USE</span>

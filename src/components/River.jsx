@@ -87,7 +87,12 @@ export default function River() {
           if (e.isIntersecting) setIndex(Number(e.target.dataset.index));
         });
       },
-      { root: scroller.current, threshold: 0.6 }
+      // Sideways, the track scrolls and a stop counts once 60% is in view. Stacked, the
+      // page itself scrolls and panels are taller than the screen, so the stop is
+      // whichever one crosses the middle of the viewport.
+      sideways
+        ? { root: scroller.current, threshold: 0.6 }
+        : { root: null, rootMargin: '-50% 0px -50% 0px', threshold: 0 }
     );
     panels.current.forEach((p) => p && io.observe(p));
     return () => io.disconnect();

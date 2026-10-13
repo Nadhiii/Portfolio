@@ -22,7 +22,7 @@ export default function Work({ onGo }) {
     <div style={{ flex: '1', minHeight: '0', display: 'flex', gap: '20px', overflowX: 'auto', paddingRight: '32px' }} data-own-scroll="">
       <a href="#nandini" onClick={open('nandini')} style={{ flex: '0 0 600px', background: '#FFFFFF', border: '1px solid #CFCDC6', borderRadius: '28px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
         <div style={{ height: '300px', background: '#E4E2DB', overflow: 'hidden', position: 'relative' }}>
-          <img src="/img/pos-en-billing.png" alt="Nandini POS billing screen with two items in the cart" style={{ position: 'absolute', left: '24px', top: '24px', width: '760px', borderRadius: '10px', boxShadow: '0 20px 40px rgba(17,17,17,0.18)' }} />
+          <img src="/img/pos-en-billing.png" alt="Nandini POS billing screen with two items in the cart" width="1920" height="1080" loading="lazy" decoding="async" style={{ height: 'auto', position: 'absolute', left: '24px', top: '24px', width: '760px', borderRadius: '10px', boxShadow: '0 20px 40px rgba(17,17,17,0.18)' }} />
         </div>
         <div style={{ flex: '1', padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>

@@ -71,7 +71,7 @@ export default function Nandini({ onGo }) {
       <figure style={{ flex: '1', minHeight: '0', margin: '0', background: '#0E5A5E', borderRadius: '28px', padding: '28px 28px 0', display: 'flex', flexDirection: 'column', gap: '16px', overflow: 'hidden', boxSizing: 'border-box' }}>
         <figcaption style={{ display: 'flex', justifyContent: 'space-between', color: '#F4F3EF', fontSize: '15px', gap: '16px' }}><span style={{ fontWeight: '600' }}>{caption}</span><span style={{ color: '#B9D3D1' }}>{note}</span></figcaption>
         <div style={{ flex: '1', minHeight: '0', overflow: 'hidden', borderRadius: '14px 14px 0 0', background: '#FFFFFF' }}>
-          <img src={shot} alt={alt} style={{ width: '100%', display: 'block' }} />
+          <img src={shot} alt={alt} width="1920" height="1080" loading="lazy" decoding="async" style={{ width: '100%', height: 'auto', display: 'block' }} />
         </div>
       </figure>
       <p style={{ margin: '0', fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#5C5B57' }}>Planned by me · built with Claude</p>
