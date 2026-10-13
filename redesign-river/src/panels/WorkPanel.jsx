@@ -25,7 +25,7 @@ export default function Work({ onGo }) {
             <span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '11px', padding: '5px 10px', background: '#0E5A5E', color: '#FFFFFF', borderRadius: '999px' }}>NEW</span>
           </div>
           <h2 style={{ margin: '0', fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '700', fontSize: '40px', letterSpacing: '-0.03em' }}>Nandini POS</h2>
-          <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.5', color: '#33322F' }}>Our own billing system for my family's milk parlour, replacing a ₹10,000-a-year Odoo licence. Works offline, speaks Kannada, and my parents can run it without calling me.</p>
+          <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.5', color: '#33322F' }}>A point of sale system I planned and built with Claude. It's live at a real counter and used every day. The details stay private.</p>
           <span style={{ marginTop: 'auto', fontWeight: '600', fontSize: '15px', color: '#B4430F' }}>Read the case study →</span>
         </div>
       </a>

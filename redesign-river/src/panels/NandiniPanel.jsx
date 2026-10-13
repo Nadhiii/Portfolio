@@ -2,10 +2,10 @@ import { Fragment, useState } from 'react';
 import { css } from '../css.js';
 
 const SHOTS = {
-  billing: { en: '/img/pos-en-billing.png', kn: '/img/pos-kn-billing.png', label: 'Billing', caption: 'The counter', note: 'Scan, tap or search. F8 saves.' },
-  dashboard: { en: '/img/pos-en-dashboard.png', label: 'Dashboard', caption: 'The owner view', note: 'Day, month and 30-day trends' },
-  bills: { en: '/img/pos-en-bills.png', label: 'Bills', caption: 'Every bill, searchable', note: 'Filters, reprints, CSV' },
-  close: { en: '/img/pos-en-dayClose.png', label: 'Day close', caption: 'Closing the drawer', note: 'Expected vs counted cash' },
+  billing: { en: '/img/pos-en-billing.png', kn: '/img/pos-kn-billing.png', label: 'Billing', caption: 'The counter', note: 'Where every bill starts' },
+  dashboard: { en: '/img/pos-en-dashboard.png', label: 'Dashboard', caption: 'The owner view', note: 'How the day is going' },
+  bills: { en: '/img/pos-en-bills.png', label: 'Bills', caption: 'Every bill', note: 'Nothing gets lost' },
+  close: { en: '/img/pos-en-dayClose.png', label: 'Day close', caption: 'Closing up', note: 'The end of the day' },
 };
 const PILL = 'min-height:44px;padding:0 16px;border-radius:999px;font-family:inherit;font-size:14px;cursor:pointer;';
 const SEG = 'min-height:36px;padding:0 14px;border:0;border-radius:999px;font-size:14px;cursor:pointer;';
@@ -43,18 +43,16 @@ export default function Nandini({ onGo }) {
       <a href="#work" onClick={go('work')} style={{ fontSize: '14px', color: '#5C5B57', minHeight: '32px', display: 'inline-flex', alignItems: 'center' }}>← All work</a>
       <p style={{ margin: '0', fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', letterSpacing: '0.08em', color: '#0E5A5E' }}>03 · CASE STUDY · LIVE</p>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}><span role="img" aria-label="Nandini POS logo" style={{ flex: '0 0 56px', width: '56px', height: '56px', borderRadius: '12px', background: '#0B5EA8', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Arial, sans-serif', fontWeight: '700', fontSize: '32px' }}>N</span><h1 style={{ margin: '0', fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '700', fontSize: '64px', lineHeight: '0.92', letterSpacing: '-0.045em' }}>Nandini POS</h1></div>
-      <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.45', color: '#33322F' }}>My family runs a Nandini milk parlour and café in Periyapatna. Odoo worked, but it was hard to understand and harder to change, so every small edit meant my parents calling us kids. At nearly ₹10,000 a year, that adds up for a small shop. So I planned our own, built it with Claude, and it's live at the counter now. The logo too.</p>
+      <p style={{ margin: '0', fontSize: '16px', lineHeight: '1.45', color: '#33322F' }}>A point of sale system I planned and built with Claude, and it's live at a real counter now. The logo too. I'm keeping the details close, but the screens show how it looks.</p>
       <ul style={{ listStyle: 'none', margin: '4px 0 0', padding: '0', display: 'flex', flexDirection: 'column', borderTop: '1px solid #111111' }}>
-        <li style={{ display: 'flex', gap: '14px', padding: '8px 0', borderBottom: '1px solid #CFCDC6', fontSize: '15px', lineHeight: '1.4' }}><span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#B4430F', width: '92px', flex: '0 0 92px', paddingTop: '2px' }}>OFFLINE</span><span>Bills save with no internet and sync when it's back. Power cuts don't lose a bill.</span></li>
-        <li style={{ display: 'flex', gap: '14px', padding: '8px 0', borderBottom: '1px solid #CFCDC6', fontSize: '15px', lineHeight: '1.4' }}><span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#B4430F', width: '92px', flex: '0 0 92px', paddingTop: '2px' }}>ಕನ್ನಡ</span><span>Screens in Kannada or English for the staff; bills always print in English.</span></li>
-        <li style={{ display: 'flex', gap: '14px', padding: '8px 0', borderBottom: '1px solid #CFCDC6', fontSize: '15px', lineHeight: '1.4' }}><span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#B4430F', width: '92px', flex: '0 0 92px', paddingTop: '2px' }}>GST</span><span>Tax-inclusive prices from the official KMF list, broken up by rate, maths done in paise.</span></li>
-        <li style={{ display: 'flex', gap: '14px', padding: '8px 0', borderBottom: '1px solid #CFCDC6', fontSize: '15px', lineHeight: '1.4' }}><span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#B4430F', width: '92px', flex: '0 0 92px', paddingTop: '2px' }}>COUNTER</span><span>Barcode scans, several open bills as tabs, hold and resume, day close with a cash count.</span></li>
-        <li style={{ display: 'flex', gap: '14px', padding: '8px 0', borderBottom: '1px solid #CFCDC6', fontSize: '15px', lineHeight: '1.4' }}><span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#B4430F', width: '92px', flex: '0 0 92px', paddingTop: '2px' }}>CA-READY</span><span>Saved bills are never edited. A monthly report emails itself to the accountant.</span></li>
+        <li style={{ display: 'flex', gap: '14px', padding: '8px 0', borderBottom: '1px solid #CFCDC6', fontSize: '15px', lineHeight: '1.4' }}><span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#B4430F', width: '92px', flex: '0 0 92px', paddingTop: '2px' }}>WHY</span><span>Nothing off the shelf fit the way the counter actually works, so I made something that does.</span></li>
+        <li style={{ display: 'flex', gap: '14px', padding: '8px 0', borderBottom: '1px solid #CFCDC6', fontSize: '15px', lineHeight: '1.4' }}><span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#B4430F', width: '92px', flex: '0 0 92px', paddingTop: '2px' }}>HOW</span><span>Planned by me, built with Claude, and tested before every change goes out.</span></li>
+        <li style={{ display: 'flex', gap: '14px', padding: '8px 0', borderBottom: '1px solid #CFCDC6', fontSize: '15px', lineHeight: '1.4' }}><span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#B4430F', width: '92px', flex: '0 0 92px', paddingTop: '2px' }}>NOW</span><span>Live and used every day by real people. Still getting better.</span></li>
       </ul>
       <div style={{ marginTop: 'auto', display: 'flex', gap: '28px', alignItems: 'flex-end' }}>
-        <div><div style={{ fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '600', fontSize: '40px', letterSpacing: '-0.03em', lineHeight: '1' }}>285</div><div style={{ fontSize: '13px', color: '#5C5B57', marginTop: '4px' }}>automated tests</div></div>
-        <div><div style={{ fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '600', fontSize: '40px', letterSpacing: '-0.03em', lineHeight: '1' }}>2</div><div style={{ fontSize: '13px', color: '#5C5B57', marginTop: '4px' }}>languages</div></div>
-        <div><div style={{ fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '600', fontSize: '40px', letterSpacing: '-0.03em', lineHeight: '1' }}>₹10k</div><div style={{ fontSize: '13px', color: '#5C5B57', marginTop: '4px' }}>yearly licence, gone</div></div>
+        <div><div style={{ fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '600', fontSize: '40px', letterSpacing: '-0.03em', lineHeight: '1' }}>Daily</div><div style={{ fontSize: '13px', color: '#5C5B57', marginTop: '4px' }}>in use</div></div>
+        <div><div style={{ fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '600', fontSize: '40px', letterSpacing: '-0.03em', lineHeight: '1' }}>EN · ಕನ್ನಡ</div><div style={{ fontSize: '13px', color: '#5C5B57', marginTop: '4px' }}>on screen</div></div>
+        <div><div style={{ fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '600', fontSize: '40px', letterSpacing: '-0.03em', lineHeight: '1' }}>Live</div><div style={{ fontSize: '13px', color: '#5C5B57', marginTop: '4px' }}>at the counter</div></div>
       </div>
     </section>
 
@@ -76,7 +74,7 @@ export default function Nandini({ onGo }) {
           <img src={shot} alt={alt} style={{ width: '100%', display: 'block' }} />
         </div>
       </figure>
-      <p style={{ margin: '0', fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#5C5B57' }}>React · TypeScript · Vite PWA · Firestore (offline) · Firebase Auth · Apps Script · built with Claude</p>
+      <p style={{ margin: '0', fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', color: '#5C5B57' }}>Planned by me · built with Claude</p>
     </section>
   </div>
   );

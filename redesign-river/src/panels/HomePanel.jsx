@@ -44,7 +44,7 @@ export default function Home({ onGo }) {
       </div>
       <a href="#nandini" onClick={go('nandini')} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '14px 18px', background: '#FFFFFF', border: '1px solid #CFCDC6', borderRadius: '20px' }}>
         <span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '11px', letterSpacing: '0.08em', padding: '6px 10px', background: '#0E5A5E', color: '#FFFFFF', borderRadius: '999px' }}>NEW</span>
-        <span style={{ flex: '1', fontSize: '15px', lineHeight: '1.4' }}><strong style={{ fontWeight: '600' }}>Nandini POS</strong> is live: billing for my family's milk parlour, in Kannada and English.</span>
+        <span style={{ flex: '1', fontSize: '15px', lineHeight: '1.4' }}><strong style={{ fontWeight: '600' }}>Nandini POS</strong> is live: a point of sale system I built with Claude, used every day.</span>
         <span aria-hidden="true" style={{ fontSize: '20px' }}>→</span>
       </a>
     </aside>
