@@ -1,55 +1,14 @@
-// src/main.jsx
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
-import ErrorBoundary from './components/ErrorBoundary.jsx';
-import './index.css';
+import { redirectLegacyPath } from './legacyRoutes.js';
+import './styles.css';
 
-// Eagerly loaded (critical path)
-import HomePage from './pages/Home.jsx';
-import NotFoundPage from './pages/NotFoundPage.jsx';
-import ExperiencePage from './pages/Experience.jsx';
-import NexusPage from './pages/Nexus.jsx';
-import ProjectsPage from './pages/Projects.jsx';
-import ContactPage from './pages/Contact.jsx';
-import SkillsPage from './pages/Skills.jsx';
+// Must run before River mounts and reads the hash.
+redirectLegacyPath();
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-    errorElement: <NotFoundPage />, 
-    children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: 'nexus',
-        element: <NexusPage />
-      },
-      { path: 'projects', element: <ProjectsPage /> },
-      {
-        path: 'skills',
-        element: <SkillsPage />
-      },
-      { path: 'contact', element: <ContactPage /> },
-      {
-        path: 'experience',
-        element: <ExperiencePage />
-      },
-      { 
-        path: '*', 
-        element: <NotFoundPage />
-      }, 
-    ],
-  },
-]);
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <ErrorBoundary>
-    <RouterProvider router={router} />
-  </ErrorBoundary>
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
 );

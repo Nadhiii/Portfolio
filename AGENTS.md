@@ -1,3 +1,16 @@
+## The site
+
+mahanadhi.space is the "river" redesign: Vite 7 + React 19, plain CSS, no router, nine stops in
+`src/panels/`, navigation in `src/components/River.jsx`. See README.md for how it runs and is hosted.
+
+House rules for changes:
+- No em dashes anywhere (copy, comments, commit messages).
+- Keep private things private: no colleague names, work emails, sheet IDs or internal URLs. Keep the
+  Nandini POS copy vague (no location, family, pricing, features or tech details).
+- `public/update.json` must stay at that path; the Nexus Android app fetches it.
+- Keep the GTM event names in `src/utils/analytics.js` and the components; the live container depends on them.
+- Keep the credit that the site was built with Claude (mostly) and Gemini (sometimes).
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
