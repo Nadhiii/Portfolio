@@ -139,6 +139,8 @@ export default function River() {
     };
 
     const onWheel = (e) => {
+      // A pop-up (like the booking dialog) sits over the river; leave its scrolling alone.
+      if (e.target.closest?.('dialog')) return;
       // Let inner areas that scroll sideways (like the project rail) keep their own scroll.
       const rail = e.target.closest?.('[data-own-scroll]');
       if (rail && Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
@@ -161,7 +163,7 @@ export default function River() {
     };
 
     const onKey = (e) => {
-      if (e.target.closest?.('input, textarea, select, [contenteditable]')) return;
+      if (e.target.closest?.('input, textarea, select, [contenteditable], dialog')) return;
       // Space presses a focused button or link; it only moves the river from elsewhere.
       if (e.key === ' ' && e.target.closest?.('button, a, [role="button"], summary')) return;
       if (['ArrowRight', 'PageDown', ' '].includes(e.key)) {
