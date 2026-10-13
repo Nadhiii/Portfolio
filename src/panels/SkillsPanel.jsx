@@ -28,7 +28,7 @@ const skills = RAW.map(([name, level, note, dark]) => {
   };
 });
 
-export default function Skills({ onGo }) {
+export default function Skills() {
   return (
 <div style={{ flex: '1', minHeight: '0', boxSizing: 'border-box', padding: '32px 32px 20px', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 380px', gap: '28px' }}>
     <section style={{ display: 'flex', flexDirection: 'column', gap: '20px', minWidth: '0' }}>

@@ -11,7 +11,7 @@ const RAW = [
 ];
 const XS = [115, 345, 575, 805, 1035, 1265];
 
-export default function About({ onGo }) {
+export default function About() {
   const [i, setI] = useState(0);
   const chapters = RAW.map((r, k) => {
     const here = k === i;

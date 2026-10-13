@@ -1,5 +1,5 @@
 
-export default function Experience({ onGo }) {
+export default function Experience() {
   return (
 <div style={{ flex: '1', minHeight: '0', boxSizing: 'border-box', padding: '32px 32px 20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '32px' }}>

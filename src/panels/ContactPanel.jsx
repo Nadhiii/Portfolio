@@ -9,7 +9,7 @@ const TOPICS = [
 ];
 const BASE = 'min-height:44px;padding:0 16px;border-radius:999px;font-family:inherit;font-size:14px;cursor:pointer;';
 
-export default function Contact({ onGo }) {
+export default function Contact() {
   // The form is a front-end mockup for now; wire `send` to EmailJS (already used on the old site) when this goes live.
   const [sent, setSent] = useState(false);
   const [topic, setTopic] = useState(0);
