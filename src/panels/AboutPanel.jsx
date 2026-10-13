@@ -57,7 +57,7 @@ export default function About() {
       </Fragment>))}
     </div>
 
-    <section aria-live="polite" style={{ flex: '1', minHeight: '0', margin: '8px 32px 0', display: 'grid', gridTemplateColumns: '200px minmax(0, 1fr) minmax(0, 0.9fr)', gap: '40px', alignItems: 'start', paddingTop: '28px', borderTop: '1px solid #111111' }}>
+    <section aria-live="polite" style={{ flex: '1', minHeight: '0', margin: '8px 32px 0', display: 'grid', gridTemplateColumns: '200px minmax(0, 1fr) minmax(0, 0.9fr)', gridTemplateRows: 'minmax(0, 1fr)', gap: '40px', alignItems: 'start', paddingTop: '28px', borderTop: '1px solid #111111' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <span style={{ fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '700', fontSize: '120px', lineHeight: '0.8', letterSpacing: '-0.06em', color: '#0E5A5E' }}>{cur.num}</span>
         <span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '12px', letterSpacing: '0.06em', color: '#5C5B57' }}>{cur.subtitle}</span>
@@ -66,9 +66,10 @@ export default function About() {
         <h2 style={{ margin: '0', fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '700', fontSize: '44px', letterSpacing: '-0.03em', lineHeight: '1' }}>{cur.title}</h2>
         <p style={{ margin: '0', fontSize: '18px', lineHeight: '1.6', color: '#33322F' }}>{cur.story}</p>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      {/* The column fills the row and the arrows sit at its bottom, so they stay put whatever the chapter's length. */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', alignSelf: 'stretch', paddingBottom: '8px' }}>
         <p style={{ margin: '0', fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '500', fontSize: '32px', lineHeight: '1.15', letterSpacing: '-0.02em', color: '#B4430F' }}>"{cur.quote}"</p>
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: '10px', marginTop: 'auto' }}>
           <button type="button" onClick={prev} aria-label="Previous chapter" style={{ width: '48px', height: '48px', borderRadius: '999px', border: '1px solid #111111', background: 'transparent', fontSize: '18px', cursor: 'pointer', color: '#111111' }}>←</button>
           <button type="button" onClick={next} aria-label="Next chapter" style={{ width: '48px', height: '48px', borderRadius: '999px', border: '0', background: '#111111', color: '#F4F3EF', fontSize: '18px', cursor: 'pointer' }}>→</button>
         </div>
