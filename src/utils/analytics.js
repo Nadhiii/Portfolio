@@ -1,6 +1,6 @@
 // src/utils/analytics.js
-// Carried over from the old site. Event names and payload shapes must stay the
-// same: the live GTM container (GTM-THQZH8J7) already has triggers for them.
+// Carried over from the old site. GTM triggers (container GTM-597PL9J4) key off
+// these event names and payload shapes, so keep them stable.
 
 // Basic event tracking for GA4/GTM
 export const trackEvent = (eventName, eventCategory, eventLabel, value = null) => {

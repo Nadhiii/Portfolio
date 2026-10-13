@@ -19,11 +19,11 @@ How it works:
 - Phones and portrait screens: stops stack vertically, menu button in the top bar.
 - Each stop has a hash (`#work`, `#nexus`, ...). Old paths such as `/projects` are mapped to a stop on load
   (`src/legacyRoutes.js`).
-- GTM container GTM-THQZH8J7 loads from `index.html`; events are pushed from `src/utils/analytics.js`.
-- The contact form sends through EmailJS. It needs `VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID` and
-  `VITE_EMAILJS_PUBLIC_KEY` (see `.env.example`; set them in Netlify for production and deploy previews).
+- GTM container GTM-597PL9J4 loads from `index.html`; events are pushed from `src/utils/analytics.js`.
+- The contact form sends through EmailJS. Its public settings live in `src/config/emailjs.js`, so nothing has to
+  be set on the host. "Book a call" opens the Google Calendar booking page in a pop-up.
 
-Hosting: Netlify builds `main` and serves `dist/`. `public/_redirects` sends unknown paths to `index.html`.
+Hosting: Netlify builds `main` from GitHub and serves `dist/` at mahanadhi.space. All changes go through GitHub. `public/_redirects` sends unknown paths to `index.html`.
 
 `public/update.json` is fetched by the Nexus Android app at https://mahanadhi.space/update.json to check for
 updates. Never delete or rename it.

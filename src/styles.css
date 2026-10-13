@@ -643,3 +643,53 @@ a:hover {
 .river--stacked .about-river {
   display: none !important;
 }
+
+/* ---------- Book a call pop-up (Google Calendar booking) ---------- */
+.booking {
+  width: min(920px, calc(100vw - 32px));
+  height: min(760px, calc(100dvh - 32px));
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--ground);
+  color: var(--ink);
+  overflow: hidden;
+}
+.booking::backdrop {
+  background: rgba(17, 17, 17, 0.55);
+}
+.booking__panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.booking__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.booking__title {
+  margin: 0;
+  font: 700 22px var(--font-display);
+  letter-spacing: -0.02em;
+}
+.booking__close {
+  min-height: 44px;
+  padding: 0 20px;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.booking__frame {
+  flex: 1;
+  width: 100%;
+  border: 0;
+  background: #ffffff;
+}
