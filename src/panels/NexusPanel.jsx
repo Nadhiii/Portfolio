@@ -34,9 +34,9 @@ export default function Nexus({ onGo }) {
           </picture>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', minWidth: '0' }}>
-          <span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '11px', letterSpacing: '0.06em', color: '#0E5A5E' }}>V2 · FLUTTER · IN DAILY USE</span>
+          <span style={{ fontFamily: '\'JetBrains Mono\', monospace', fontSize: '11px', letterSpacing: '0.06em', color: '#0E5A5E' }}>V2 · FLUTTER · RETIRED OCT 2026</span>
           <h2 style={{ margin: '0', fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '700', fontSize: '34px', letterSpacing: '-0.03em' }}>Nexus</h2>
-          <p style={{ margin: '0', fontSize: '14px', lineHeight: '1.5', color: '#33322F' }}>Went wide. Accounts, budgets, EMIs, investments, subscriptions, goals, a garage for the bike with fuel and mileage, and NBox: transactions picked up from SMS and Gmail, swiped right to keep.</p>
+          <p style={{ margin: '0', fontSize: '14px', lineHeight: '1.5', color: '#33322F' }}>Went wide. Accounts, budgets, EMIs, investments, subscriptions, goals, a garage for the bike with fuel and mileage, and NBox: transactions picked up from SMS and Gmail, swiped right to keep. In October one JSON export carried all of it into v3.</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
             <span style={{ padding: '4px 10px', border: '1px solid #CFCDC6', borderRadius: '999px', fontFamily: '\'JetBrains Mono\', monospace', fontSize: '11px' }}>Flutter</span>
             <span style={{ padding: '4px 10px', border: '1px solid #CFCDC6', borderRadius: '999px', fontFamily: '\'JetBrains Mono\', monospace', fontSize: '11px' }}>Firebase</span>
@@ -56,7 +56,7 @@ export default function Nexus({ onGo }) {
 
       <li style={{ background: '#0A0A0A', color: '#F5F0E8', borderRadius: '24px', padding: '22px', display: 'flex', flexDirection: 'column', gap: '12px', boxSizing: 'border-box', position: 'relative', overflow: 'hidden' }}>
         <div aria-hidden="true" style={{ position: 'absolute', inset: '0', opacity: '0.05', backgroundImage: 'radial-gradient(circle, #F5F0E8 1px, transparent 1px)', backgroundSize: '28px 28px' }}></div>
-        <span style={{ position: 'relative', fontFamily: '\'JetBrains Mono\', monospace', fontSize: '11px', letterSpacing: '0.06em', color: '#E8732A' }}>V3 · NATIVE ANDROID · IN THE WORKS</span>
+        <span style={{ position: 'relative', fontFamily: '\'JetBrains Mono\', monospace', fontSize: '11px', letterSpacing: '0.06em', color: '#E8732A' }}>V3 · NATIVE ANDROID · IN DAILY USE</span>
         <h2 style={{ position: 'relative', margin: '0', fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '700', fontSize: '34px', letterSpacing: '-0.03em' }}>Nexus, native</h2>
         <p style={{ position: 'relative', margin: '0', fontSize: '14px', lineHeight: '1.5', color: '#C9C5BD' }}>Kotlin, Jetpack Compose and Room, rebuilt from the ledger up. Because why not: knowing native alongside Flutter felt worth it.</p>
         <p style={{ position: 'relative', margin: '0', paddingLeft: '12px', borderLeft: '2px solid #E8732A', fontSize: '14px', lineHeight: '1.45', color: '#F5F0E8' }}>The honest reason: I forget to log things. Miss one transaction and the month feels lost, and I quit. So this one has to work even when I do nothing.</p>
@@ -67,13 +67,14 @@ export default function Nexus({ onGo }) {
           <div style={{ textAlign: 'center', color: '#5A5A5A' }}>↓</div>
           <div style={{ padding: '8px 12px', background: '#E8732A', color: '#0A0A0A', borderRadius: '10px', textAlign: 'center', fontWeight: '500' }}>Ledger: the only thing that writes money</div>
           <div style={{ textAlign: 'center', color: '#5A5A5A' }}>↓</div>
-          <div style={{ padding: '8px 12px', border: '1px solid #3A3A3A', borderRadius: '10px', textAlign: 'center' }}>Inbox · Budgets · Loans · Garage</div>
+          <div style={{ padding: '8px 12px', border: '1px solid #3A3A3A', borderRadius: '10px', textAlign: 'center' }}>Inbox · Plan · Loans · People · Garage</div>
         </div>
         <ul style={{ position: 'relative', margin: 'auto 0 0', padding: '0', listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '13px', lineHeight: '1.4', color: '#DAD6CE' }}>
           <li>→ Record first, review later. No guilt screens.</li>
-          <li>→ Zero expense. Sideloaded on my Pixel.</li>
+          <li>→ Zero expense. Sideloaded on my Pixel, updates itself from GitHub.</li>
+          <li>→ 870+ unit tests and 90+ on-device tests guard the money.</li>
         </ul>
-        <p style={{ position: 'relative', margin: '0', fontFamily: '\'JetBrains Mono\', monospace', fontSize: '11px', lineHeight: '1.5', color: '#9A9890' }}>STATUS: the ledger runs on the phone. The brain is next.<br />LONG GAME: Nexus as the money personality of a personal AI.</p>
+        <p style={{ position: 'relative', margin: '0', fontFamily: '\'JetBrains Mono\', monospace', fontSize: '11px', lineHeight: '1.5', color: '#9A9890' }}>STATUS: my real money runs on it since October. Two small companions too: Itch for wants, Nudge for tasks.<br />LONG GAME: Nexus as the money personality of a personal AI.</p>
       </li>
     </ol>
   </div>
