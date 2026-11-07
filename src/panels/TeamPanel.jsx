@@ -202,15 +202,15 @@ function FollowupsCase() {
 // Sample agents for the illustration. The real tool ranks a live team; nothing here is real.
 const PICKS = {
   'GTG Audit': {
-    note: 'One pick per region, so every time zone is covered.',
+    note: 'Only people on shift right now, with time left, come first.',
     picks: [
-      { name: 'Agent Asha', region: 'APAC', chips: ['Available', 'Idle for 2 days', '3 past'], growth: true },
-      { name: 'Agent Ben', region: 'EMEA', chips: ['Available', 'Idle for 1 day', '9 past'] },
-      { name: 'Agent Carla', region: 'AMER', chips: ['Busy', 'Idle for 4 days', '6 past'] },
+      { name: 'Agent Asha', region: 'APAC', chips: ['Available', 'On shift · 5h left', '3 past'], growth: true },
+      { name: 'Agent Ben', region: 'EMEA', chips: ['Available', 'On shift · 2h left', '9 past'] },
+      { name: 'Agent Carla', region: 'AMER', chips: ['Busy', 'Shift starts in 1h', '6 past'] },
     ],
   },
   'Enhanced Conversions': {
-    note: 'Fewer past cases ranks higher, so people get to learn.',
+    note: 'When the load is even, fewer past cases ranks higher, so people get to learn.',
     picks: [
       { name: 'Agent Dev', region: 'APAC', chips: ['Available', 'Idle for 3 days', '1 past'], growth: true },
       { name: 'Agent Elif', region: 'EMEA', chips: ['Available', 'Idle for 1 day', '4 past'] },
@@ -240,7 +240,7 @@ function DispatchConsole() {
         <span aria-hidden="true" style={{ width: 10, height: 10, borderRadius: 999, background: dark.blue }} />
         <span style={{ color: dark.blue, fontWeight: 600 }}>Sherlock Homies</span>
         <span style={{ marginLeft: 'auto', display: 'flex', gap: 4, fontSize: 12 }}>
-          {['Dispatch', 'My Cases', 'Workload', 'SME Stats'].map((t, i) => (
+          {['Dispatch', 'My Cases', 'Workload', 'SME Stats', 'Audit check'].map((t, i) => (
             <span key={t} style={{ padding: '5px 10px', borderRadius: 8, background: i === 0 ? '#4285F4' : 'transparent', color: i === 0 ? '#FFFFFF' : dark.dim }}>{t}</span>
           ))}
         </span>
@@ -330,20 +330,20 @@ function DispatchCase() {
         <KeyList
           keyWidth={26}
           rows={[
-            ['01', 'Leaves out anyone on leave today, straight from the team’s leave tracker.'],
+            ['01', 'Leaves out anyone on leave today and flags leave tomorrow, from the leave tracker.'],
             ['02', 'Keeps specialist work with the people trained for it.'],
-            ['03', 'Takes one pick per region, so every time zone is covered.'],
-            ['04', 'Ranks by: free now, under 3 cases today, fewest open, least experience with the task, longest idle.'],
+            ['03', 'Puts people on shift now, with an hour or more left, first.'],
+            ['04', 'Then: under the daily cap, fewest open, fewest today, least experience with the task, longest idle.'],
           ]}
         />
         <p style={{ margin: 0, fontSize: 14, lineHeight: 1.45, color: C.body }}>
-          <strong style={{ color: C.ink }}>The part I care about:</strong> ranking the least experienced first means work spreads out and
+          <strong style={{ color: C.ink }}>The part I care about:</strong> when the load is even, the least experienced goes first, so work spreads out and
           people learn new task types, instead of the same few experts getting everything.
         </p>
         <p style={{ margin: 0, fontSize: 14, lineHeight: 1.45, color: C.body }}>
-          Around it: duplicate cases blocked, bundled dispatch, a backup of every row before it’s edited, and roles checked on the server.
+          Around it: duplicate cases blocked, bundled dispatch, row backups before edits, roles checked on the server, and now an audit review before QC.
         </p>
-        <Stats items={[['20+', 'agents dispatched to'], ['4', 'regions covered'], ['3', 'roles, checked server-side']]} />
+        <Stats items={[['20+', 'agents dispatched to'], ['4', 'regions, own shifts'], ['5', 'tabs in the console']]} />
       </section>
 
       <section aria-label="Dispatch console illustration" style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 0 }}>
@@ -356,7 +356,7 @@ function DispatchCase() {
             <DispatchConsole />
           </div>
         </figure>
-        <p style={{ margin: 0, fontFamily: F.mono, fontSize: 12, color: C.muted }}>Apps Script web app · Sheets as the database · MailApp · CacheService</p>
+        <p style={{ margin: 0, fontFamily: F.mono, fontSize: 12, color: C.muted }}>Apps Script web app · Sheets as the database · MailApp · LockService · CacheService</p>
       </section>
     </div>
   );

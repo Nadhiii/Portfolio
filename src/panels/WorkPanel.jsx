@@ -53,7 +53,7 @@ export default function Work({ onGo }) {
           <span style={{ fontSize: '14px', color: '#5C5B57' }}>agents, assigned by data instead of guesswork</span>
         </div>
         <h2 style={{ margin: '0', fontFamily: '\'Bricolage Grotesque\', sans-serif', fontWeight: '700', fontSize: '32px', letterSpacing: '-0.03em' }}>Team Command Center</h2>
-        <p style={{ margin: '0', fontSize: '15px', lineHeight: '1.5', color: '#33322F' }}>A dispatch console with live workload, duplicate detection and skill-based suggestions for who should take the next case.</p>
+        <p style={{ margin: '0', fontSize: '15px', lineHeight: '1.5', color: '#33322F' }}>A dispatch console that suggests who should take the next case from shifts, leave and live workload, plus an audit review before QC.</p>
       <span style={{ fontWeight: '600', fontSize: '15px' }}>Read the case study →</span>
       </a>
 
