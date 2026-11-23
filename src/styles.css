@@ -456,8 +456,21 @@ a:hover {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: var(--river);
-  color: var(--ground);
+  /* Colour theme for the curtain. Swap these to restyle the whole intro. */
+  --i-bg: var(--river);
+  --i-text: var(--ground);
+  --i-kn: var(--river-soft);
+  --i-soft: var(--river-soft);
+  --i-line: var(--river-line);
+  --i-accent: var(--orange);
+  --i-shine: #ffffff;
+  --i-dots: var(--ground);
+  --i-wave1: #3f7c7f;
+  --i-wave2: #0a4a4e;
+  --i-wave3: #083c3f;
+  --i-btn: rgba(14, 90, 94, 0.6);
+  background: var(--i-bg);
+  color: var(--i-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -471,7 +484,7 @@ a:hover {
   position: absolute;
   inset: 0;
   opacity: 0.12;
-  background-image: radial-gradient(circle, var(--ground) 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--i-dots) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 .intro__inner {
@@ -490,7 +503,7 @@ a:hover {
   font-size: 12px;
   letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: var(--river-soft);
+  color: var(--i-soft);
   animation: intro-rise 0.6s var(--ease) 0.1s both;
 }
 .intro__name {
@@ -509,12 +522,12 @@ a:hover {
   /* A slow band of light moves through the letters, like sun on water. */
   background: linear-gradient(
       100deg,
-      var(--ground) 0%,
-      var(--ground) 38%,
-      #ffffff 46%,
-      var(--river-soft) 50%,
-      var(--ground) 58%,
-      var(--ground) 100%
+      var(--i-text) 0%,
+      var(--i-text) 38%,
+      var(--i-shine) 46%,
+      var(--i-soft) 50%,
+      var(--i-text) 58%,
+      var(--i-text) 100%
     )
     0 0 / 250% 100%;
   -webkit-background-clip: text;
@@ -528,29 +541,19 @@ a:hover {
   font-family: var(--font-kannada);
   font-size: clamp(36px, 5.6vw, 84px);
   letter-spacing: -0.01em;
-  color: var(--river-soft);
+  color: var(--i-kn);
   animation: intro-rise 0.7s var(--ease) 0.3s both;
-}
-.intro__meaning {
-  margin: 0;
-  font-size: 15px;
-  color: var(--river-soft);
-  opacity: 0.85;
-  animation: intro-rise 0.6s var(--ease) 0.5s both;
-}
-.intro__meaning span {
-  font-family: var(--font-kannada);
 }
 .intro__track {
   width: 128px;
   height: 2px;
-  background: var(--river-line);
+  background: var(--i-line);
   border-radius: 999px;
   overflow: hidden;
 }
 .intro__fill {
   height: 100%;
-  background: var(--orange);
+  background: var(--i-accent);
   animation: fill linear both;
 }
 @keyframes fill {
@@ -591,7 +594,7 @@ a:hover {
   white-space: nowrap;
   font-size: var(--size);
   font-weight: 700;
-  color: var(--river-soft);
+  color: var(--i-soft);
   opacity: 0;
   animation: intro-word-in 0.9s var(--ease) var(--delay) forwards;
 }
@@ -644,26 +647,29 @@ a:hover {
   left: 0;
   bottom: 0;
   width: calc(100% + 720px);
-  background-repeat: repeat-x;
-  background-size: 720px 100%;
+  -webkit-mask: var(--wave) 0 0 / 720px 100% repeat-x;
+  mask: var(--wave) 0 0 / 720px 100% repeat-x;
   animation: intro-flow linear infinite;
   will-change: transform;
 }
 .intro__wave--back {
   height: 150px;
   opacity: 0.45;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 120' preserveAspectRatio='none'%3E%3Cpath d='M0 60C120 20 240 20 360 60S600 100 720 60V120H0Z' fill='%233f7c7f'/%3E%3C/svg%3E");
+  background-color: var(--i-wave1);
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 120' preserveAspectRatio='none'%3E%3Cpath d='M0 60C120 20 240 20 360 60S600 100 720 60V120H0Z'/%3E%3C/svg%3E");
   animation-duration: 16s;
 }
 .intro__wave--mid {
   height: 104px;
   opacity: 0.7;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 120' preserveAspectRatio='none'%3E%3Cpath d='M0 50C120 90 240 90 360 50S600 10 720 50V120H0Z' fill='%230a4a4e'/%3E%3C/svg%3E");
+  background-color: var(--i-wave2);
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 120' preserveAspectRatio='none'%3E%3Cpath d='M0 50C120 90 240 90 360 50S600 10 720 50V120H0Z'/%3E%3C/svg%3E");
   animation-duration: 10s;
 }
 .intro__wave--front {
   height: 64px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 120' preserveAspectRatio='none'%3E%3Cpath d='M0 60C120 25 240 25 360 60S600 95 720 60V120H0Z' fill='%23083c3f'/%3E%3Cpath d='M0 60C120 25 240 25 360 60S600 95 720 60' fill='none' stroke='%23b9d3d1' stroke-opacity='.35' stroke-width='2'/%3E%3C/svg%3E");
+  background-color: var(--i-wave3);
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 120' preserveAspectRatio='none'%3E%3Cpath d='M0 60C120 25 240 25 360 60S600 95 720 60V120H0Z'/%3E%3C/svg%3E");
   animation-duration: 6.5s;
 }
 @keyframes intro-flow {
@@ -684,17 +690,16 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(14, 90, 94, 0.6);
-  color: var(--ground);
-  border: 1px solid var(--river-soft);
+  background: var(--i-btn);
+  color: var(--i-text);
+  border: 1px solid var(--i-soft);
   border-radius: 999px;
   font: 13px var(--font-body);
   cursor: pointer;
   backdrop-filter: blur(4px);
 }
 .intro__btn:hover {
-  border-color: var(--ground);
-  background: rgba(14, 90, 94, 0.85);
+  border-color: var(--i-text);
 }
 .intro__skip {
   right: var(--pad);
@@ -703,9 +708,9 @@ a:hover {
   left: var(--pad);
 }
 .intro__sound[aria-pressed='true'] {
-  background: var(--ground);
-  color: var(--river);
-  border-color: var(--ground);
+  background: var(--i-text);
+  color: var(--i-bg);
+  border-color: var(--i-text);
 }
 
 /* Reduced motion: everything is shown at rest, nothing drifts or flows. */
@@ -714,7 +719,7 @@ a:hover {
 }
 .intro--still .intro__en {
   background: none;
-  color: var(--ground);
+  color: var(--i-text);
 }
 .intro--still .intro__wave,
 .intro--still .intro__word-inner {

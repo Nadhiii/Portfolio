@@ -116,9 +116,6 @@ export default function Intro({ onDone }) {
             ಮಹಾನದಿ ಪರಿಸರ
           </span>
         </p>
-        <p className="intro__meaning">
-          <span lang="kn">ಮಹಾನದಿ</span>, the great river
-        </p>
         <div className="intro__track" aria-hidden="true">
           <div
             key={hold.key}
