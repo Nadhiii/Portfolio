@@ -451,24 +451,25 @@ a:hover {
   }
 }
 
-/* ---------- Intro (teal curtain, the name in many languages, a river) ---------- */
+/* ---------- Intro (curtain, the name in many languages, a river) ---------- */
 .intro {
   position: fixed;
   inset: 0;
   z-index: 100;
-  /* Colour theme for the curtain. Swap these to restyle the whole intro. */
-  --i-bg: var(--river);
-  --i-text: var(--ground);
-  --i-kn: var(--river-soft);
-  --i-soft: var(--river-soft);
-  --i-line: var(--river-line);
-  --i-accent: var(--orange);
-  --i-shine: #ffffff;
-  --i-dots: var(--ground);
-  --i-wave1: #3f7c7f;
-  --i-wave2: #0a4a4e;
-  --i-wave3: #083c3f;
-  --i-btn: rgba(14, 90, 94, 0.6);
+  /* Colour theme for the curtain: "paper" in light mode, "night" in dark mode
+     (see the prefers-color-scheme block below). */
+  --i-bg: var(--ground);
+  --i-text: var(--ink);
+  --i-kn: var(--accent);
+  --i-soft: var(--muted);
+  --i-line: var(--line);
+  --i-accent: var(--accent);
+  --i-shine: var(--river);
+  --i-dots: var(--ink);
+  --i-wave1: var(--river-soft);
+  --i-wave2: #6f9f9d;
+  --i-wave3: var(--river);
+  --i-btn: rgba(244, 243, 239, 0.75);
   background: var(--i-bg);
   color: var(--i-text);
   display: flex;
@@ -479,6 +480,22 @@ a:hover {
 }
 .intro--lifting {
   transform: translateY(-100%);
+}
+@media (prefers-color-scheme: dark) {
+  .intro {
+    --i-bg: var(--night);
+    --i-text: var(--cream);
+    --i-kn: var(--orange);
+    --i-soft: #a8a49b;
+    --i-line: #3a3936;
+    --i-accent: var(--orange);
+    --i-shine: #ffffff;
+    --i-dots: var(--cream);
+    --i-wave1: var(--river);
+    --i-wave2: #0a3f42;
+    --i-wave3: #072c2e;
+    --i-btn: rgba(10, 10, 10, 0.6);
+  }
 }
 .intro__dots {
   position: absolute;
