@@ -24,6 +24,16 @@
   --font-tamil: 'Noto Sans Tamil', sans-serif;
   --font-telugu: 'Noto Sans Telugu', sans-serif;
   --font-devanagari: 'Noto Sans Devanagari', sans-serif;
+  --font-bengali: 'Noto Sans Bengali', sans-serif;
+  --font-gujarati: 'Noto Sans Gujarati', sans-serif;
+  --font-gurmukhi: 'Noto Sans Gurmukhi', sans-serif;
+  --font-odia: 'Noto Sans Oriya', sans-serif;
+  --font-sinhala: 'Noto Sans Sinhala', sans-serif;
+  --font-arabic: 'Noto Sans Arabic', sans-serif;
+  --font-japanese: 'Noto Sans JP', sans-serif;
+  --font-korean: 'Noto Sans KR', sans-serif;
+  --font-chinese: 'Noto Sans SC', sans-serif;
+  --font-noto: 'Noto Sans', sans-serif; /* Greek and Cyrillic */
 
   --bar: 72px;
   --pad: 32px;
@@ -441,13 +451,27 @@ a:hover {
   }
 }
 
-/* ---------- Intro (teal curtain) ---------- */
+/* ---------- Intro (curtain, the name in many languages, a river) ---------- */
 .intro {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: var(--river);
-  color: var(--ground);
+  /* Colour theme for the curtain: "paper" in light mode, "night" in dark mode
+     (see the prefers-color-scheme block below). */
+  --i-bg: var(--ground);
+  --i-text: var(--ink);
+  --i-kn: var(--accent);
+  --i-soft: var(--muted);
+  --i-line: var(--line);
+  --i-accent: var(--accent);
+  --i-shine: var(--river);
+  --i-dots: var(--ink);
+  --i-wave1: var(--river-soft);
+  --i-wave2: #6f9f9d;
+  --i-wave3: var(--river);
+  --i-btn: rgba(244, 243, 239, 0.75);
+  background: var(--i-bg);
+  color: var(--i-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -457,20 +481,37 @@ a:hover {
 .intro--lifting {
   transform: translateY(-100%);
 }
+@media (prefers-color-scheme: dark) {
+  .intro {
+    --i-bg: var(--night);
+    --i-text: var(--cream);
+    --i-kn: var(--orange);
+    --i-soft: #a8a49b;
+    --i-line: #3a3936;
+    --i-accent: var(--orange);
+    --i-shine: #ffffff;
+    --i-dots: var(--cream);
+    --i-wave1: var(--river);
+    --i-wave2: #0a3f42;
+    --i-wave3: #072c2e;
+    --i-btn: rgba(10, 10, 10, 0.6);
+  }
+}
 .intro__dots {
   position: absolute;
   inset: 0;
   opacity: 0.12;
-  background-image: radial-gradient(circle, var(--ground) 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--i-dots) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 .intro__inner {
   position: relative;
-  width: min(896px, 100% - 32px);
+  z-index: 2;
+  width: min(1000px, 100% - 32px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  gap: 24px;
   text-align: center;
 }
 .intro__eyebrow {
@@ -479,37 +520,57 @@ a:hover {
   font-size: 12px;
   letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: var(--river-soft);
+  color: var(--i-soft);
+  animation: intro-rise 0.6s var(--ease) 0.1s both;
 }
 .intro__name {
   margin: 0;
-  min-height: 1.2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.12em;
   font-weight: 700;
-  font-size: clamp(36px, 6vw, 72px);
-  letter-spacing: -0.03em;
-  animation: name-in 0.25s ease-in-out both;
+  line-height: 1.05;
 }
-@keyframes name-in {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
+.intro__en {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 7.4vw, 112px);
+  letter-spacing: -0.045em;
+  /* A slow band of light moves through the letters, like sun on water. */
+  background: linear-gradient(
+      100deg,
+      var(--i-text) 0%,
+      var(--i-text) 38%,
+      var(--i-shine) 46%,
+      var(--i-soft) 50%,
+      var(--i-text) 58%,
+      var(--i-text) 100%
+    )
+    0 0 / 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation:
+    intro-rise 0.7s var(--ease) 0.15s both,
+    intro-sheen 4.5s linear 0.9s infinite;
 }
-.intro__rule {
-  width: 120px;
-  height: 1px;
-  background: var(--river-line);
+.intro__kn {
+  font-family: var(--font-kannada);
+  font-size: clamp(36px, 5.6vw, 84px);
+  letter-spacing: -0.01em;
+  color: var(--i-kn);
+  animation: intro-rise 0.7s var(--ease) 0.3s both;
 }
 .intro__track {
   width: 128px;
   height: 2px;
-  background: var(--river-line);
+  background: var(--i-line);
   border-radius: 999px;
   overflow: hidden;
 }
 .intro__fill {
   height: 100%;
-  background: var(--orange);
+  background: var(--i-accent);
   animation: fill linear both;
 }
 @keyframes fill {
@@ -520,22 +581,193 @@ a:hover {
     width: 100%;
   }
 }
-.intro__skip {
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes intro-sheen {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -150% 0;
+  }
+}
+
+/* The name in other languages, scattered around the main pair. */
+.intro__scatter {
   position: absolute;
-  right: var(--pad);
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.intro__word {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  font-size: var(--size);
+  font-weight: 700;
+  color: var(--i-soft);
+  opacity: 0;
+  animation: intro-word-in 0.9s var(--ease) var(--delay) forwards;
+}
+.intro__word:nth-child(3n) {
+  --word-opacity: 0.32;
+}
+.intro__word:nth-child(3n + 1) {
+  --word-opacity: 0.5;
+}
+.intro__word:nth-child(3n + 2) {
+  --word-opacity: 0.4;
+}
+.intro__word-inner {
+  display: inline-block;
+  animation: intro-bob var(--bob) ease-in-out var(--delay) infinite alternate;
+}
+@keyframes intro-word-in {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: var(--word-opacity, 0.4);
+    filter: blur(0);
+  }
+}
+@keyframes intro-bob {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(10px, -6px);
+  }
+}
+
+/* Water: three wave strips that drift at different speeds. Each strip is one
+   wave period (720px) wider than the screen and slides by exactly that much,
+   so the loop is seamless. Transform-only, so it stays on the compositor. */
+.intro__water {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 150px;
+  z-index: 0;
+  pointer-events: none;
+}
+.intro__wave {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: calc(100% + 720px);
+  -webkit-mask: var(--wave) 0 0 / 720px 100% repeat-x;
+  mask: var(--wave) 0 0 / 720px 100% repeat-x;
+  animation: intro-flow linear infinite;
+  will-change: transform;
+}
+.intro__wave--back {
+  height: 150px;
+  opacity: 0.45;
+  background-color: var(--i-wave1);
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 120' preserveAspectRatio='none'%3E%3Cpath d='M0 60C120 20 240 20 360 60S600 100 720 60V120H0Z'/%3E%3C/svg%3E");
+  animation-duration: 16s;
+}
+.intro__wave--mid {
+  height: 104px;
+  opacity: 0.7;
+  background-color: var(--i-wave2);
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 120' preserveAspectRatio='none'%3E%3Cpath d='M0 50C120 90 240 90 360 50S600 10 720 50V120H0Z'/%3E%3C/svg%3E");
+  animation-duration: 10s;
+}
+.intro__wave--front {
+  height: 64px;
+  background-color: var(--i-wave3);
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 120' preserveAspectRatio='none'%3E%3Cpath d='M0 60C120 25 240 25 360 60S600 95 720 60V120H0Z'/%3E%3C/svg%3E");
+  animation-duration: 6.5s;
+}
+@keyframes intro-flow {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-720px);
+  }
+}
+
+.intro__btn {
+  position: absolute;
+  z-index: 3;
   bottom: var(--pad);
   min-height: 44px;
   padding: 0 18px;
-  background: transparent;
-  color: var(--river-soft);
-  border: 1px solid var(--river-line);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--i-btn);
+  color: var(--i-text);
+  border: 1px solid var(--i-soft);
   border-radius: 999px;
   font: 13px var(--font-body);
   cursor: pointer;
+  backdrop-filter: blur(4px);
 }
-.intro__skip:hover {
-  color: var(--ground);
-  border-color: var(--ground);
+.intro__btn:hover {
+  border-color: var(--i-text);
+}
+.intro__skip {
+  right: var(--pad);
+}
+.intro__sound {
+  left: var(--pad);
+}
+.intro__sound[aria-pressed='true'] {
+  background: var(--i-text);
+  color: var(--i-bg);
+  border-color: var(--i-text);
+}
+
+/* Reduced motion: everything is shown at rest, nothing drifts or flows. */
+.intro--still .intro__word {
+  opacity: var(--word-opacity, 0.4);
+}
+.intro--still .intro__en {
+  background: none;
+  color: var(--i-text);
+}
+.intro--still .intro__wave,
+.intro--still .intro__word-inner {
+  animation: none;
+}
+.intro--still .intro__track {
+  visibility: hidden;
+}
+
+/* Phones and portrait screens: fewer words, placed above and below the name. */
+@media not all and (min-width: 1024px) and (orientation: landscape) {
+  .intro__word {
+    left: var(--mx);
+    top: var(--my);
+    font-size: calc(var(--size) * 0.85);
+  }
+  .intro__word--wide {
+    display: none;
+  }
+  .intro__water {
+    height: 110px;
+  }
+  .intro__wave--back {
+    height: 110px;
+  }
+  .intro__wave--mid {
+    height: 76px;
+  }
+  .intro__wave--front {
+    height: 46px;
+  }
 }
 
 /* ---------- Phones and portrait screens ---------- */
